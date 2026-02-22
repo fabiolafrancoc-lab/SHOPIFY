@@ -1,0 +1,96 @@
+<style>
+:root{--bg:#0a0a0f;--bg3:#16162a;--cyan:#0EA5E9;--magenta:#EC4899;--mag2:#DB2777;--muted:rgba(255,255,255,0.6);--w:#fff;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--w);-webkit-font-smoothing:antialiased;}
+nav{background:rgba(10,10,15,.95);border-bottom:1px solid rgba(255,255,255,.07);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:'DM Serif Display',serif;font-size:20px;text-decoration:none;color:var(--w);}
+.brand span{color:var(--cyan);}
+.back{color:var(--cyan);text-decoration:none;font-size:14px;font-weight:600;}
+main{max-width:700px;margin:0 auto;padding:60px 24px 100px;text-align:center;}
+.doc-label{color:var(--magenta);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(30px,5vw,52px);margin-bottom:16px;}
+.intro{color:var(--muted);font-size:18px;line-height:1.75;margin-bottom:56px;max-width:500px;margin-left:auto;margin-right:auto;}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:48px;text-align:left;}
+@media(max-width:540px){.cards{grid-template-columns:1fr;}}
+.card{background:var(--bg3);border-radius:20px;padding:28px;border-top:3px solid transparent;}
+.card.c{border-top-color:var(--cyan);}
+.card.m{border-top-color:var(--magenta);}
+.card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.card.c .card-icon{background:rgba(14,165,233,.12);color:var(--cyan);}
+.card.m .card-icon{background:rgba(236,72,153,.12);color:var(--magenta);}
+.card-icon svg{width:22px;height:22px;}
+.card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+.card p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.card a{color:var(--cyan);text-decoration:none;font-size:14px;font-weight:600;}
+.card a:hover{text-decoration:underline;}
+.hours{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;margin-bottom:40px;text-align:left;}
+.hours h3{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--cyan);}
+.hour-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px;}
+.hour-row:last-child{border-bottom:none;}
+.hour-row span:last-child{color:var(--w);font-weight:600;}
+.cta-box{background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(219,39,119,.12));border:1px solid rgba(236,72,153,.25);border-radius:20px;padding:36px;}
+.cta-box h3{font-size:20px;font-weight:700;margin-bottom:10px;}
+.cta-box p{color:var(--muted);font-size:15px;margin-bottom:24px;}
+.btn{display:inline-block;padding:16px 40px;background:linear-gradient(135deg,var(--magenta),var(--mag2));color:#fff;text-decoration:none;border-radius:12px;font-size:16px;font-weight:700;transition:transform .2s;}
+.btn:hover{transform:translateY(-2px);}
+footer{text-align:center;padding:32px 24px;border-top:1px solid rgba(255,255,255,.07);}
+footer p{color:rgba(255,255,255,.3);font-size:13px;margin-bottom:8px;}
+footer a{color:var(--cyan);text-decoration:none;font-size:13px;}
+</style>
+
+
+<nav>
+  <a href='/' class="brand">Salud<span>Compartida</span></a>
+  <a href='/' class="back">← Regresar</a>
+</nav>
+
+<main>
+  <p class="doc-label">Estamos aquí para ti</p>
+  <h1>Contáctanos</h1>
+  <p class="intro">Si tienes preguntas sobre tu suscripción, tu familia, o simplemente quieres saber más — estamos aquí.</p>
+
+  <div class="cards">
+    <div class="card c">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <h3>Correo electrónico</h3>
+      <p>Para preguntas, soporte o cualquier cosa que necesites.</p>
+      <a href="mailto:hola@saludcompartida.com">hola@saludcompartida.com</a>
+    </div>
+
+    <div class="card m">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <h3>WhatsApp</h3>
+      <p>Escríbenos directo. Te respondemos lo antes posible.</p>
+      <a href="https://wa.me/message/saludcompartida" target="_blank">Abrir WhatsApp →</a>
+    </div>
+  </div>
+
+  <div class="hours">
+    <h3>Horario de atención al cliente</h3>
+    <div class="hour-row"><span>Lunes a Viernes</span><span>9:00 AM – 7:00 PM EST</span></div>
+    <div class="hour-row"><span>Sábados</span><span>10:00 AM – 3:00 PM EST</span></div>
+    <div class="hour-row"><span>Domingos</span><span>Cerrado</span></div>
+    <div class="hour-row"><span>Telemedicina 24/7</span><span>¡Siempre disponible!</span></div>
+  </div>
+
+  <div class="cta-box">
+    <h3>¿Listo para proteger a tu familia?</h3>
+    <p>Solo $12 al mes. El primer mes es completamente gratis.</p>
+    <a href='/#precio' class="btn">Quiero Contratar Ahora</a>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 SaludCompartida · Tech Solution Services FVR LLC</p>
+  <a href='/'>← Regresar a la página principal</a>
+</footer>
+
