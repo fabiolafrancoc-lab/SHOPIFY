@@ -1,0 +1,188 @@
+{% comment %}
+  STEP 2: Family Registration — Mexico
+  Add as page content in Shopify Pages > familia
+{% endcomment %}
+
+<h1 class="sc-page-title">Los datos de tu familia</h1>
+<p class="sc-page-subtitle">
+  ¿Quién en México va a recibir los beneficios?<br>
+  Puedes agregar hasta <strong style="color: var(--cyan);">4 personas</strong>.
+</p>
+
+<form class="sc-form" id="form-step2" onsubmit="handleStep2(event)">
+
+  <p class="sc-section-title">Personas en México que cubrirá tu plan</p>
+
+  <!-- Beneficiary 1 (required) -->
+  <div class="beneficiary-card" id="beneficiary-1">
+    <div class="beneficiary-header">
+      <span class="beneficiary-num">Persona 1 (obligatoria)</span>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Nombre completo *</label>
+      <input class="sc-input" type="text" name="ben1_nombre" placeholder="María García" required>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Relación contigo</label>
+      <select class="sc-select" name="ben1_relacion">
+        <option value="madre">Mamá</option>
+        <option value="padre">Papá</option>
+        <option value="esposa">Esposa / Pareja</option>
+        <option value="hijo">Hijo/a</option>
+        <option value="hermano">Hermano/a</option>
+        <option value="abuelo">Abuelo/a</option>
+        <option value="otro">Otro familiar</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Su número de WhatsApp en México *</label>
+      <input class="sc-input" type="tel" name="ben1_telefono" placeholder="+52 555 123 4567" required>
+    </div>
+  </div>
+
+  <!-- Beneficiaries 2-4 (dynamic) -->
+  <div id="extra-beneficiaries"></div>
+
+  <!-- Add button -->
+  <button type="button" class="add-beneficiary" id="btn-add" onclick="addBeneficiary()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+    </svg>
+    Agregar otra persona (opcional)
+  </button>
+
+  <button type="submit" class="cta-primary" style="animation: none; margin-top: 8px;">
+    Continuar al pago — Primer mes GRATIS
+  </button>
+
+  <div class="cta-subtext">
+    Solo completas el pago después de confirmar los datos
+  </div>
+
+</form>
+
+<script>
+let beneficiaryCount = 1;
+const maxBeneficiaries = 4;
+
+function addBeneficiary() {
+  if (beneficiaryCount >= maxBeneficiaries) {
+    document.getElementById('btn-add').style.display = 'none';
+    return;
+  }
+  beneficiaryCount++;
+  const container = document.getElementById('extra-beneficiaries');
+  const card = document.createElement('div');
+  card.className = 'beneficiary-card';
+  card.id = 'beneficiary-' + beneficiaryCount;
+  card.innerHTML = `
+    <div class="beneficiary-header">
+      <span class="beneficiary-num">Persona ${beneficiaryCount} (opcional)</span>
+      <button type="button" class="beneficiary-remove" onclick="removeBeneficiary(${beneficiaryCount})">×</button>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Nombre completo</label>
+      <input class="sc-input" type="text" name="ben${beneficiaryCount}_nombre" placeholder="Nombre apellido">
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Relación contigo</label>
+      <select class="sc-select" name="ben${beneficiaryCount}_relacion">
+        <option value="madre">Mamá</option>
+        <option value="padre">Papá</option>
+        <option value="esposa">Esposa / Pareja</option>
+        <option value="hijo">Hijo/a</option>
+        <option value="hermano">Hermano/a</option>
+        <option value="abuelo">Abuelo/a</option>
+        <option value="otro">Otro familiar</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Su número de WhatsApp en México</label>
+      <input class="sc-input" type="tel" name="ben${beneficiaryCount}_telefono" placeholder="+52 555 123 4567">
+    </div>
+  `;
+  container.appendChild(card);
+  if (beneficiaryCount >= maxBeneficiaries) {
+    document.getElementById('btn-add').style.display = 'none';
+  }
+}
+
+function removeBeneficiary(num) {
+  const card = document.getElementById('beneficiary-' + num);
+  if (card) { card.remove(); beneficiaryCount--; }
+  document.getElementById('btn-add').style.display = 'flex';
+}
+
+function handleStep2(e) {
+  e.preventDefault();
+  const step1 = JSON.parse(sessionStorage.getItem('sc_step1') || '{}');
+  // Collect all beneficiary data
+  const form = document.getElementById('form-step2');
+  const formData = new FormData(form);
+  const beneficiaries = {};
+  for (const [key, value] of formData.entries()) {
+    beneficiaries[key] = value;
+  }
+  sessionStorage.setItem('sc_step2', JSON.stringify(beneficiaries));
+  
+  // Add cart attributes and redirect to Shopify checkout
+  const plan = step1.plan || 'basico';
+  const variantId = plan === 'premium' 
+    ? '{{ settings.shopify_variant_premium }}' 
+    : '{{ settings.shopify_variant_basico }}';
+
+  // Build checkout URL with customer note
+  const noteData = `Migrante: ${step1.nombre} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
+  
+  // Add to cart with attributes then go to checkout
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: [{
+        id: variantId || 40000000000001,
+        quantity: 1,
+        properties: {
+          'Nombre migrante': step1.nombre,
+          'Email': step1.email,
+          'WhatsApp EE.UU.': step1.telefono,
+          'Estado': step1.estado,
+          'Familia México': JSON.stringify(beneficiaries)
+        }
+      }]
+    })
+  })
+  .then(() => {
+    // Update cart note
+    return fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: noteData })
+    });
+  })
+  .then(() => {
+    window.location.href = '/checkout';
+  })
+  .catch(err => {
+    console.error('Cart error:', err);
+    // Fallback: go to checkout anyway
+    window.location.href = '/checkout';
+  });
+}
+
+// Pre-fill email from step 1 if available
+document.addEventListener('DOMContentLoaded', function() {
+  const step1 = JSON.parse(sessionStorage.getItem('sc_step1') || '{}');
+  if (!step1.nombre) {
+    // Redirect back to step 1 if no data
+    window.location.href = '/pages/registro';
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Familia Step 2",
+  "settings": []
+}
+{% endschema %}

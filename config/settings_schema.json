@@ -1,0 +1,49 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "SaludCompartida",
+    "theme_version": "1.0.0",
+    "theme_author": "SaludCompartida",
+    "theme_documentation_url": "https://saludcompartida.com",
+    "theme_support_url": "https://saludcompartida.com"
+  },
+  {
+    "name": "Suscripción — Pago",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shopify_variant_basico",
+        "label": "ID variante — Plan Básico ($12/mes)",
+        "info": "Shopify Admin → Productos → Plan Básico → edita la variante → copia el número al final de la URL. Ej: 40123456789012"
+      }
+    ]
+  },
+  {
+    "name": "Contacto",
+    "settings": [
+      {
+        "type": "text",
+        "id": "whatsapp_url",
+        "label": "WhatsApp Business URL",
+        "info": "URL completa de tu link de WhatsApp. Ej: https://wa.me/15551234567 o https://wa.me/message/XXXX"
+      }
+    ]
+  },
+  {
+    "name": "Supabase — Integración",
+    "settings": [
+      {
+        "type": "text",
+        "id": "supabase_url",
+        "label": "Supabase URL",
+        "info": "Supabase Dashboard → Settings → API → Project URL. Ej: https://xxxx.supabase.co"
+      },
+      {
+        "type": "text",
+        "id": "supabase_anon_key",
+        "label": "Supabase Anon Key",
+        "info": "Supabase Dashboard → Settings → API → anon / public key"
+      }
+    ]
+  }
+]

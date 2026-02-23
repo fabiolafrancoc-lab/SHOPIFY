@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaludCompartida — Cuidamos a tu familia en México</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0a0a0f;
+  --bg2:      #12121e;
+  --bg3:      #16162a;
+  --cyan:     #0EA5E9;
+  --magenta:  #EC4899;
+  --mag2:     #DB2777;
+  --gold:     #F59E0B;
+  --gold2:    #FCD34D;
+  --green:    #10B981;
+  --muted:    rgba(255,255,255,0.58);
+  --w:        #fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg); color:var(--w);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.serif{font-family:'DM Serif Display',Georgia,serif;}
+
+/* AMBIENT */
+.ambient{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(130px);opacity:.09;}
+.orb1{width:700px;height:700px;background:var(--cyan);   top:-250px;right:-200px;animation:d1 20s ease-in-out infinite;}
+.orb2{width:600px;height:600px;background:var(--magenta);bottom:-250px;left:-200px;animation:d2 25s ease-in-out infinite;}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,60px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-50px)}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(10,10,15,.92);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:14px 24px;
+}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:-.3px;}
+.nav-brand span{color:var(--cyan);}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--w);}
+.nav-cta{display:flex;gap:10px;}
+.btn-np{padding:10px 20px;background:linear-gradient(135deg,var(--magenta),var(--mag2));color:#fff;text-decoration:none;border-radius:10px;font-size:13px;font-weight:700;transition:opacity .2s;}
+.btn-ns{padding:10px 20px;border:1.5px solid var(--cyan);color:var(--cyan);text-decoration:none;border-radius:10px;font-size:13px;font-weight:700;transition:background .2s,color .2s;}
+.btn-ns:hover{background:var(--cyan);color:#000;}
+@media(max-width:768px){.nav-links{display:none;}}
+@media(max-width:500px){.nav-cta{display:none;}}
+
+.page{position:relative;z-index:1;}
+
+/* ══════════════════════════════════
+   1. HERO
+══════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:130px 24px 80px;
+  text-align:center;
+}
+.hero-in{max-width:740px;}
+.hero-eyebrow{
+  display:block;
+  color:var(--cyan);font-size:14px;font-weight:600;letter-spacing:.5px;
+  margin-bottom:28px;
+}
+.hero-h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(38px,5.5vw,72px);
+  line-height:1.1;margin-bottom:28px;
+}
+.hero-h1 .them{color:var(--magenta);}
+.hero-sub{
+  font-size:clamp(17px,2vw,21px);color:var(--muted);
+  line-height:1.75;max-width:560px;margin:0 auto 24px;
+}
+.hero-prop{
+  font-size:clamp(19px,2.5vw,26px);font-weight:700;margin-bottom:48px;
+}
+.hero-prop .you {color:var(--cyan);}
+.hero-prop .them{color:var(--magenta);}
+.btn-hero{
+  display:inline-block;padding:20px 60px;
+  background:linear-gradient(135deg,var(--magenta),var(--mag2));
+  color:#fff;text-decoration:none;border-radius:16px;
+  font-size:18px;font-weight:700;
+  box-shadow:0 8px 36px rgba(236,72,153,.35);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 16px 52px rgba(236,72,153,.48);}
+
+/* ══════════════════════════════════
+   2. NO TODO ES DINERO
+══════════════════════════════════ */
+.pain{padding:90px 24px;}
+.pain-in{max-width:1100px;margin:0 auto;}
+.pain-label{
+  text-align:center;color:var(--magenta);
+  font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.pain-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(54px,7vw,100px);
+  text-align:center;line-height:1.05;margin-bottom:24px;
+}
+.pain-sub{
+  text-align:center;color:var(--muted);
+  font-size:clamp(16px,2vw,20px);
+  max-width:540px;margin:0 auto 56px;
+}
+.pain-big{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(22px,3vw,40px);
+  text-align:center;line-height:1.5;
+  max-width:960px;margin:0 auto 64px;
+}
+.pain-big em{font-style:italic;color:var(--magenta);}
+
+/* pain cards: esposa - mamá - abuelo */
+.pain-cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;margin-bottom:48px;
+}
+.pain-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:28px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:background .2s;
+}
+.pain-card:hover{background:rgba(255,255,255,.07);}
+.pain-ico{
+  width:44px;height:44px;flex-shrink:0;border-radius:12px;
+  background:rgba(236,72,153,.12);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--magenta);
+}
+.pain-ico svg{width:22px;height:22px;}
+.pain-card h4{font-size:16px;font-weight:700;margin-bottom:8px;}
+.pain-card p{font-size:14px;color:var(--muted);line-height:1.65;}
+.pain-quote-box{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:44px;text-align:center;
+}
+.pain-quote{
+  font-size:clamp(17px,2vw,22px);font-style:italic;
+  color:rgba(255,255,255,.88);line-height:1.75;
+}
+.pain-quote strong{color:var(--cyan);font-style:normal;}
+
+/* ══════════════════════════════════
+   3. VIDEO
+══════════════════════════════════ */
+.video-sec{padding:70px 24px;}
+.video-in{max-width:820px;margin:0 auto;text-align:center;}
+.video-ttl{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(28px,4vw,44px);margin-bottom:10px;
+}
+.video-sub{color:var(--muted);font-size:16px;margin-bottom:32px;}
+.video-wrap{
+  position:relative;padding-bottom:56.25%;height:0;overflow:hidden;
+  border-radius:20px;
+  border:2px solid rgba(14,165,233,.25);
+  box-shadow:0 24px 64px rgba(0,0,0,.55);
+}
+.video-wrap video{
+  position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;
+}
+/* placeholder while no video file */
+.video-ph{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(135deg,#0a0a0f,#16162a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+}
+.play-btn{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(14,165,233,.15);border:2px solid var(--cyan);
+  display:flex;align-items:center;justify-content:center;color:var(--cyan);
+}
+.video-ph p{color:var(--muted);font-size:14px;}
+.video-cta{margin-top:32px;}
+.video-note{font-size:13px;color:var(--muted);margin-top:12px;}
+
+/* ══════════════════════════════════
+   4. LUPITA Y FERNANDA
+   (menos espacio arriba — sec anterior 
+   ya tiene padding, aquí pt reducido)
+══════════════════════════════════ */
+.companions{padding:40px 24px 80px;}
+.comp-in{max-width:1000px;margin:0 auto;text-align:center;}
+.comp-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--magenta),var(--cyan));
+  color:#fff;font-size:15px;font-weight:700;
+  padding:10px 28px;border-radius:30px;margin-bottom:24px;
+}
+.comp-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(38px,5vw,64px);margin-bottom:12px;
+}
+.comp-title .lupita  {color:var(--magenta);}
+.comp-title .fernanda{color:var(--cyan);}
+.comp-sub{color:var(--muted);font-size:18px;margin-bottom:44px;}
+.comp-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-bottom:28px;text-align:left;
+}
+@media(max-width:640px){.comp-grid{grid-template-columns:1fr;}}
+.c-card{
+  background:var(--bg3);border-radius:24px;padding:32px;
+  border-top:3px solid transparent;transition:transform .2s;
+}
+.c-card:hover{transform:translateY(-4px);}
+.c-card.lup{border-top-color:var(--magenta);}
+.c-card.fer{border-top-color:var(--cyan);}
+.c-badge-sm{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.c-card.lup .c-badge-sm{color:var(--magenta);}
+.c-card.fer .c-badge-sm{color:var(--cyan);}
+.c-name{font-family:'DM Serif Display',serif;font-size:30px;margin-bottom:6px;}
+.c-for {font-size:14px;color:var(--muted);margin-bottom:14px;}
+.c-desc{font-size:15px;line-height:1.7;color:rgba(255,255,255,.8);margin-bottom:18px;}
+.c-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.c-tag {background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 14px;font-size:13px;}
+.comp-callout{
+  background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(14,165,233,.08));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:24px 32px;
+}
+.comp-callout strong{font-size:17px;}
+.comp-callout small{display:block;margin-top:6px;color:var(--muted);font-size:14px;}
+
+/* ══════════════════════════════════
+   5. LOS CUATRO PILARES
+══════════════════════════════════ */
+.pilares{padding:80px 24px;}
+.pil-in{max-width:1100px;margin:0 auto;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,52px);text-align:center;margin-bottom:10px;}
+.sec-sub  {text-align:center;color:var(--muted);font-size:18px;margin-bottom:56px;}
+.pil-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.pilar{
+  background:var(--bg3);border-radius:20px;padding:28px;
+  border-left:4px solid transparent;
+  transition:transform .2s,box-shadow .2s;
+}
+.pilar:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.35);}
+.pilar.c{border-left-color:var(--cyan);}
+.pilar.m{border-left-color:var(--magenta);}
+.pilar.g{border-left-color:var(--gold);}
+.pilar.n{border-left-color:var(--green);}
+.pil-num{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.pilar.c .pil-num{color:var(--cyan);}
+.pilar.m .pil-num{color:var(--magenta);}
+.pilar.g .pil-num{color:var(--gold);}
+.pilar.n .pil-num{color:var(--green);}
+.pil-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.pilar.c .pil-ico{background:rgba(14,165,233,.12);color:var(--cyan);}
+.pilar.m .pil-ico{background:rgba(236,72,153,.12);color:var(--magenta);}
+.pilar.g .pil-ico{background:rgba(245,158,11,.12);color:var(--gold);}
+.pilar.n .pil-ico{background:rgba(16,185,129,.12);color:var(--green);}
+.pil-ico svg{width:24px;height:24px;}
+.pilar h3{font-size:20px;font-weight:700;margin-bottom:12px;}
+.pilar p {font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;}
+.pilar p+p{margin-top:10px;}
+
+/* ══════════════════════════════════
+   6. HISTORIAS REALES
+══════════════════════════════════ */
+.testimonios{padding:80px 24px;}
+.test-in{max-width:1100px;margin:0 auto;}
+.test-label{text-align:center;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.test-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,48px);text-align:center;margin-bottom:48px;}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.test-card{
+  background:var(--bg3);border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;padding:28px;transition:transform .2s;
+}
+.test-card:hover{transform:translateY(-4px);}
+.stars{display:flex;gap:4px;margin-bottom:18px;}
+.stars svg{width:18px;height:18px;fill:var(--gold);}
+.test-q{font-size:15px;line-height:1.7;font-style:italic;color:rgba(255,255,255,.88);margin-bottom:22px;}
+.test-author{display:flex;align-items:center;gap:12px;}
+.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.av.c{background:rgba(14,165,233,.2);color:var(--cyan);}
+.av.m{background:rgba(236,72,153,.2);color:var(--magenta);}
+.av.g{background:rgba(16,185,129,.2);color:var(--green);}
+.t-name{font-size:15px;font-weight:700;}
+.t-city{font-size:13px;color:var(--muted);}
+
+/* ══════════════════════════════════
+   7. 30 DÍAS GRATIS — DORADO
+══════════════════════════════════ */
+.treinta{padding:60px 24px;}
+.treinta-box{
+  max-width:760px;margin:0 auto;
+  background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(245,158,11,.12));
+  border:2px solid rgba(251,191,36,.35);
+  border-radius:32px;padding:60px 48px;
+  text-align:center;position:relative;overflow:hidden;
+}
+@media(max-width:480px){.treinta-box{padding:40px 24px;}}
+.treinta-box::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:200px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.treinta-ico{
+  width:64px;height:64px;border-radius:18px;
+  background:rgba(251,191,36,.12);border:1.5px solid rgba(251,191,36,.3);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;color:var(--gold);
+}
+.treinta-ico svg{width:32px;height:32px;}
+.treinta-q{
+  font-size:clamp(18px,2.5vw,24px);color:var(--gold2);
+  line-height:1.65;margin-bottom:24px;
+}
+.treinta-q strong{font-weight:900;font-style:normal;}
+.treinta-div{
+  width:60px;height:2px;margin:0 auto 24px;
+  background:linear-gradient(90deg,transparent,rgba(251,191,36,.5),transparent);
+}
+.treinta-desc{
+  font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.82);
+  line-height:1.75;max-width:440px;margin:0 auto 36px;
+}
+.treinta-desc strong{color:var(--gold2);}
+
+/* ══════════════════════════════════
+   8. PRICING $12
+══════════════════════════════════ */
+.pricing{padding:60px 24px 110px;}
+.price-in{max-width:640px;margin:0 auto;}
+.price-ttl{font-family:'DM Serif Display',serif;font-size:clamp(26px,4vw,38px);text-align:center;margin-bottom:8px;}
+.price-card{
+  background:var(--bg3);border-radius:28px;
+  border:1px solid rgba(255,255,255,.1);
+  overflow:hidden;margin-top:40px;
+  box-shadow:0 24px 64px rgba(0,0,0,.45);
+}
+.price-top{
+  background:rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:40px;text-align:center;
+}
+.price-big{font-size:72px;font-weight:800;color:var(--cyan);line-height:1;margin-bottom:8px;}
+.price-per{color:var(--muted);font-size:16px;margin-bottom:4px;}
+.price-day{font-size:16px;}
+.price-day strong{color:var(--w);}
+.price-feats{padding:32px 40px;}
+@media(max-width:480px){.price-top,.price-feats,.price-cta-w{padding:28px 24px !important;}}
+.feat{display:flex;align-items:flex-start;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.feat:last-child{border-bottom:none;}
+.feat-chk{width:22px;height:22px;flex-shrink:0;border-radius:6px;background:rgba(16,185,129,.15);display:flex;align-items:center;justify-content:center;color:var(--green);}
+.feat-chk svg{width:14px;height:14px;}
+.feat-txt{font-size:15px;color:rgba(255,255,255,.85);line-height:1.5;}
+.feat-txt strong{color:var(--w);}
+.price-cta-w{padding:0 40px 40px;}
+.btn-price{
+  display:block;width:100%;padding:20px 32px;text-align:center;
+  background:linear-gradient(135deg,var(--magenta),var(--mag2));
+  color:#fff;text-decoration:none;border-radius:14px;
+  font-size:18px;font-weight:700;
+  box-shadow:0 8px 32px rgba(236,72,153,.3);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-price:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(236,72,153,.48);}
+.price-cancel{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:40px 24px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.f-brand{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:10px;}
+.f-brand span{color:var(--cyan);}
+.f-tag{color:var(--muted);font-size:14px;margin-bottom:16px;}
+.f-links{display:flex;justify-content:center;gap:24px;margin-bottom:14px;}
+.f-links a{color:rgba(255,255,255,.3);text-decoration:none;font-size:13px;}
+.f-links a:hover{color:var(--w);}
+.f-copy{color:rgba(255,255,255,.2);font-size:12px;}
+
+/* STICKY */
+.sticky{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  background:rgba(10,10,15,.95);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:12px 24px;
+  display:flex;align-items:center;justify-content:center;gap:20px;
+}
+.sticky span{font-size:14px;color:var(--muted);}
+.sticky a{
+  padding:10px 28px;
+  background:linear-gradient(135deg,var(--magenta),var(--mag2));
+  color:#fff;text-decoration:none;border-radius:10px;
+  font-size:14px;font-weight:700;white-space:nowrap;
+}
+@media(max-width:480px){.sticky span{display:none;}.sticky a{width:100%;text-align:center;}}
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand">Salud<span>Compartida</span></div>
+    <a href="#precio" class="btn-np">Quiero Contratar Ahora</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- ════════════════════════════════
+     1. HERO
+     "Si llegaste hasta aquí..."
+════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-in">
+    <span class="hero-eyebrow">Cuidamos a tu familia en México • 24/7</span>
+
+    <h1 class="hero-h1 serif">
+      Si llegaste hasta aquí, es porque
+      <span class="them">tú también lo sientes</span>.
+    </h1>
+
+    <p class="hero-sub">
+      Esa preocupación constante. Ese nudo en el estómago cuando tu mamá
+      te dice que le duele algo y tú estás a miles de kilómetros.
+    </p>
+
+    <p class="hero-prop">
+      Tú trabajas duro <span class="you">"aquí"</span>.
+      Nosotros los cuidamos <span class="them">"allá"</span>.
+    </p>
+
+    <a href="#precio" class="btn-hero">Quiero Contratar Ahora</a>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     2. NO TODO ES DINERO
+     + pain cards (esposa / mamá / abuelo)
+     + quote box
+════════════════════════════════ -->
+<section class="pain" id="la-verdad">
+  <div class="pain-in">
+
+    <p class="pain-label">La verdad que nadie dice</p>
+    <h2 class="pain-title serif">No todo es dinero.</h2>
+    <p class="pain-sub">
+      Sí, mandamos remesas. Sí, pagamos las cuentas.
+      Pero el dinero no resuelve todo.
+    </p>
+
+    <!-- Orden de importancia: esposa → mamá → abuelo -->
+    <p class="pain-big serif">
+      Tu <em>esposa</em> que carga sola con tres niños mientras tú trabajas aquí.
+      La <em>soledad de tu mamá</em> cuando sus hijos están lejos.
+      El <em>abuelo</em> que ya no tiene con quién platicar.
+    </p>
+
+    <div class="pain-cards">
+
+      <!-- 1. Esposa -->
+      <div class="pain-card">
+        <div class="pain-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Tu esposa sola con los niños</h4>
+          <p>Tres hijos, mil responsabilidades, y nadie con quien desahogarse. El dinero no la acompaña.</p>
+        </div>
+      </div>
+
+      <!-- 2. Mamá -->
+      <div class="pain-card">
+        <div class="pain-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div>
+          <h4>La llamada a las 3 AM</h4>
+          <p>Cuando tu mamá se enferma y no hay nadie que la lleve al doctor. El dinero no resuelve eso.</p>
+        </div>
+      </div>
+
+      <!-- 3. Abuelo -->
+      <div class="pain-card">
+        <div class="pain-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div>
+          <h4>La soledad del abuelo</h4>
+          <p>Tu papá sentado solo en la sala. El abuelo sin nadie con quien platicar. El dinero no les hace compañía.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quote box -->
+    <div class="pain-quote-box">
+      <p class="pain-quote">
+        "Para muchos de nosotros no es tema de dinero.<br>
+        Es la <strong>soledad</strong> de saber que nuestro corazón está allá."
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     3. VIDEO
+     "Por qué creamos SaludCompartida"
+════════════════════════════════ -->
+<section class="video-sec">
+  <div class="video-in">
+    <h2 class="video-ttl serif">Por qué creamos SaludCompartida</h2>
+    <p class="video-sub">Escucha una conversación real con Lupita</p>
+
+    <div class="video-wrap">
+      <!--
+        Cuando tengas el archivo de video disponible en Shopify,
+        reemplaza este bloque con:
+        <video src="URL_DEL_VIDEO" controls playsinline preload="metadata"></video>
+      -->
+      <div class="video-ph">
+        <div class="play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+        <p>Video_Pagina_copy.mp4 · 0:54</p>
+      </div>
+    </div>
+
+    <div class="video-cta">
+      <a href="#precio" class="btn-hero" style="font-size:16px;padding:16px 44px;">
+        Quiero esto para mi familia →
+      </a>
+      <p class="video-note">🔒 Activación inmediata &nbsp;•&nbsp; Cancela cuando quieras</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     4. LUPITA Y FERNANDA
+     "Esto no es salud. Es conexión."
+════════════════════════════════ -->
+<section class="companions" id="companeras">
+  <div class="comp-in">
+
+    <span class="comp-badge">✨ Esto no es salud. Es conexión.</span>
+
+    <h2 class="comp-title serif">
+      <span class="lupita">Lupita</span> y <span class="fernanda">Fernanda</span>
+    </h2>
+    <p class="comp-sub">
+      Son amigas que llaman a tu familia para alegrar el día.
+    </p>
+
+    <div class="comp-grid">
+
+      <div class="c-card lup">
+        <p class="c-badge-sm">Para adultos 55+</p>
+        <h3 class="c-name serif">Lupita</h3>
+        <p class="c-for">Para tus papás y abuelos</p>
+        <p class="c-desc">
+          Una voz cálida que llama para saber cómo están.
+          Para intercambiar recetas, recordar el cumpleaños de la comadre,
+          contar historias, o simplemente platicar de la vida.
+        </p>
+        <div class="c-tags">
+          <span class="c-tag">Llamadas de compañía</span>
+          <span class="c-tag">Intercambio de recetas</span>
+          <span class="c-tag">Siempre con tiempo</span>
+        </div>
+      </div>
+
+      <div class="c-card fer">
+        <p class="c-badge-sm">Para mamás 25–50</p>
+        <h3 class="c-name serif">Fernanda</h3>
+        <p class="c-for">Para tu esposa, hermana, prima</p>
+        <p class="c-desc">
+          Como una amiga que entiende lo que es manejar horarios de niños,
+          lidiar con hijos adolescentes, o simplemente necesitar
+          desahogarse con alguien que escucha.
+        </p>
+        <div class="c-tags">
+          <span class="c-tag">Alguien que escucha</span>
+          <span class="c-tag">Consejos de amiga</span>
+          <span class="c-tag">Sin juicios</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="comp-callout">
+      <strong>Ellas llaman a tu familia.</strong>
+      <small>Tu familia no tiene que hacer nada. Solo contestar y platicar con una amiga.</small>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     5. LOS CUATRO PILARES
+     Textos exactos indicados
+════════════════════════════════ -->
+<section class="pilares" id="pilares">
+  <div class="pil-in">
+
+    <h2 class="sec-title serif">Los Cuatro Pilares de tu Tranquilidad</h2>
+    <p class="sec-sub">Por qué SaludCompartida es tu solución</p>
+
+    <div class="pil-grid">
+
+      <div class="pilar c">
+        <p class="pil-num">PILAR 01</p>
+        <div class="pil-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Atención Médica 24/7</h3>
+        <p>Nuestra misión es reducir tus gastos médicos.</p>
+        <p>Telemedicina ilimitada por video o teléfono, sin citas, sin esperas. A las 3 AM si es necesario.</p>
+      </div>
+
+      <div class="pilar m">
+        <p class="pil-num">PILAR 02</p>
+        <div class="pil-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4"/><path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <h3>Terapia Psicológica</h3>
+        <p>Sesiones semanales con psicólogos certificados. Para tu mamá que necesita hablar, para tu esposa que necesita apoyo.</p>
+      </div>
+
+      <div class="pilar g">
+        <p class="pil-num">PILAR 03</p>
+        <div class="pil-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-6"/>
+          </svg>
+        </div>
+        <h3>Seguimiento de tus Ahorros</h3>
+        <p>Un seguimiento mensual donde ves los ahorros reales que estás obteniendo al utilizar los servicios de SaludCompartida.</p>
+      </div>
+
+      <div class="pilar n">
+        <p class="pil-num">PILAR 04</p>
+        <div class="pil-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Compañía</h3>
+        <p>Lupita y Fernanda llaman a tu familia para platicar de lo que les gusta: recetas, bailes, el fin de semana. Una amiga que siempre tiene tiempo.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     6. LO QUE DICEN LAS FAMILIAS
+     Historias Reales
+════════════════════════════════ -->
+<section class="testimonios" id="testimonios">
+  <div class="test-in">
+
+    <p class="test-label">Historias Reales</p>
+    <h2 class="test-title serif">Lo que dicen las familias</h2>
+
+    <div class="test-grid">
+
+      <div class="test-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="test-q">"Por primera vez en 8 años, no me preocupo cuando mi mamá me dice que le duele algo. Sé que puede llamar al doctor en cualquier momento."</p>
+        <div class="test-author">
+          <div class="av c">MR</div>
+          <div><p class="t-name">María R.</p><p class="t-city">Phoenix, Arizona</p></div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="test-q">"Mi mamá me habla de su amiga Lupita. Ya están intercambiando recetas. Me alegra tanto que se sienta acompañada."</p>
+        <div class="test-author">
+          <div class="av m">JL</div>
+          <div><p class="t-name">José Luis M.</p><p class="t-city">Los Angeles, CA</p></div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="test-q">"Mandamos dinero, pero no servía cuando mi mamá se enfermó a las 3 AM. Ahora sé que tiene a quién llamar."</p>
+        <div class="test-author">
+          <div class="av g">JC</div>
+          <div><p class="t-name">José Carlos M.</p><p class="t-city">Tucson, Arizona</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     7. 30 DÍAS GRATIS
+     Bloque dorado
+════════════════════════════════ -->
+<section class="treinta">
+  <div class="treinta-box">
+
+    <div class="treinta-ico">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 9a3 3 0 0 1-3 3H5L2 9l3-3h6a3 3 0 0 1 3 3z"/>
+        <path d="M10 15a3 3 0 0 1 3-3h6l3 3-3 3h-6a3 3 0 0 1-3-3z"/>
+        <line x1="10" y1="9" x2="14" y2="15"/>
+      </svg>
+    </div>
+
+    <p class="treinta-q">
+      <strong>"No te damos 30 días gratis,</strong><br>
+      te estamos invitando a que tú<br>
+      y los que más quieres<br>
+      lo vivan antes de decidir"
+    </p>
+
+    <div class="treinta-div"></div>
+
+    <p class="treinta-desc">
+      Tu primer mes es <strong>completamente gratis</strong> para cuatro familiares en México.
+      Si en 30 días no han sentido la diferencia, cancelas —
+      sin preguntas, sin complicaciones ni letra chica.
+    </p>
+
+    <a href="#precio" class="btn-hero" style="font-size:17px;padding:18px 52px;">
+      Quiero vivirlo →
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     8. BOX $12
+     "Cuida a los que más quieres"
+════════════════════════════════ -->
+<section class="pricing" id="precio">
+  <div class="price-in">
+
+    <h2 class="price-ttl serif">Cuida a los que más quieres</h2>
+
+    <div class="price-card">
+
+      <div class="price-top">
+        <div class="price-big">$12</div>
+        <p class="price-per">USD al mes</p>
+        <p class="price-day">Solo <strong>40¢ al día</strong></p>
+      </div>
+
+      <div class="price-feats">
+        <div class="feat">
+          <div class="feat-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="feat-txt">Hasta <strong>4 familiares</strong> incluidos</span>
+        </div>
+        <div class="feat">
+          <div class="feat-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="feat-txt">Telemedicina <strong>24/7 ilimitada</strong></span>
+        </div>
+        <div class="feat">
+          <div class="feat-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="feat-txt"><strong>Terapia semanal</strong> incluida</span>
+        </div>
+        <div class="feat">
+          <div class="feat-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="feat-txt"><strong>Lupita o Fernanda</strong> — compañía</span>
+        </div>
+        <div class="feat">
+          <div class="feat-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="feat-txt"><strong>Seguimiento de ahorros</strong> cada mes</span>
+        </div>
+      </div>
+
+      <div class="price-cta-w">
+        <a href="#" class="btn-price">Quiero Contratar Ahora</a>
+        <p class="price-cancel">Cancela cuando quieras. Sin preguntas.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="f-brand">Salud<span>Compartida</span></p>
+  <p class="f-tag">Cuidando familias, acortando distancias.</p>
+  <div class="f-links">
+    <a href="#">Términos</a>
+    <a href="#">Privacidad</a>
+    <a href="mailto:hola@saludcompartida.com">Contacto</a>
+  </div>
+  <p class="f-copy">© 2025 SaludCompartida. Todos los derechos reservados.</p>
+</footer>
+
+</div><!-- /page -->
+
+<!-- STICKY -->
+<div class="sticky">
+  <span>Tu familia te necesita — desde $12/mes</span>
+  <a href="#precio">Quiero Contratar Ahora →</a>
+</div>
+
+</body>
+</html>

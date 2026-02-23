@@ -413,7 +413,7 @@ footer{
 <nav>
   <div class="nav-in">
     <div class="nav-brand">Salud<span>Compartida</span></div>
-    <a href="#precio" class="btn-np">Quiero Contratar Ahora</a>
+    <a href="/pages/registro-jan" class="btn-np">Quiero Contratar Ahora</a>
   </div>
 </nav>
 
@@ -442,7 +442,7 @@ footer{
       Nosotros los cuidamos <span class="them">"allá"</span>.
     </p>
 
-    <a href="#precio" class="btn-hero">Quiero Contratar Ahora</a>
+    <a href="/pages/registro-jan" class="btn-hero">Quiero Contratar Ahora</a>
   </div>
 </section>
 
@@ -539,23 +539,15 @@ footer{
     <p class="video-sub">Escucha una conversación real con Lupita</p>
 
     <div class="video-wrap">
-      <!--
-        Cuando tengas el archivo de video disponible en Shopify,
-        reemplaza este bloque con:
-        <video src="URL_DEL_VIDEO" controls playsinline preload="metadata"></video>
-      -->
-      <div class="video-ph">
-        <div class="play-btn">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
-        <p>Video_Pagina_copy.mp4 · 0:54</p>
-      </div>
+      <video
+        src="{{ 'LANDING_VIDEO SIN FIN_LIVIANO.mov' | asset_url }}"
+        autoplay muted loop playsinline preload="auto"
+        style="width:100%;border-radius:16px;display:block;">
+      </video>
     </div>
 
     <div class="video-cta">
-      <a href="#precio" class="btn-hero" style="font-size:16px;padding:16px 44px;">
+      <a href="/pages/registro-jan" class="btn-hero" style="font-size:16px;padding:16px 44px;">
         Quiero esto para mi familia →
       </a>
       <p class="video-note">🔒 Activación inmediata &nbsp;•&nbsp; Cancela cuando quieras</p>
@@ -780,7 +772,7 @@ footer{
       sin preguntas, sin complicaciones ni letra chica.
     </p>
 
-    <a href="#precio" class="btn-hero" style="font-size:17px;padding:18px 52px;">
+    <a href="/pages/registro-jan" class="btn-hero" style="font-size:17px;padding:18px 52px;">
       Quiero vivirlo →
     </a>
 
@@ -829,7 +821,7 @@ footer{
       </div>
 
       <div class="price-cta-w">
-        <a href="terminos.html" class="btn-price">Quiero Contratar Ahora</a>
+        <a href="/pages/registro-jan" class="btn-price">Quiero Contratar Ahora</a>
         <p class="price-cancel">Cancela cuando quieras. Sin preguntas.</p>
       </div>
 
@@ -842,9 +834,9 @@ footer{
   <p class="f-brand">Salud<span>Compartida</span></p>
   <p class="f-tag">Cuidando familias, acortando distancias.</p>
   <div class="f-links">
-    <a href="terminos.html">Términos</a>
-    <a href="terminos.html">Privacidad</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="/pages/terminos">Términos</a>
+    <a href="/pages/privacidad">Privacidad</a>
+    <a href="/pages/contacto">Contacto</a>
   </div>
   <p class="f-copy">© 2025 SaludCompartida. Todos los derechos reservados.</p>
 </footer>
@@ -854,6 +846,6 @@ footer{
 <!-- STICKY -->
 <div class="sticky">
   <span>Tu familia te necesita — desde $12/mes</span>
-  <a href="#precio">Quiero Contratar Ahora →</a>
+  <a href="/pages/registro-jan">Quiero Contratar Ahora →</a>
 </div>
 

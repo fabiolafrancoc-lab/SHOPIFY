@@ -1,0 +1,692 @@
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #0d1320;
+  --bg-card: #111b2e;
+  --bg-input: #1a2540;
+  --border-input: #2a3a55;
+  --cyan: #06B6D4;
+  --cyan-dark: #0891B2;
+  --magenta: #EC4899;
+  --green-wa: #25D366;
+  --white: #ffffff;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'DM Serif Display', serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--white);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ===== HEADER ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 19, 32, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.08);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #134e5e 0%, #0f3443 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.header-logo-text .salud { color: var(--white); }
+.header-logo-text .compartida { color: var(--cyan); }
+
+.header-nav { display: flex; gap: 8px; }
+
+.header-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.header-btn-magenta {
+  background: var(--magenta);
+  color: var(--white);
+  border: none;
+}
+
+.header-btn-magenta:hover { background: #DB2777; }
+
+.header-btn-cyan {
+  background: transparent;
+  color: var(--cyan);
+  border: 1.5px solid var(--cyan);
+}
+
+.header-btn-cyan:hover {
+  background: rgba(6, 182, 212, 0.1);
+}
+
+/* ===== BACKGROUND IMAGE SECTION ===== */
+.contact-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.contact-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('{{ 'contacto-bg-1.jpg' | asset_url }}');
+  background-size: cover;
+  background-position: center top;
+  opacity: 0.12;
+  filter: blur(2px);
+  z-index: 0;
+}
+
+.contact-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, 
+    rgba(13, 19, 32, 0.3) 0%, 
+    rgba(13, 19, 32, 0.85) 40%, 
+    rgba(13, 19, 32, 0.98) 70%,
+    var(--bg-primary) 100%
+  );
+  z-index: 1;
+}
+
+.contact-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+/* ===== CHAT ICON ===== */
+.chat-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.chat-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0f2a3a 0%, #132f42 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.chat-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--cyan);
+}
+
+/* ===== TITLE ===== */
+.contact-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 44px);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.contact-title .cyan { color: var(--cyan); }
+
+.contact-subtitle {
+  text-align: center;
+  font-size: 16px;
+  color: var(--gray-400);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+/* ===== EMAIL INFO BAR ===== */
+.email-info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(6, 182, 212, 0.06);
+  border: 1px solid rgba(6, 182, 212, 0.15);
+  border-radius: 12px;
+  margin-bottom: 36px;
+}
+
+.email-info-bar svg {
+  width: 20px;
+  height: 20px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.email-info-bar span {
+  font-size: 14px;
+  color: var(--gray-300);
+}
+
+.email-info-bar strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* ===== FORM ===== */
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 20px;
+  margin-top: 8px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-300);
+}
+
+.field-label .req { color: var(--magenta); }
+
+.field-input,
+.field-select,
+.field-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+
+.field-input::placeholder,
+.field-textarea::placeholder {
+  color: var(--gray-500);
+}
+
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+.field-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239CA3AF' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.field-select option {
+  background: var(--bg-card);
+  color: var(--white);
+}
+
+.field-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* ===== WHATSAPP PHONE FIELD ===== */
+.wa-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-300);
+}
+
+.wa-label svg {
+  width: 18px;
+  height: 18px;
+  color: var(--green-wa);
+}
+
+.phone-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.phone-wrapper:focus-within {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+.phone-prefix {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 14px;
+  color: var(--green-wa);
+  font-weight: 600;
+  font-size: 15px;
+  border-right: 1px solid var(--border-input);
+  flex-shrink: 0;
+}
+
+.phone-prefix svg {
+  width: 18px;
+  height: 18px;
+  color: var(--green-wa);
+}
+
+.phone-wrapper .field-input {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding-left: 14px;
+}
+
+.phone-wrapper .field-input:focus {
+  box-shadow: none;
+}
+
+.phone-hint {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: -4px;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 28px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--magenta) 100%);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(6, 182, 212, 0.3);
+}
+
+.submit-btn:active { transform: translateY(0); }
+
+.submit-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== ALTERNATIVE CONTACT ===== */
+.alt-contact {
+  margin-top: 56px;
+}
+
+.alt-contact-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.alt-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: rgba(6, 182, 212, 0.04);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.alt-card:hover {
+  border-color: rgba(6, 182, 212, 0.25);
+  background: rgba(6, 182, 212, 0.07);
+}
+
+.alt-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alt-card-icon.whatsapp {
+  background: linear-gradient(135deg, #1a3a2a 0%, #1a3325 100%);
+  border: 1px solid rgba(37, 211, 102, 0.2);
+}
+
+.alt-card-icon.email {
+  background: linear-gradient(135deg, #1a2540 0%, #152035 100%);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.alt-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.alt-card-text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.alt-card-text.wa h4 { color: var(--green-wa); }
+.alt-card-text.em h4 { color: var(--cyan); }
+
+.alt-card-text p {
+  font-size: 13px;
+  color: var(--gray-400);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .header { padding: 0 16px; }
+  .contact-content { padding: 40px 16px 60px; }
+  .header-btn { padding: 7px 14px; font-size: 12px; }
+}
+</style>
+
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="header-logo">
+      <div class="header-logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#06B6D4"/>
+          <line x1="1" y1="12" x2="8" y2="12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/>
+          <polyline points="8,12 10,8 12,15 14,10 16,12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="16" y1="12" x2="23" y2="12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="header-logo-text">
+        <span class="salud">Salud </span><span class="compartida">Compartida</span>
+      </span>
+    </a>
+    <a href="/" class="header-btn header-btn-cyan">← Volver</a>
+  </div>
+</header>
+
+<!-- ===== MAIN CONTACT SECTION ===== -->
+<section class="contact-bg">
+  <div class="contact-content">
+
+    <!-- Chat Icon -->
+    <div class="chat-icon-wrapper">
+      <div class="chat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="contact-title">¿Necesitas <span class="cyan">Ayuda</span>?</h1>
+    <p class="contact-subtitle">Cuéntanos qué necesitas. Te responderemos en<br>menos de 15 minutos.</p>
+
+    <!-- Email info bar -->
+    <div class="email-info-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M22 7l-10 6L2 7"/>
+      </svg>
+      <span>Tu mensaje será enviado a <strong>contact@saludcompartida.com</strong></span>
+    </div>
+
+    <!-- FORM -->
+    <form id="contactForm" novalidate>
+
+      <!-- TUS DATOS -->
+      <div class="section-label">TUS DATOS</div>
+
+      <div class="field-group">
+        <label class="field-label">Nombre <span class="req">*</span></label>
+        <input type="text" class="field-input" id="cNombre" placeholder="Nombre" required>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Apellido Paterno <span class="req">*</span></label>
+        <input type="text" class="field-input" id="cApellido" placeholder="Apellido Paterno" required>
+      </div>
+
+      <div class="field-group">
+        <div class="wa-label">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp <span class="req">*</span>
+        </div>
+        <div class="phone-wrapper">
+          <span class="phone-prefix">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+            </svg>
+            +52
+          </span>
+          <input type="tel" class="field-input" id="cWhatsapp" placeholder="55 1234 5678" maxlength="12">
+        </div>
+        <p class="phone-hint"><span id="digitCount">0</span>/10 dígitos · México</p>
+      </div>
+
+      <div class="field-group">
+        <div class="wa-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--cyan)">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 7l-10 6L2 7"/>
+          </svg>
+          Correo electrónico
+        </div>
+        <input type="email" class="field-input" id="cEmail" placeholder="email@ejemplo.com">
+      </div>
+
+      <!-- TU MENSAJE -->
+      <div class="section-label" style="margin-top: 32px;">TU MENSAJE</div>
+
+      <div class="field-group">
+        <label class="field-label">¿En qué podemos ayudarte? <span class="req">*</span></label>
+        <select class="field-select" id="cCategoria" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
+          <option value="telemedicina">Telemedicina</option>
+          <option value="farmacia">Farmacia</option>
+          <option value="terapia">Terapia</option>
+          <option value="mi-cuenta">Mi cuenta</option>
+          <option value="problemas-codigo">Problemas con mi código</option>
+          <option value="pagos">Pagos y membresía</option>
+          <option value="sugerencia">Sugerencia</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Tu mensaje <span class="req">*</span></label>
+        <textarea class="field-textarea" id="cMensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        Enviar Mensaje
+      </button>
+
+    </form>
+
+    <!-- ===== ALTERNATIVE CONTACT ===== -->
+    <div class="alt-contact">
+      <p class="alt-contact-title">TAMBIÉN PUEDES CONTACTARNOS POR</p>
+
+      <div class="alt-card" onclick="window.open('{{ settings.whatsapp_url | default: "https://wa.me/message" }}', '_blank')">
+        <div class="alt-card-icon whatsapp">
+          <svg viewBox="0 0 24 24" fill="#25D366">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="alt-card-text wa">
+          <h4>WhatsApp</h4>
+          <p>Escríbenos y te respondemos al instante</p>
+        </div>
+      </div>
+
+      <div class="alt-card" onclick="window.location='mailto:contact@saludcompartida.com'">
+        <div class="alt-card-icon email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 7l-10 6L2 7"/>
+          </svg>
+        </div>
+        <div class="alt-card-text em">
+          <h4>Correo electrónico</h4>
+          <p>contact@saludcompartida.com</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// Phone formatting MX
+document.getElementById('cWhatsapp').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g, '');
+  if (v.length > 10) v = v.slice(0, 10);
+  document.getElementById('digitCount').textContent = v.length;
+  if (v.length >= 6) {
+    v = v.slice(0, 2) + ' ' + v.slice(2, 6) + ' ' + v.slice(6);
+  } else if (v.length >= 2) {
+    v = v.slice(0, 2) + ' ' + v.slice(2);
+  }
+  this.value = v;
+});
+
+// Form submit — posts to Shopify's native contact endpoint
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var btn = this.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  var nombre   = document.getElementById('cNombre').value.trim();
+  var apellido = document.getElementById('cApellido').value.trim();
+  var whatsapp = '+52' + document.getElementById('cWhatsapp').value.replace(/\D/g, '');
+  var email    = document.getElementById('cEmail').value.trim();
+  var categoria= document.getElementById('cCategoria').value;
+  var mensaje  = document.getElementById('cMensaje').value.trim();
+
+  // Build a FormData body compatible with Shopify's contact form endpoint
+  var fd = new FormData();
+  fd.append('form_type', 'contact');
+  fd.append('utf8', '✓');
+  fd.append('contact[name]',    nombre + ' ' + apellido);
+  fd.append('contact[email]',   email);
+  fd.append('contact[phone]',   whatsapp);
+  fd.append('contact[subject]', 'Contacto — ' + categoria);
+  fd.append('contact[body]',    'WhatsApp: ' + whatsapp + '\nCategoría: ' + categoria + '\n\n' + mensaje);
+
+  fetch('/contact#contact_form', { method: 'POST', body: fd })
+    .then(function() {
+      btn.textContent = '¡Mensaje enviado!';
+      btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+      document.getElementById('contactForm').reset();
+    })
+    .catch(function() {
+      btn.disabled = false;
+      btn.textContent = 'Enviar mensaje';
+      alert('Hubo un problema. Escríbenos directo a contact@saludcompartida.com');
+    });
+});
+</script>
