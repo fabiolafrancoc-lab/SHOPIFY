@@ -93,20 +93,14 @@ shopify theme push --store tu-tienda.myshopify.com
 
 ## Configuración requerida después de subir
 
-Ve a **Tienda en línea → Temas → Personalizar**:
+Ve a **Tienda en línea → Temas → Personalizar** y configura estos 4 campos:
 
-### 1 · Suscripción — Pago
-
-| Campo | Dónde encontrarlo |
-|---|---|
-| **ID variante — Plan Básico** | Admin → Productos → Plan Básico → edita la variante → copia el número al final de la URL |
-
-### 2 · Supabase — Integración
-
-| Campo | Dónde encontrarlo |
-|---|---|
-| **Supabase URL** | Supabase Dashboard → Settings → API → Project URL |
-| **Supabase Anon Key** | Supabase Dashboard → Settings → API → anon / public key |
+| Sección | Campo | Valor |
+|---|---|---|
+| **Suscripción — Pago** | ID variante — Plan Básico | Admin → Productos → Plan Básico → edita la variante → número al final de la URL |
+| **Contacto** | WhatsApp Business URL | Tu link de WhatsApp, ej: `https://wa.me/15551234567` |
+| **Supabase — Integración** | Supabase URL | Supabase Dashboard → Settings → API → Project URL |
+| **Supabase — Integración** | Supabase Anon Key | Supabase Dashboard → Settings → API → anon / public key |
 
 ---
 

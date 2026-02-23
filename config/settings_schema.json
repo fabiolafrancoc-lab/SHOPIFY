@@ -19,6 +19,17 @@
     ]
   },
   {
+    "name": "Contacto",
+    "settings": [
+      {
+        "type": "text",
+        "id": "whatsapp_url",
+        "label": "WhatsApp Business URL",
+        "info": "URL completa de tu link de WhatsApp. Ej: https://wa.me/15551234567 o https://wa.me/message/XXXX"
+      }
+    ]
+  },
+  {
     "name": "Supabase — Integración",
     "settings": [
       {

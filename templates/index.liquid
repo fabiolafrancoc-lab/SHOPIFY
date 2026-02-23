@@ -539,19 +539,11 @@ footer{
     <p class="video-sub">Escucha una conversación real con Lupita</p>
 
     <div class="video-wrap">
-      <!--
-        Cuando tengas el archivo de video disponible en Shopify,
-        reemplaza este bloque con:
-        <video src="URL_DEL_VIDEO" controls playsinline preload="metadata"></video>
-      -->
-      <div class="video-ph">
-        <div class="play-btn">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
-        <p>Video_Pagina_copy.mp4 · 0:54</p>
-      </div>
+      <video
+        src="{{ 'LANDING_VIDEO SIN FIN_LIVIANO.mov' | asset_url }}"
+        autoplay muted loop playsinline preload="auto"
+        style="width:100%;border-radius:16px;display:block;">
+      </video>
     </div>
 
     <div class="video-cta">
