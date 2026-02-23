@@ -136,13 +136,13 @@ Esto:
 
 Ve a **Tienda en línea → Páginas** y crea cada una asignando su plantilla:
 
-| URL (`/pages/...`) | Título | Plantilla |
-|---|---|---|
-| `registro-jan` | Registro | `page.registro-jan` |
-| `gracias` | ¡Bienvenido! | `page.gracias` |
-| `contacto` | Contáctanos | `page.contacto` |
-| `privacidad` | Aviso de Privacidad | `page.privacidad` |
-| `terminos` | Términos y Condiciones | `page.terminos` |
+| URL (`/pages/...`) | Título sugerido | Plantilla | Linked desde |
+|---|---|---|---|
+| `registro-jan` | Registro | `page.registro-jan` | Los 6 botones magenta de la landing |
+| `gracias` | ¡Bienvenido! | `page.gracias` | Shopify Additional Scripts (post-checkout) |
+| `contacto` | Contáctanos | `page.contacto` | Footer de la landing |
+| `privacidad` | Aviso de Privacidad | `page.privacidad` | Footer de la landing |
+| `terminos` | Términos y Condiciones | `page.terminos` | Footer de la landing |
 
 ---
 
@@ -157,6 +157,6 @@ El producto de suscripción ya está configurado en Shopify:
 
 ## Soporte
 
-📧 hola@saludcompartida.com  
+📧 contact@saludcompartida.com  
 🌐 [saludcompartida.com](https://saludcompartida.com)  
 📱 [saludcompartida.app](https://saludcompartida.app) — app del usuario final
