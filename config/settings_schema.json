@@ -14,13 +14,24 @@
         "type": "text",
         "id": "shopify_variant_basico",
         "label": "ID variante — Plan Básico ($12/mes)",
-        "info": "Copia el ID de la variante del producto 'Plan Básico' en Shopify Admin → Productos. Ej: 40123456789012"
+        "info": "Shopify Admin → Productos → Plan Básico → edita la variante → copia el número al final de la URL. Ej: 40123456789012"
+      }
+    ]
+  },
+  {
+    "name": "Supabase — Integración",
+    "settings": [
+      {
+        "type": "text",
+        "id": "supabase_url",
+        "label": "Supabase URL",
+        "info": "Supabase Dashboard → Settings → API → Project URL. Ej: https://xxxx.supabase.co"
       },
       {
         "type": "text",
-        "id": "shopify_variant_premium",
-        "label": "ID variante — Plan Premium ($18/mes)",
-        "info": "Copia el ID de la variante del producto 'Plan Premium' en Shopify Admin → Productos. Ej: 40123456789013"
+        "id": "supabase_anon_key",
+        "label": "Supabase Anon Key",
+        "info": "Supabase Dashboard → Settings → API → anon / public key"
       }
     ]
   }

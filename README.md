@@ -4,86 +4,85 @@ Theme personalizado para la tienda Shopify de **SaludCompartida**.
 
 ---
 
-## Estructura del tema
+## Flujo completo del usuario
 
 ```
-saludcompartida-theme/
-├── assets/               ← Archivos estáticos (video, imágenes, foto registro)
-├── config/               ← Configuración del tema
-│   ├── settings_schema.json
-│   └── settings_data.json
-├── layout/               ← Plantilla base de todas las páginas
-│   └── theme.liquid
-├── locales/              ← Traducciones
-│   └── en.default.json
-├── sections/             ← Secciones de la página de inicio
-│   ├── hero.liquid            (Hero principal)
-│   ├── benefits.liquid        (Beneficios)
-│   ├── companions.liquid      (Lupita & Fernanda)
-│   ├── trust.liquid           (Confianza / prueba social)
-│   ├── social-proof.liquid    (Testimonios)
-│   ├── final-cta.liquid       (CTA final)
-│   ├── header.liquid          (Encabezado)
-│   └── footer-note.liquid     (Pie de página legal)
-├── snippets/             ← Fragmentos reutilizables
-└── templates/            ← Plantillas de página
-    ├── index.liquid                (Página de inicio)
-    ├── page.registro-jan.liquid    (Registro completo — UN SOLO PASO)
-    ├── page.registro.liquid        (Registro Paso 1 — datos del migrante)
-    ├── page.familia.liquid         (Registro Paso 2 — datos familia México)
-    ├── page.contacto.liquid        (Contáctanos)
-    ├── page.privacidad.liquid      (Aviso de Privacidad)
-    └── page.terminos.liquid        (Términos y Condiciones)
+Landing (index)
+  └─ 6 botones magenta ──────────────────────────────► /pages/registro-jan
+                                                              │
+                                        Llena datos (migrante + familiar)
+                                        Guarda en Supabase (policy_holders + beneficiaries)
+                                        Agrega suscripción al carrito de Shopify
+                                              │
+                                              ▼
+                                    Shopify Checkout
+                               (30 días gratis → $12/mes)
+                               (Sin impuestos — servicio en México)
+                                              │
+                                 Pago completado → redirect
+                                              │
+                                              ▼
+                                   /pages/gracias
+                              (Confetti + firmas + instrucciones)
+                                              │
+                    ┌─────────────────────────┴─────────────────────────┐
+                    ▼                                                   ▼
+              Email al migrante                              WhatsApp a la familia
+           (código personal + instrucciones)            (código de acceso en México)
+                    │                                         [vía Resend — automático]
+                    └─────────────────────────┬─────────────────────────┘
+                                              ▼
+                                   saludcompartida.app
+                              (usuario entra su código → dashboard)
 ```
+
+> Shopify interviene **solo** en los pasos: Landing → registro-jan → Checkout → /pages/gracias.
+> A partir de /pages/gracias, todo es automático via Supabase + Resend.
 
 ---
 
-## Flujo de pago (registro → Shopify Checkout)
+## Estructura del tema
 
 ```
-[page.registro-jan] → guarda en Supabase → agrega producto al carrito → /checkout
+layout/
+  └── theme.liquid                     ← Envoltorio HTML base
+templates/
+  ├── index.liquid                     ← Landing (6 CTAs → /pages/registro-jan)
+  ├── page.registro-jan.liquid         ← Formulario de registro completo
+  ├── page.gracias.liquid              ← Página post-pago (payment success)
+  ├── page.contacto.liquid
+  ├── page.privacidad.liquid
+  └── page.terminos.liquid
+config/
+  ├── settings_schema.json             ← Define campos del personalizador
+  └── settings_data.json
+locales/
+  └── en.default.json
+assets/
+  ├── registro-photo.jpg               ← Foto izquierda del formulario de registro
+  ├── LANDING_VIDEO SIN FIN_LIVIANO.mov
+  └── saludcompartida-transp dark-bg-no-tagline copy 2.jpg
+sections/
+  ├── hero.liquid, benefits.liquid, companions.liquid
+  ├── trust.liquid, social-proof.liquid
+  ├── final-cta.liquid, header.liquid, footer-note.liquid
+snippets/
+source/                                ← HTML de referencia original (no se sube a Shopify)
 ```
-
-El formulario `page.registro-jan.liquid` sigue este flujo automáticamente:
-1. Usuario llena sus datos y los de un familiar
-2. Los datos se guardan en Supabase (policy_holders + beneficiaries)
-3. Se agrega la suscripción al carrito de Shopify (`/cart/add.js`)
-4. Se redirige al checkout nativo de Shopify (`/checkout`) con el email pre-cargado
-
-### ⚠️ Configuración requerida después de subir el tema
-
-Debes configurar dos valores en el panel de Shopify para que el pago funcione:
-
-#### 1. Configura los IDs de variante del producto de suscripción
-
-1. En Shopify Admin → **Productos** → abre tu producto de suscripción (el "Plan Básico")
-2. Haz clic en la variante → copia el número al final de la URL, ej: `.../variants/`**`40123456789012`**
-3. Ve a **Tienda en línea → Temas → Personalizar**
-4. En el panel izquierdo busca **"Suscripción — Pago"**
-5. Pega el ID en **"ID variante — Plan Básico ($12/mes)"**
-6. Repite para el Plan Premium si aplica
-
-#### 2. Configura las credenciales de Supabase
-
-En el archivo `templates/page.registro-jan.liquid` reemplaza:
-- `SUPABASE_URL_PLACEHOLDER` → tu URL de Supabase (ej: `https://xxxx.supabase.co`)
-- `SUPABASE_ANON_KEY_PLACEHOLDER` → tu anon key de Supabase
-
-**⚠️ Importante:** nunca subas estas credenciales a un repositorio público. Configúralas directamente en el editor de código de Shopify Admin.
 
 ---
 
 ## Cómo subir el tema a Shopify
 
-### Opción 1 — Subir el archivo ZIP (más fácil)
+### Opción A — ZIP (más rápido)
 
-1. Descarga el archivo **`saludcompartida-theme.zip`** de este repositorio.
-2. En tu panel de administración de Shopify, ve a **Tienda en línea → Temas**.
-3. Haz clic en **"Agregar tema" → "Subir archivo ZIP"**.
-4. Selecciona el archivo `saludcompartida-theme.zip`.
-5. Shopify procesará el tema. Una vez subido, haz clic en **"Personalizar"** para configurar los IDs de variante (ver arriba), luego **"Publicar"**.
+1. Descarga **`saludcompartida-theme.zip`** de este repositorio
+2. Shopify Admin → **Tienda en línea → Temas → Agregar tema → Subir archivo ZIP**
+3. Selecciona el ZIP → Shopify lo procesa automáticamente
+4. Haz clic en **"Personalizar"** para configurar los valores requeridos (ver abajo)
+5. Haz clic en **"Publicar"**
 
-### Opción 2 — Shopify CLI (para desarrolladores)
+### Opción B — Shopify CLI
 
 ```bash
 npm install -g @shopify/cli @shopify/theme
@@ -92,23 +91,72 @@ shopify theme push --store tu-tienda.myshopify.com
 
 ---
 
-## Páginas alternativas
+## Configuración requerida después de subir
 
-Las plantillas `page.*.liquid` son **plantillas alternativas de página**. Para usarlas:
+Ve a **Tienda en línea → Temas → Personalizar**:
 
-1. En el panel de Shopify ve a **Tienda en línea → Páginas**.
-2. Crea o edita una página.
-3. En la sección **"Plantilla"** (columna derecha), selecciona la plantilla deseada:
-   - `page.registro-jan` → Registro completo (un solo paso)
-   - `page.registro` → Registro Paso 1
-   - `page.familia` → Registro Paso 2
-   - `page.contacto` → Página de Contacto
-   - `page.privacidad` → Aviso de Privacidad
-   - `page.terminos` → Términos y Condiciones
+### 1 · Suscripción — Pago
+
+| Campo | Dónde encontrarlo |
+|---|---|
+| **ID variante — Plan Básico** | Admin → Productos → Plan Básico → edita la variante → copia el número al final de la URL |
+
+### 2 · Supabase — Integración
+
+| Campo | Dónde encontrarlo |
+|---|---|
+| **Supabase URL** | Supabase Dashboard → Settings → API → Project URL |
+| **Supabase Anon Key** | Supabase Dashboard → Settings → API → anon / public key |
+
+---
+
+## Configurar redirect post-pago (IMPORTANTE)
+
+Después del checkout, Shopify muestra su propia página de confirmación de pedido.
+Para redirigir automáticamente a `/pages/gracias`, agrega este script en:
+
+**Shopify Admin → Configuración → Checkout → Página de estado del pedido → Scripts adicionales**
+
+```liquid
+{% if first_time_accessed %}
+<script>
+  window.location.href =
+    '/pages/gracias?nombre={{ checkout.billing_address.first_name | url_encode }}';
+</script>
+{% endif %}
+```
+
+Esto:
+- Solo ejecuta el redirect la **primera vez** que el cliente ve la página de confirmación
+- Pasa el nombre del cliente como parámetro para personalizar el mensaje de bienvenida en `/pages/gracias`
+
+---
+
+## Páginas que crear en Shopify
+
+Ve a **Tienda en línea → Páginas** y crea cada una asignando su plantilla:
+
+| URL (`/pages/...`) | Título | Plantilla |
+|---|---|---|
+| `registro-jan` | Registro | `page.registro-jan` |
+| `gracias` | ¡Bienvenido! | `page.gracias` |
+| `contacto` | Contáctanos | `page.contacto` |
+| `privacidad` | Aviso de Privacidad | `page.privacidad` |
+| `terminos` | Términos y Condiciones | `page.terminos` |
+
+---
+
+## Suscripción Shopify
+
+El producto de suscripción ya está configurado en Shopify:
+- **30 días gratis** → el primer cargo es $0.00
+- **$12 USD/mes** a partir del día 31, cobro automático
+- **Sin impuestos** (el servicio se presta en México, fuera de EE.UU.)
 
 ---
 
 ## Soporte
 
 📧 hola@saludcompartida.com  
-🌐 [saludcompartida.com](https://saludcompartida.com)
+🌐 [saludcompartida.com](https://saludcompartida.com)  
+📱 [saludcompartida.app](https://saludcompartida.app) — app del usuario final

@@ -469,8 +469,8 @@ async function submitForm() {
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
-  const SUPABASE_URL  = 'SUPABASE_URL_PLACEHOLDER';
-  const SUPABASE_ANON = 'SUPABASE_ANON_KEY_PLACEHOLDER';
+  const SUPABASE_URL  = '{{ settings.supabase_url | default: "SUPABASE_URL_PLACEHOLDER" }}';
+  const SUPABASE_ANON = '{{ settings.supabase_anon_key | default: "SUPABASE_ANON_KEY_PLACEHOLDER" }}';
 
   const now      = new Date().toISOString();
   const trialEnd = new Date(Date.now() + 30*24*60*60*1000).toISOString();
