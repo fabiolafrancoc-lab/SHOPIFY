@@ -1,0 +1,536 @@
+<style>
+:root {
+  --bg:#0a0a0f; --bg2:#12121e; --bg3:#16162a; --bg4:#1c1c32;
+  --cyan:#0EA5E9; --magenta:#EC4899; --mag2:#DB2777;
+  --green:#10B981; --red:#EF4444;
+  --muted:rgba(255,255,255,0.5); --w:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--w);-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+.ambient{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(130px);opacity:.07;}
+.orb1{width:600px;height:600px;background:var(--cyan);top:-200px;right:-150px;animation:d1 20s ease-in-out infinite;}
+.orb2{width:500px;height:500px;background:var(--magenta);bottom:-200px;left:-150px;animation:d2 25s ease-in-out infinite;}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,40px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-30px)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;}
+.nav-in{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'DM Serif Display',serif;font-size:22px;text-decoration:none;color:var(--w);display:flex;align-items:center;gap:10px;}
+.nav-brand-text span{color:var(--cyan);}
+.nav-help{font-size:14px;color:var(--muted);}
+.nav-help a{color:var(--cyan);text-decoration:none;font-weight:600;}
+.nav-help a:hover{text-decoration:underline;}
+
+.page{position:relative;z-index:1;padding-top:64px;}
+
+/* TWO COLUMN LAYOUT */
+.reg-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:calc(100vh - 64px);
+}
+
+/* LEFT — PHOTO */
+.reg-photo{
+  position:sticky;top:64px;
+  height:calc(100vh - 64px);
+  overflow:hidden;
+}
+.reg-photo img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;
+}
+.photo-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right, transparent 55%, var(--bg) 100%),
+             linear-gradient(to top, rgba(10,10,15,.75) 0%, transparent 45%);
+}
+.photo-caption{
+  position:absolute;bottom:48px;left:36px;right:36px;
+}
+.photo-eyebrow{
+  display:block;color:var(--cyan);
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.photo-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(22px,2.2vw,34px);
+  line-height:1.25;
+}
+.photo-title .them{color:var(--magenta);}
+
+/* RIGHT — FORM */
+.reg-form{
+  padding:48px 48px 80px;
+  background:var(--bg);
+  overflow-y:auto;
+}
+@media(max-width:900px){
+  .reg-layout{grid-template-columns:1fr;}
+  .reg-photo{display:none;}
+  .reg-form{padding:32px 24px 80px;}
+}
+
+/* FORM HEADER */
+.form-header{text-align:center;margin-bottom:36px;}
+.flag-circle{
+  width:52px;height:52px;
+  background:rgba(14,165,233,.1);border:1.5px solid rgba(14,165,233,.25);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 16px;
+}
+.form-header h1{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:6px;}
+.form-header p{color:var(--muted);font-size:14px;}
+
+/* SECTION DIVIDER */
+.section-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:32px 0 20px;padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sec-ico{font-size:18px;}
+.sec-info h3{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--cyan);margin-bottom:2px;
+}
+.sec-info h3.mg{color:var(--magenta);}
+.sec-info p{font-size:12px;color:var(--muted);}
+
+/* FIELDS */
+.group-label{
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--cyan);
+  margin-bottom:10px;margin-top:18px;
+}
+.group-label.mg{color:var(--magenta);}
+
+.field-row{display:grid;gap:12px;margin-bottom:12px;}
+.field-row.cols2{grid-template-columns:1fr 1fr;}
+.field-row.cols3{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:580px){.field-row.cols2,.field-row.cols3{grid-template-columns:1fr;}}
+
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:12px;font-weight:600;color:rgba(255,255,255,.75);}
+.field label .req{color:var(--magenta);}
+.field label .opt{color:var(--muted);font-weight:400;font-size:11px;}
+
+input,select{
+  background:var(--bg4);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:11px 14px;color:var(--w);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none;
+}
+input::placeholder{color:rgba(255,255,255,.22);}
+input:focus,select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(14,165,233,.1);}
+input.error,select.error{border-color:var(--red);}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230EA5E9' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;
+}
+select option{background:var(--bg3);}
+
+.phone-wrap{display:flex;}
+.phone-flag{
+  background:var(--bg4);border:1.5px solid rgba(255,255,255,.1);
+  border-right:none;border-radius:10px 0 0 10px;
+  padding:11px 12px;font-size:13px;color:var(--muted);
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.phone-wrap input{border-radius:0 10px 10px 0;}
+.field-hint{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.field-hint strong{color:rgba(255,255,255,.7);}
+.field-error{font-size:11px;color:var(--red);margin-top:3px;display:none;}
+
+/* TERMS */
+.terms-wrap{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:16px 18px;
+  display:flex;align-items:flex-start;gap:12px;
+  margin:24px 0 20px;cursor:pointer;
+}
+.terms-wrap input[type=checkbox]{
+  width:17px;height:17px;flex-shrink:0;margin-top:1px;
+  accent-color:var(--magenta);cursor:pointer;
+}
+.terms-txt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.terms-txt a{color:var(--cyan);text-decoration:none;}
+.terms-txt a:hover{text-decoration:underline;}
+
+/* CTA */
+.btn-submit{
+  display:block;width:100%;padding:18px 32px;
+  background:linear-gradient(135deg,var(--magenta),var(--mag2));
+  color:#fff;border:none;border-radius:14px;
+  font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;
+  box-shadow:0 8px 32px rgba(236,72,153,.3);
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(236,72,153,.45);}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+.sub-note{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:12px;font-size:13px;color:var(--muted);}
+.sub-note svg{width:15px;height:15px;color:var(--green);flex-shrink:0;}
+.add-note{text-align:center;margin-top:10px;font-size:12px;color:var(--muted);}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+
+<div class="ambient"><div class="orb orb1"></div><div class="orb orb2"></div></div>
+
+<nav>
+  <div class="nav-in">
+    <a href="/" class="nav-brand">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="9" fill="url(#lg)"/>
+  <path d="M16 8C13 8 10 10.5 10 14c0 5 6 10 6 10s6-5 6-10c0-3.5-3-6-6-6z" fill="white" opacity="0.9"/>
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#0EA5E9"/><stop offset="1" stop-color="#EC4899"/>
+  </linearGradient></defs>
+</svg>
+      <div class="nav-brand-text">Salud<span>Compartida</span></div>
+    </a>
+    <div class="nav-help">¿Dudas? <a href="mailto:contact@saludcompartida.com">Contáctanos</a></div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="reg-layout">
+
+    <!-- FOTO IZQUIERDA -->
+    <div class="reg-photo">
+      <img src="{{ 'registro-photo.jpg' | asset_url }}" alt="Familiar en México que recibirá los servicios">
+      <div class="photo-overlay"></div>
+      <div class="photo-caption">
+        <span class="photo-eyebrow">ESTÁS A UN PASO DE CUIDARLOS</span>
+        <h2 class="photo-title">
+          El amor que sientes<br>
+          <span class="them">ahora se convierte en protección</span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DERECHA -->
+    <div class="reg-form">
+
+      <div class="form-header">
+        <div class="flag-circle">🇺🇸</div>
+        <h1>Registro Rápido</h1>
+        <p>Completa los datos del titular (USA) y usuario (México)</p>
+      </div>
+
+      <!-- ══ SECCIÓN 1: TITULAR USA ══ -->
+      <div class="section-divider">
+        <span class="sec-ico">👤</span>
+        <div class="sec-info">
+          <h3>TITULAR EN ESTADOS UNIDOS</h3>
+          <p>Quien contrata y paga la suscripción</p>
+        </div>
+      </div>
+
+      <p class="group-label">NOMBRE COMPLETO</p>
+      <div class="field-row cols3">
+        <div class="field">
+          <label>Nombre <span class="req">*</span></label>
+          <input type="text" id="ph_nombre" placeholder="Juan" autocomplete="off">
+          <span class="field-error" id="err-ph_nombre">Requerido</span>
+        </div>
+        <div class="field">
+          <label>Apellido paterno <span class="req">*</span></label>
+          <input type="text" id="ph_apellido1" placeholder="García" autocomplete="off">
+          <span class="field-error" id="err-ph_apellido1">Requerido</span>
+        </div>
+        <div class="field">
+          <label>Apellido materno <span class="opt">(voluntario)</span></label>
+          <input type="text" id="ph_apellido2" placeholder="López" autocomplete="off">
+        </div>
+      </div>
+
+      <p class="group-label">INFORMACIÓN PERSONAL</p>
+      <div class="field-row cols2">
+        <div class="field">
+          <label>Sexo <span class="req">*</span></label>
+          <select id="ph_genero">
+            <option value="">Seleccionar</option>
+            <option value="F">Femenino</option>
+            <option value="M">Masculino</option>
+            <option value="NB">No binario</option>
+            <option value="NI">Prefiero no indicar</option>
+          </select>
+          <span class="field-error" id="err-ph_genero">Selecciona una opción</span>
+        </div>
+        <div class="field">
+          <label>Fecha de nacimiento <span class="req">*</span></label>
+          <input type="date" id="ph_dob">
+          <span class="field-error" id="err-ph_dob">Requerido</span>
+        </div>
+      </div>
+
+      <p class="group-label">CONTACTO</p>
+      <div class="field-row">
+        <div class="field">
+          <label>Correo electrónico <span class="req">*</span></label>
+          <input type="email" id="ph_email" placeholder="tu@email.com" autocomplete="off">
+          <span class="field-error" id="err-ph_email">Ingresa un email válido</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Número de celular (WhatsApp) <span class="req">*</span></label>
+          <div class="phone-wrap">
+            <div class="phone-flag">🇺🇸 +1</div>
+            <input type="tel" id="ph_whatsapp" placeholder="555 123 4567" maxlength="12" autocomplete="off">
+          </div>
+          <span class="field-hint"><strong>Escribe solo los 10 dígitos.</strong> El formato se aplica automáticamente.</span>
+          <span class="field-hint" style="font-style:italic;">Nosotros agregamos el +1 automáticamente. No lo escribas.</span>
+          <span class="field-error" id="err-ph_whatsapp">Ingresa 10 dígitos válidos</span>
+        </div>
+      </div>
+
+      <!-- ══ SECCIÓN 2: USUARIO MÉXICO ══ -->
+      <div class="section-divider" style="margin-top:36px;">
+        <span class="sec-ico">🇲🇽</span>
+        <div class="sec-info">
+          <h3 class="mg">USUARIO EN MÉXICO</h3>
+          <p>El familiar principal que recibirá los servicios</p>
+        </div>
+      </div>
+
+      <p class="group-label mg">NOMBRE COMPLETO</p>
+      <div class="field-row cols3">
+        <div class="field">
+          <label>Nombre <span class="req">*</span></label>
+          <input type="text" id="b1_nombre" placeholder="María" autocomplete="off">
+          <span class="field-error" id="err-b1_nombre">Requerido</span>
+        </div>
+        <div class="field">
+          <label>Apellido paterno <span class="req">*</span></label>
+          <input type="text" id="b1_apellido1" placeholder="García" autocomplete="off">
+          <span class="field-error" id="err-b1_apellido1">Requerido</span>
+        </div>
+        <div class="field">
+          <label>Apellido materno <span class="opt">(opcional)</span></label>
+          <input type="text" id="b1_apellido2" placeholder="López" autocomplete="off">
+        </div>
+      </div>
+
+      <p class="group-label mg">INFORMACIÓN PERSONAL</p>
+      <div class="field-row cols2">
+        <div class="field">
+          <label>Sexo <span class="req">*</span></label>
+          <select id="b1_genero">
+            <option value="">Seleccionar</option>
+            <option value="F">Femenino</option>
+            <option value="M">Masculino</option>
+            <option value="NB">No binario</option>
+            <option value="NI">Prefiero no indicar</option>
+          </select>
+          <span class="field-error" id="err-b1_genero">Selecciona una opción</span>
+        </div>
+        <div class="field">
+          <label>Fecha de nacimiento <span class="req">*</span></label>
+          <input type="date" id="b1_dob">
+          <span class="field-error" id="err-b1_dob">Requerido</span>
+        </div>
+      </div>
+
+      <p class="group-label mg">CONTACTO</p>
+      <div class="field-row">
+        <div class="field">
+          <label>Correo electrónico <span class="req">*</span></label>
+          <input type="email" id="b1_email" placeholder="email@ejemplo.com" autocomplete="off">
+          <span class="field-error" id="err-b1_email">Ingresa un email válido</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Número de WhatsApp <span class="req">*</span></label>
+          <div class="phone-wrap">
+            <div class="phone-flag">🇲🇽 +52</div>
+            <input type="tel" id="b1_whatsapp" placeholder="55 123 4567" maxlength="12" autocomplete="off">
+          </div>
+          <span class="field-hint"><strong>Escribe solo los 10 dígitos.</strong> El formato se aplica automáticamente.</span>
+          <span class="field-hint" style="font-style:italic;">Nosotros agregamos el +52 automáticamente. No lo escribas.</span>
+          <span class="field-error" id="err-b1_whatsapp">Ingresa 10 dígitos válidos</span>
+        </div>
+      </div>
+
+      <!-- TÉRMINOS -->
+      <div class="terms-wrap" onclick="toggleTerms(event)">
+        <input type="checkbox" id="chk_terms" onclick="toggleTerms(event)">
+        <div class="terms-txt">
+          He leído y acepto la <a href="/pages/politica-de-privacidad" target="_blank">Política de Privacidad</a> y los <a href="/pages/terminos-y-condiciones" target="_blank">Términos y Condiciones</a> de SaludCompartida. <span class="req">*</span>
+        </div>
+      </div>
+      <span class="field-error" id="err-terms" style="margin-bottom:14px;display:none;">Debes aceptar los términos para continuar</span>
+
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()">Continuar al pago →</button>
+
+      <div class="sub-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Podrás agregar hasta 3 usuarios más después en tu cuenta
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// Phone format: 3 space 3 space 4
+function formatPhone(val) {
+  const d = val.replace(/\D/g,'').slice(0,10);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return d.slice(0,3) + ' ' + d.slice(3);
+  return d.slice(0,3) + ' ' + d.slice(3,6) + ' ' + d.slice(6);
+}
+
+document.getElementById('ph_whatsapp').addEventListener('input', function() {
+  const pos = this.selectionStart;
+  this.value = formatPhone(this.value);
+});
+document.getElementById('b1_whatsapp').addEventListener('input', function() {
+  this.value = formatPhone(this.value);
+});
+
+function toggleTerms(e) {
+  e.stopPropagation();
+  const chk = document.getElementById('chk_terms');
+  if (e.target !== chk) chk.checked = !chk.checked;
+  if (chk.checked) document.getElementById('err-terms').style.display = 'none';
+}
+
+function req(id) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id);
+  const v = !!el.value.trim();
+  el.classList.toggle('error', !v);
+  if (err) err.style.display = v ? 'none' : 'block';
+  return v;
+}
+function sel(id) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id);
+  const v = !!el.value;
+  el.classList.toggle('error', !v);
+  if (err) err.style.display = v ? 'none' : 'block';
+  return v;
+}
+function eml(id) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id);
+  const v = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+  el.classList.toggle('error', !v);
+  if (err) err.style.display = v ? 'none' : 'block';
+  return v;
+}
+function phn(id) {
+  const el = document.getElementById(id);
+  const err = document.getElementById('err-' + id);
+  const v = el.value.replace(/\D/g,'').length === 10;
+  el.classList.toggle('error', !v);
+  if (err) err.style.display = v ? 'none' : 'block';
+  return v;
+}
+
+function validate() {
+  let ok = true;
+  ok = req('ph_nombre') & ok;
+  ok = req('ph_apellido1') & ok;
+  ok = sel('ph_genero') & ok;
+  ok = req('ph_dob') & ok;
+  ok = eml('ph_email') & ok;
+  ok = phn('ph_whatsapp') & ok;
+  ok = req('b1_nombre') & ok;
+  ok = req('b1_apellido1') & ok;
+  ok = sel('b1_genero') & ok;
+  ok = req('b1_dob') & ok;
+  ok = eml('b1_email') & ok;
+  ok = phn('b1_whatsapp') & ok;
+  if (!document.getElementById('chk_terms').checked) {
+    document.getElementById('err-terms').style.display = 'block';
+    ok = false;
+  }
+  return !!ok;
+}
+
+async function submitForm() {
+  if (!validate()) {
+    document.querySelector('.error')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const SUPABASE_URL  = 'SUPABASE_URL_PLACEHOLDER';
+  const SUPABASE_ANON = 'SUPABASE_ANON_KEY_PLACEHOLDER';
+
+  const now      = new Date().toISOString();
+  const trialEnd = new Date(Date.now() + 30*24*60*60*1000).toISOString();
+  const laguna   = new Date(Date.now() + 60*24*60*60*1000).toISOString();
+
+  const phData = {
+    nombre:                    document.getElementById('ph_nombre').value.trim(),
+    apellido1:                 document.getElementById('ph_apellido1').value.trim(),
+    apellido2:                 document.getElementById('ph_apellido2').value.trim() || null,
+    genero:                    document.getElementById('ph_genero').value,
+    fecha_nacimiento:          document.getElementById('ph_dob').value,
+    email:                     document.getElementById('ph_email').value.trim().toLowerCase(),
+    whatsapp:                  '+1' + document.getElementById('ph_whatsapp').value.replace(/\D/g,''),
+    trial_start:               now,
+    trial_end:                 trialEnd,
+    fecha_inicio_cobertura:    now,
+    fecha_renovacion:          trialEnd,
+    laguna_permitida:          laguna,
+    monthly_recurring_premium: 12.00,
+    coverage_period_days:      30,
+    created_at:                now
+  };
+
+  const b1Data = {
+    nombre:             document.getElementById('b1_nombre').value.trim(),
+    apellido1:          document.getElementById('b1_apellido1').value.trim(),
+    apellido2:          document.getElementById('b1_apellido2').value.trim() || null,
+    genero:             document.getElementById('b1_genero').value,
+    fecha_nacimiento:   document.getElementById('b1_dob').value,
+    email:              document.getElementById('b1_email').value.trim().toLowerCase(),
+    whatsapp:           '+52' + document.getElementById('b1_whatsapp').value.replace(/\D/g,''),
+    beneficiary_number: 1,
+    created_at:         now
+  };
+
+  try {
+    const [phRes, b1Res] = await Promise.all([
+      fetch(SUPABASE_URL + '/rest/v1/policy_holders', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON,'Authorization':'Bearer '+SUPABASE_ANON,'Prefer':'return=representation'},
+        body:JSON.stringify(phData)
+      }),
+      fetch(SUPABASE_URL + '/rest/v1/beneficiaries', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON,'Authorization':'Bearer '+SUPABASE_ANON,'Prefer':'return=representation'},
+        body:JSON.stringify(b1Data)
+      })
+    ]);
+
+    if (!phRes.ok || !b1Res.ok) throw new Error('Error guardando datos');
+
+    btn.textContent = '¡Listo! Redirigiendo...';
+    const emailEnc = encodeURIComponent(phData.email);
+    setTimeout(() => { window.location.href = 'https://saludcompartida.shop/checkout?email=' + emailEnc; }, 1500);
+
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Continuar al pago →';
+    alert('Hubo un problema. Por favor intenta de nuevo.');
+    console.error(err);
+  }
+}
+</script>
