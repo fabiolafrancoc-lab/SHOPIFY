@@ -6,5 +6,22 @@
     "theme_author": "SaludCompartida",
     "theme_documentation_url": "https://saludcompartida.com",
     "theme_support_url": "https://saludcompartida.com"
+  },
+  {
+    "name": "Suscripción — Pago",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shopify_variant_basico",
+        "label": "ID variante — Plan Básico ($12/mes)",
+        "info": "Copia el ID de la variante del producto 'Plan Básico' en Shopify Admin → Productos. Ej: 40123456789012"
+      },
+      {
+        "type": "text",
+        "id": "shopify_variant_premium",
+        "label": "ID variante — Plan Premium ($18/mes)",
+        "info": "Copia el ID de la variante del producto 'Plan Premium' en Shopify Admin → Productos. Ej: 40123456789013"
+      }
+    ]
   }
 ]

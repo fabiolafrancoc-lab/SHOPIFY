@@ -522,9 +522,32 @@ async function submitForm() {
 
     if (!phRes.ok || !b1Res.ok) throw new Error('Error guardando datos');
 
-    btn.textContent = '¡Listo! Redirigiendo...';
+    btn.textContent = 'Agregando al carrito...';
+
+    // Add subscription product to Shopify cart, then go to checkout
+    const variantId = '{{ settings.shopify_variant_basico }}';
+    await fetch('/cart/clear.js', { method: 'POST' });
+    await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{
+          id: parseInt(variantId) || 0,
+          quantity: 1,
+          properties: {
+            'Nombre':    phData.nombre + ' ' + phData.apellido1,
+            'Email':     phData.email,
+            'WhatsApp':  phData.whatsapp,
+            'Familiar':  b1Data.nombre + ' ' + b1Data.apellido1,
+            'Tel México': b1Data.whatsapp
+          }
+        }]
+      })
+    });
+
+    btn.textContent = '¡Listo! Redirigiendo al pago...';
     const emailEnc = encodeURIComponent(phData.email);
-    setTimeout(() => { window.location.href = 'https://saludcompartida.shop/checkout?email=' + emailEnc; }, 1500);
+    setTimeout(() => { window.location.href = '/checkout?checkout[email]=' + emailEnc; }, 1000);
 
   } catch(err) {
     btn.disabled = false;
