@@ -14,7 +14,27 @@
         "type": "text",
         "id": "shopify_variant_basico",
         "label": "ID variante — Plan Básico ($12/mes)",
-        "info": "Shopify Admin → Productos → Plan Básico → edita la variante → copia el número al final de la URL. Ej: 40123456789012"
+        "default": "42695875788877",
+        "info": "Numeric variant ID. GID: gid://shopify/ProductVariant/42695875788877. Shopify Admin → Products → variant URL last segment."
+      },
+      {
+        "type": "text",
+        "id": "shopify_variant_premium",
+        "label": "ID variante — Plan Premium ($18/mes)",
+        "info": "Numeric variant ID for the Premium plan. Shopify Admin → Products → variant URL last segment."
+      },
+      {
+        "type": "text",
+        "id": "shopify_selling_plan_basico",
+        "label": "Selling Plan ID — Plan Básico",
+        "default": "7685865549",
+        "info": "Numeric selling plan ID. GID: gid://shopify/SellingPlan/7685865549. Shopify Admin → Products → Subscriptions tab."
+      },
+      {
+        "type": "text",
+        "id": "shopify_selling_plan_premium",
+        "label": "Selling Plan ID — Plan Premium",
+        "info": "Numeric selling plan ID for the Premium plan. Shopify Admin → Products → Subscriptions tab."
       }
     ]
   },

@@ -8,36 +8,33 @@ Theme personalizado para la tienda Shopify de **SaludCompartida**.
 
 ```
 Landing (index)
-  └─ 6 botones magenta ──────────────────────────────► /pages/registro-jan
+  └─ Botones magenta ───────────────────────────────► /pages/registro
                                                               │
-                                        Llena datos (migrante + familiar)
-                                        Guarda en Supabase (policy_holders + beneficiaries)
-                                        Agrega suscripción al carrito de Shopify
-                                              │
-                                              ▼
-                                    Shopify Checkout
+                                        Llena datos (migrante)
+                                               │
+                                               ▼
+                                      /pages/familia
+                                    (agrega familia en México)
+                                               │
+                              Cart API: variante + selling_plan
+                              (suscripción digital, sin envío)
+                                               │
+                                               ▼
+                                     Shopify Checkout
                                (30 días gratis → $12/mes)
-                               (Sin impuestos — servicio en México)
-                                              │
-                                 Pago completado → redirect
-                                              │
-                                              ▼
-                                   /pages/gracias
-                              (Confetti + firmas + instrucciones)
-                                              │
-                    ┌─────────────────────────┴─────────────────────────┐
-                    ▼                                                   ▼
-              Email al migrante                              WhatsApp a la familia
-           (código personal + instrucciones)            (código de acceso en México)
-                    │                                         [vía Resend — automático]
-                    └─────────────────────────┬─────────────────────────┘
-                                              ▼
-                                   saludcompartida.app
-                              (usuario entra su código → dashboard)
+                               (Sin dirección de envío)
+                                               │
+                                  Pago completado → redirect
+                                               │
+                                               ▼
+                               /pages/suscripcion-exitosa
+                           (Confetti + instrucciones + CTA app)
+                                               │
+                     ┌─────────────────────────┴─────────────────────────┐
+                     ▼                                                   ▼
+               Email al migrante                              WhatsApp a la familia
+            (código personal + instrucciones)            (código de acceso en México)
 ```
-
-> Shopify interviene **solo** en los pasos: Landing → registro-jan → Checkout → /pages/gracias.
-> A partir de /pages/gracias, todo es automático via Supabase + Resend.
 
 ---
 
@@ -45,42 +42,171 @@ Landing (index)
 
 ```
 layout/
-  └── theme.liquid                     ← Envoltorio HTML base
+  └── theme.liquid                           ← Envoltorio HTML base
 templates/
-  ├── index.liquid                     ← Landing (6 CTAs → /pages/registro-jan)
-  ├── page.registro-jan.liquid         ← Formulario de registro completo
-  ├── page.gracias.liquid              ← Página post-pago (payment success)
+  ├── index.liquid                           ← Landing (CTAs → /pages/registro)
+  ├── page.registro.liquid                   ← Step 1: datos del migrante
+  ├── page.familia.liquid                    ← Step 2: familia + checkout con selling plan
+  ├── page.suscripcion-exitosa.liquid        ← Página post-suscripción exitosa  ← NUEVA
+  ├── page.gracias.liquid                    ← Página post-pago genérica
   ├── page.contacto.liquid
   ├── page.privacidad.liquid
   └── page.terminos.liquid
 config/
-  ├── settings_schema.json             ← Define campos del personalizador
+  ├── settings_schema.json                   ← Campos del personalizador (variant + selling plan IDs)
   └── settings_data.json
-locales/
-  └── en.default.json
-assets/
-  ├── registro-photo.jpg               ← Foto izquierda del formulario de registro
-  ├── LANDING_VIDEO SIN FIN_LIVIANO.mov
-  └── saludcompartida-transp dark-bg-no-tagline copy 2.jpg
 sections/
   ├── hero.liquid, benefits.liquid, companions.liquid
   ├── trust.liquid, social-proof.liquid
   ├── final-cta.liquid, header.liquid, footer-note.liquid
 snippets/
-source/                                ← HTML de referencia original (no se sube a Shopify)
+  ├── sc-icon-check.liquid
+  └── sc-checkout-subscription.liquid        ← Botón "Continuar con el Pago" reutilizable  ← NUEVO
+source/                                      ← HTML de referencia original (no se sube a Shopify)
+assets/
 ```
+
+---
+
+## Implementación del checkout con suscripción
+
+### IDs de producto/suscripción
+
+| Recurso | GID | Numeric ID |
+|---|---|---|
+| ProductVariant (Plan Básico) | `gid://shopify/ProductVariant/42695875788877` | `42695875788877` |
+| SellingPlan (Plan Básico) | `gid://shopify/SellingPlan/7685865549` | `7685865549` |
+| SellingPlanGroup | `gid://shopify/SellingPlanGroup/5804097613` | `5804097613` |
+
+### Cómo funciona el flujo técnico
+
+El botón "Continuar al pago" en `/pages/familia` llama al **Shopify Cart API** con:
+
+```js
+{
+  items: [{
+    id: 42695875788877,        // numeric variant ID
+    quantity: 1,
+    selling_plan: 7685865549,  // numeric selling plan ID ← suscripción
+    properties: { /* datos del migrante + familia */ }
+  }]
+}
+```
+
+Esto crea un carrito con suscripción activa y redirige al checkout nativo de Shopify (`/checkout`).
+
+### Configurar en Theme Settings
+
+Ve a **Tienda en línea → Temas → Personalizar → Suscripción — Pago**:
+
+| Campo | Valor |
+|---|---|
+| ID variante — Plan Básico | `42695875788877` |
+| ID variante — Plan Premium | *(ID del variant premium cuando esté disponible)* |
+| Selling Plan ID — Plan Básico | `7685865549` |
+| Selling Plan ID — Plan Premium | *(ID del selling plan premium cuando esté disponible)* |
+
+---
+
+## ⚠️ Configuración para producto digital (sin envío)
+
+Para que Shopify **no pida dirección de envío** en el checkout:
+
+1. **Shopify Admin → Catálogo → Productos → [Plan Básico]**
+2. Desplázate a la sección **Envío**
+3. **Desactiva** la casilla **"Este es un producto físico"**
+4. Guarda los cambios
+
+> ✅ Con esto, el checkout nativo de Shopify omite automáticamente la sección de dirección de envío.
+> No se requiere ningún cambio en código Liquid.
+
+---
+
+## Configurar redirect post-pago
+
+Para redirigir a `/pages/suscripcion-exitosa` después del checkout:
+
+**Shopify Admin → Configuración → Checkout → Página de estado del pedido → Scripts adicionales**
+
+```liquid
+{% if first_time_accessed %}
+<script>
+  window.location.href =
+    '/pages/suscripcion-exitosa?nombre={{ checkout.billing_address.first_name | url_encode }}';
+</script>
+{% endif %}
+```
+
+---
+
+## Snippet reutilizable: `sc-checkout-subscription`
+
+Si necesitas un botón de pago en cualquier otra página o sección:
+
+```liquid
+{% render 'sc-checkout-subscription' %}
+```
+
+Con overrides opcionales:
+
+```liquid
+{% render 'sc-checkout-subscription',
+   variant_id: 42695875788877,
+   selling_plan_id: 7685865549,
+   btn_label: 'Continuar con el Pago'
+%}
+```
+
+---
+
+## Páginas que crear en Shopify
+
+Ve a **Tienda en línea → Páginas** y crea cada una asignando su plantilla:
+
+| URL (`/pages/...`) | Título sugerido | Plantilla |
+|---|---|---|
+| `registro` | Registro | `page.registro` |
+| `familia` | Tu familia | `page.familia` |
+| `suscripcion-exitosa` | ¡Suscripción Activada! | `page.suscripcion-exitosa` |
+| `gracias` | ¡Bienvenido! | `page.gracias` |
+| `contacto` | Contáctanos | `page.contacto` |
+| `privacidad` | Aviso de Privacidad | `page.privacidad` |
+| `terminos` | Términos y Condiciones | `page.terminos` |
+
+---
+
+## TODO — Página de consultas
+
+> **Pendiente:** El HTML de la página de consultas no ha sido entregado aún.
+> Una vez recibido, crear `templates/page.consultas.liquid` y agregar
+> la página en Shopify Admin con handle `consultas`.
+
+---
+
+## Webhook de suscripciones (placeholder)
+
+Cuando esté disponible un backend, registrar el webhook en:
+
+**Shopify Admin → Configuración → Notificaciones → Webhooks**
+
+| Evento | Topic | URL destino |
+|---|---|---|
+| Suscripción creada | `subscription_contracts/create` | `https://tu-backend.com/webhooks/subscription-created` |
+| Suscripción cancelada | `subscription_contracts/cancel` | `https://tu-backend.com/webhooks/subscription-cancelled` |
+
+El payload incluye `customer`, `selling_plan`, y `line_items`. Usar para:
+- Activar acceso en la plataforma
+- Enviar códigos por email/WhatsApp (via Resend)
+- Registrar en Supabase
 
 ---
 
 ## Cómo subir el tema a Shopify
 
-### Opción A — ZIP (más rápido)
+### Opción A — ZIP
 
 1. Descarga **`saludcompartida-theme.zip`** de este repositorio
 2. Shopify Admin → **Tienda en línea → Temas → Agregar tema → Subir archivo ZIP**
-3. Selecciona el ZIP → Shopify lo procesa automáticamente
-4. Haz clic en **"Personalizar"** para configurar los valores requeridos (ver abajo)
-5. Haz clic en **"Publicar"**
 
 ### Opción B — Shopify CLI
 
@@ -91,66 +217,8 @@ shopify theme push --store tu-tienda.myshopify.com
 
 ---
 
-## Configuración requerida después de subir
-
-Ve a **Tienda en línea → Temas → Personalizar** y configura estos 4 campos:
-
-| Sección | Campo | Valor |
-|---|---|---|
-| **Suscripción — Pago** | ID variante — Plan Básico | Admin → Productos → Plan Básico → edita la variante → número al final de la URL |
-| **Contacto** | WhatsApp Business URL | Tu link de WhatsApp, ej: `https://wa.me/15551234567` |
-| **Supabase — Integración** | Supabase URL | Supabase Dashboard → Settings → API → Project URL |
-| **Supabase — Integración** | Supabase Anon Key | Supabase Dashboard → Settings → API → anon / public key |
-
----
-
-## Configurar redirect post-pago (IMPORTANTE)
-
-Después del checkout, Shopify muestra su propia página de confirmación de pedido.
-Para redirigir automáticamente a `/pages/gracias`, agrega este script en:
-
-**Shopify Admin → Configuración → Checkout → Página de estado del pedido → Scripts adicionales**
-
-```liquid
-{% if first_time_accessed %}
-<script>
-  window.location.href =
-    '/pages/gracias?nombre={{ checkout.billing_address.first_name | url_encode }}';
-</script>
-{% endif %}
-```
-
-Esto:
-- Solo ejecuta el redirect la **primera vez** que el cliente ve la página de confirmación
-- Pasa el nombre del cliente como parámetro para personalizar el mensaje de bienvenida en `/pages/gracias`
-
----
-
-## Páginas que crear en Shopify
-
-Ve a **Tienda en línea → Páginas** y crea cada una asignando su plantilla:
-
-| URL (`/pages/...`) | Título sugerido | Plantilla | Linked desde |
-|---|---|---|---|
-| `registro-jan` | Registro | `page.registro-jan` | Los 6 botones magenta de la landing |
-| `gracias` | ¡Bienvenido! | `page.gracias` | Shopify Additional Scripts (post-checkout) |
-| `contacto` | Contáctanos | `page.contacto` | Footer de la landing |
-| `privacidad` | Aviso de Privacidad | `page.privacidad` | Footer de la landing |
-| `terminos` | Términos y Condiciones | `page.terminos` | Footer de la landing |
-
----
-
-## Suscripción Shopify
-
-El producto de suscripción ya está configurado en Shopify:
-- **30 días gratis** → el primer cargo es $0.00
-- **$12 USD/mes** a partir del día 31, cobro automático
-- **Sin impuestos** (el servicio se presta en México, fuera de EE.UU.)
-
----
-
 ## Soporte
 
 📧 contact@saludcompartida.com  
 🌐 [saludcompartida.com](https://saludcompartida.com)  
-📱 [saludcompartida.app](https://saludcompartida.app) — app del usuario final
+📱 [saludcompartida.app](https://saludcompartida.app)
