@@ -127,21 +127,40 @@ function handleStep2(e) {
   
   // Add cart attributes and redirect to Shopify checkout
   const plan = step1.plan || 'basico';
-  const variantId = plan === 'premium' 
-    ? '{{ settings.shopify_variant_premium }}' 
-    : '{{ settings.shopify_variant_basico }}';
+  // Numeric variant IDs (Shopify Cart API requires numeric IDs, not GIDs)
+  // Variant GIDs: basico → gid://shopify/ProductVariant/42695875788877
+  //               premium → configure in Shopify Admin → Theme Settings
+  const variantBasico  = {{ settings.shopify_variant_basico | default: 42695875788877 }};
+  const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
+  if (plan === 'premium' && !variantPremium) {
+    alert('El plan Premium no está configurado todavía. Por favor selecciona el Plan Básico o contacta soporte.');
+    return;
+  }
+  const variantId = plan === 'premium' ? variantPremium : variantBasico;
 
-  // Build checkout URL with customer note
+  // Selling plan numeric IDs (from gid://shopify/SellingPlan/<id>)
+  // basico  → gid://shopify/SellingPlan/7685865549
+  // premium → configure in Shopify Admin → Theme Settings
+  const spBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
+  const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
+  const sellingPlanId = plan === 'premium' ? spPremium : spBasico;
+
+  // Build cart note with registration data
   const noteData = `Migrante: ${step1.nombre} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
-  
-  // Add to cart with attributes then go to checkout
-  fetch('/cart/add.js', {
+
+  const submitBtn = document.querySelector('#form-step2 button[type="submit"]');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Procesando…'; }
+
+  // Clear existing cart, then add subscription item with selling plan
+  fetch('/cart/clear.js', { method: 'POST' })
+  .then(() => fetch('/cart/add.js', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       items: [{
-        id: variantId || 40000000000001,
+        id: variantId,
         quantity: 1,
+        selling_plan: sellingPlanId,
         properties: {
           'Nombre migrante': step1.nombre,
           'Email': step1.email,
@@ -151,9 +170,10 @@ function handleStep2(e) {
         }
       }]
     })
-  })
-  .then(() => {
-    // Update cart note
+  }))
+  .then(res => {
+    if (!res.ok) return res.json().then(d => Promise.reject(d));
+    // Update cart note with registration details
     return fetch('/cart/update.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -164,9 +184,17 @@ function handleStep2(e) {
     window.location.href = '/checkout';
   })
   .catch(err => {
-    console.error('Cart error:', err);
-    // Fallback: go to checkout anyway
-    window.location.href = '/checkout';
+    console.error('Checkout error:', err);
+    const msg = (err && err.description) ? err.description : 'Ocurrió un error al preparar tu suscripción. Por favor intenta de nuevo.';
+    let errEl = document.getElementById('sc-checkout-error');
+    if (!errEl) {
+      errEl = document.createElement('p');
+      errEl.id = 'sc-checkout-error';
+      errEl.style.cssText = 'color:#f87171;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:12px 16px;margin-top:12px;font-size:14px;';
+      submitBtn && submitBtn.parentNode.insertBefore(errEl, submitBtn.nextSibling);
+    }
+    errEl.textContent = msg;
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Continuar al pago — Primer mes GRATIS'; }
   });
 }
 

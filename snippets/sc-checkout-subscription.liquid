@@ -1,0 +1,121 @@
+{% comment %}
+  sc-checkout-subscription.liquid
+  ─────────────────────────────────────────────────────────────────────────────
+  Reusable snippet: "Continuar con el Pago" button for digital subscription
+  checkout via Shopify Cart API + native Shopify Checkout.
+
+  USAGE — include anywhere in a section/template:
+    {% render 'sc-checkout-subscription' %}
+
+  Or with optional overrides:
+    {% render 'sc-checkout-subscription',
+       variant_id: 42695875788877,
+       selling_plan_id: 7685865549,
+       btn_label: 'Continuar con el Pago'
+    %}
+
+  SHOPIFY ADMIN SETUP (required for no-shipping digital product):
+  1. Products → SaludCompartida Plan Básico → uncheck "This is a physical product"
+     This removes all shipping prompts from checkout automatically.
+  2. Products → Subscriptions tab → confirm Selling Plan Group
+     "gid://shopify/SellingPlanGroup/5804097613" is attached to the product.
+  3. Theme → Customize → Theme Settings → "Suscripción — Pago":
+     • ID variante Básico  : 42695875788877
+     • Selling Plan Básico : 7685865549
+  ─────────────────────────────────────────────────────────────────────────────
+{% endcomment %}
+
+{%- liquid
+  assign _variant_id      = variant_id      | default: settings.shopify_variant_basico      | default: 42695875788877
+  assign _selling_plan_id = selling_plan_id | default: settings.shopify_selling_plan_basico | default: 7685865549
+  assign _btn_label       = btn_label       | default: 'Continuar con el Pago'
+-%}
+
+<div class="sc-checkout-wrap" id="sc-checkout-wrap">
+  <button
+    type="button"
+    class="cta-primary sc-checkout-btn"
+    id="sc-checkout-btn"
+    data-variant="{{ _variant_id }}"
+    data-selling-plan="{{ _selling_plan_id }}"
+    style="animation:none;"
+  >
+    {{ _btn_label }}
+  </button>
+  <p id="sc-checkout-error-msg" style="display:none;color:#f87171;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:12px 16px;margin-top:12px;font-size:14px;"></p>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('sc-checkout-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', function () {
+    var variantId     = parseInt(btn.dataset.variant, 10);
+    var sellingPlanId = parseInt(btn.dataset.sellingPlan, 10);
+
+    if (!variantId || isNaN(variantId) || !sellingPlanId || isNaN(sellingPlanId)) {
+      var errEl = document.getElementById('sc-checkout-error-msg');
+      if (errEl) { errEl.textContent = 'Configuración de producto incompleta. Contacta soporte.'; errEl.style.display = 'block'; }
+      return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Procesando…';
+
+    // Retrieve any registration data saved in sessionStorage (Steps 1 & 2)
+    var step1 = {};
+    var step2 = {};
+    try { step1 = JSON.parse(sessionStorage.getItem('sc_step1') || '{}'); } catch (e) {}
+    try { step2 = JSON.parse(sessionStorage.getItem('sc_step2') || '{}'); } catch (e) {}
+
+    var noteData = step1.nombre
+      ? ('Migrante: ' + step1.nombre + ' | Tel: ' + step1.telefono + ' | Plan: ' + (step1.plan || 'basico') + ' | Familia: ' + JSON.stringify(step2))
+      : '';
+
+    // Clear cart → add subscription item with selling plan → go to checkout
+    fetch('/cart/clear.js', { method: 'POST' })
+      .then(function () {
+        return fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: [{
+              id: variantId,
+              quantity: 1,
+              selling_plan: sellingPlanId,
+              properties: step1.nombre ? {
+                'Nombre migrante': step1.nombre,
+                'Email': step1.email,
+                'WhatsApp EE.UU.': step1.telefono,
+                'Estado': step1.estado,
+                'Familia México': JSON.stringify(step2)
+              } : {}
+            }]
+          })
+        });
+      })
+      .then(function (res) {
+        if (!res.ok) return res.json().then(function (d) { return Promise.reject(d); });
+        if (noteData) {
+          return fetch('/cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ note: noteData })
+          });
+        }
+      })
+      .then(function () {
+        window.location.href = '/checkout';
+      })
+      .catch(function (err) {
+        console.error('Checkout error:', err);
+        var msg = (err && err.description) ? err.description : 'Ocurrió un error al preparar tu suscripción. Por favor intenta de nuevo.';
+        var errEl = document.getElementById('sc-checkout-error-msg');
+        if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+        btn.disabled    = false;
+        btn.textContent = '{{ _btn_label }}';
+      });
+  });
+})();
+</script>
