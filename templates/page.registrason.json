@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-redirect-registro",
+      "settings": {
+        "checkout_url": "",
+        "supabase_url": "",
+        "supabase_anon_key": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
