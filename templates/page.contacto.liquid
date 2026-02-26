@@ -55,6 +55,10 @@ a { text-decoration: none; color: inherit; }
   justify-content: space-between;
 }
 
+.header-inner.single {
+  justify-content: flex-end;
+}
+
 .header-logo {
   display: flex;
   align-items: center;
@@ -479,20 +483,7 @@ a { text-decoration: none; color: inherit; }
 </style>
 
 <header class="header">
-  <div class="header-inner">
-    <a href="/" class="header-logo">
-      <div class="header-logo-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#06B6D4"/>
-          <line x1="1" y1="12" x2="8" y2="12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/>
-          <polyline points="8,12 10,8 12,15 14,10 16,12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <line x1="16" y1="12" x2="23" y2="12" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <span class="header-logo-text">
-        <span class="salud">Salud </span><span class="compartida">Compartida</span>
-      </span>
-    </a>
+  <div class="header-inner single">
     <a href="javascript:history.back()" class="header-btn header-btn-cyan">← Volver</a>
   </div>
 </header>
