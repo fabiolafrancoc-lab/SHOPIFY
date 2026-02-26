@@ -1,429 +1,984 @@
 <style>
-:root {
-  --bg-dark: #0a0a0a;
-  --bg-light: #1a1a2E;
-  --cyan: #06B6D4;
-  --magenta: #EC4899;
-  --green: #10B981;
-  --navy-card: #16162a;
-  --text-primary: #FFFFFF;
-  --text-secondary: rgba(255,255,255,0.75);
-  --text-muted: rgba(255,255,255,0.5);
-}
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap');
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+  :root {
+    --cyan: #06B6D4;
+    --cyan-dark: #0891B2;
+    --cyan-glow: rgba(6, 182, 212, 0.15);
+    --magenta: #EC4899;
+    --magenta-dark: #DB2777;
+    --magenta-glow: rgba(236, 72, 153, 0.12);
+    --gray-950: #0F172A;
+    --gray-900: #1F2937;
+    --gray-800: #374151;
+    --gray-700: #4B5563;
+    --gray-600: #6B7280;
+    --gray-400: #9CA3AF;
+    --gray-300: #D1D5DB;
+    --white: #FFFFFF;
+    --gold: #F59E0B;
+    --green: #10B981;
+    --green-dark: #059669;
+  }
 
-body {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2E 100%);
-  color: #FFFFFF;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.serif { font-family: 'Instrument Serif', Georgia, serif; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--gray-950);
+    color: var(--white);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-/* Confetti */
-.confetti-container {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 1000; overflow: hidden;
-}
-.confetti {
-  position: absolute; width: 10px; height: 10px;
-  opacity: 0; animation: confetti-fall 4s ease-out forwards;
-}
-@keyframes confetti-fall {
-  0%   { opacity: 1; transform: translateY(-100px) rotate(0deg); }
-  100% { opacity: 0; transform: translateY(100vh)  rotate(720deg); }
-}
+  .page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
-/* Nav */
-.nav {
-  position: sticky; top: 0;
-  background: rgba(10,10,10,0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  z-index: 100; padding: 16px 20px;
-}
-.nav-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: flex; justify-content: center; align-items: center;
-}
-.nav-brand {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 22px; font-weight: 700;
-  color: #fff; text-decoration: none;
-}
-.nav-brand span { color: var(--cyan); }
+  .page-wrapper::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    right: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
-/* Page */
-.success-page {
-  max-width: 800px; margin: 0 auto;
-  padding: 40px 20px 80px;
-  display: flex; flex-direction: column; align-items: center;
-}
+  .page-wrapper::after {
+    content: '';
+    position: fixed;
+    bottom: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--magenta-glow) 0%, transparent 65%);
+    pointer-events: none;
+  }
 
-/* Header */
-.success-header { text-align: center; margin-bottom: 40px; }
-.success-icon {
-  width: 100px; height: 100px;
-  background: linear-gradient(135deg, var(--green), #059669);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px;
-  animation: pulse-success 2s ease-in-out infinite;
-  box-shadow: 0 0 40px rgba(16,185,129,0.4);
-}
-.success-icon svg { width: 50px; height: 50px; color: white; }
-@keyframes pulse-success {
-  0%,100% { transform: scale(1);    box-shadow: 0 0 40px rgba(16,185,129,0.4); }
-  50%      { transform: scale(1.05); box-shadow: 0 0 60px rgba(16,185,129,0.6); }
-}
-.success-title {
-  font-size: 42px; font-weight: 400; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.success-subtitle { font-size: 20px; color: var(--text-secondary); }
+  /* Header */
+  .header {
+    position: relative;
+    z-index: 10;
+    padding: 20px 20px 0;
+    text-align: left;
+  }
 
-/* Personalised greeting */
-.greeting-name {
-  margin-top: 10px;
-  font-size: 16px; color: var(--text-muted);
-  display: none; /* shown by JS when name is available */
-}
+  .logo-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-/* Gratitude section — handwritten signatures */
-.gratitude-section {
-  width: 100%; max-width: 900px;
-  margin-bottom: 48px; padding: 40px 20px;
-  background: linear-gradient(135deg, rgba(22,22,42,0.8), rgba(10,10,10,0.9));
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.gratitude-intro {
-  text-align: center; color: var(--text-muted);
-  font-size: 16px; margin-bottom: 32px; font-style: italic;
-}
-.signatures-cloud {
-  display: flex; flex-wrap: wrap;
-  justify-content: center; align-items: center;
-  gap: 12px 20px; min-height: 300px; padding: 20px;
-}
-.signature {
-  display: inline-block; padding: 4px 12px;
-  transition: transform 0.3s ease; cursor: default;
-}
-.signature:hover { transform: scale(1.15) !important; }
-.sig-child { font-family: 'Comic Sans MS', 'Marker Felt', cursive; font-size: 20px; }
-.sig-1  { color:#60A5FA; transform:rotate(-5deg); }
-.sig-2  { color:#1E3A5F; transform:rotate(3deg);  font-size:18px; }
-.sig-3  { color:#DC2626; transform:rotate(-2deg); font-size:24px; }
-.sig-4  { color:#7C3AED; transform:rotate(4deg); }
-.sig-5  { color:#059669; transform:rotate(-6deg); font-size:22px; }
-.sig-6  { color:#60A5FA; transform:rotate(2deg);  font-size:19px; }
-.sig-7  { color:#EC4899; transform:rotate(-3deg); font-size:21px; }
-.sig-8  { color:#1E3A5F; transform:rotate(5deg);  font-size:17px; }
-.sig-17 { color:#DC2626; transform:rotate(-4deg); font-size:20px; }
-.sig-18 { color:#7C3AED; transform:rotate(3deg);  font-size:23px; }
-.sig-21 { color:#059669; transform:rotate(-2deg); font-size:18px; }
-.sig-22 { color:#60A5FA; transform:rotate(4deg);  font-size:22px; }
-.sig-elder { font-family: 'Brush Script MT','Segoe Script',cursive; font-size:26px; }
-.sig-9  { color:#A78BFA; transform:rotate(2deg); }
-.sig-10 { color:#34D399; transform:rotate(-3deg); font-size:24px; }
-.sig-11 { color:#F472B6; transform:rotate(4deg); }
-.sig-12 { color:#60A5FA; transform:rotate(-2deg); font-size:28px; }
-.sig-13 { color:#FCD34D; transform:rotate(3deg);  font-size:25px; }
-.sig-14 { color:#A78BFA; transform:rotate(-4deg); }
-.sig-15 { color:#34D399; transform:rotate(2deg);  font-size:23px; }
-.sig-16 { color:#F472B6; transform:rotate(-3deg); font-size:27px; }
-.sig-19 { color:#60A5FA; transform:rotate(3deg);  font-size:24px; }
-.sig-20 { color:#FCD34D; transform:rotate(-2deg); font-size:26px; }
-.sig-23 { color:#A78BFA; transform:rotate(4deg);  font-size:25px; }
-.sig-24 { color:#34D399; transform:rotate(-3deg); }
+  .logo-mark { width: 36px; height: 36px; }
 
-/* "Codes on the way" banner */
-.codes-banner {
-  width: 100%; max-width: 600px;
-  margin-bottom: 40px;
-  background: var(--navy-card);
-  border-radius: 24px;
-  padding: 36px 32px;
-  border: 1px solid rgba(255,255,255,0.08);
-  text-align: center;
-}
-.codes-banner-title {
-  font-size: 22px; font-weight: 700;
-  margin-bottom: 8px;
-}
-.codes-banner-subtitle {
-  font-size: 15px; color: var(--text-muted);
-  margin-bottom: 32px;
-}
-.delivery-channels {
-  display: flex; justify-content: center; gap: 20px;
-  flex-wrap: wrap;
-}
-.channel-card {
-  flex: 1; min-width: 140px; max-width: 220px;
-  background: rgba(255,255,255,0.04);
-  border-radius: 16px; padding: 24px 16px;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.channel-icon { font-size: 36px; margin-bottom: 10px; }
-.channel-label {
-  font-size: 14px; font-weight: 600;
-  color: var(--text-primary); margin-bottom: 4px;
-}
-.channel-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-.channel-card.email-card  { border-top: 3px solid var(--cyan); }
-.channel-card.whatsapp-card { border-top: 3px solid #25D366; }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--white);
+  }
 
-/* Next steps */
-.next-steps {
-  width: 100%; max-width: 600px;
-  margin-bottom: 40px;
-}
-.next-steps-title {
-  text-align: center; font-size: 20px; font-weight: 600;
-  margin-bottom: 24px; color: var(--text-primary);
-}
-.step-item {
-  display: flex; gap: 16px; padding: 20px;
-  background: var(--navy-card); border-radius: 16px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
-  align-items: flex-start;
-}
-.step-num {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-size: 15px; font-weight: 700;
-  background: linear-gradient(135deg, var(--cyan), #0891B2);
-  color: #fff;
-}
-.step-content h4 {
-  font-size: 16px; font-weight: 600;
-  color: var(--text-primary); margin-bottom: 4px;
-}
-.step-content p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-.step-content a { color: var(--cyan); font-weight: 600; text-decoration: none; }
-.step-content a:hover { text-decoration: underline; }
+  .logo-text span { color: var(--cyan); }
 
-/* CTA */
-.cta-block { text-align: center; }
-.cta-button {
-  display: inline-flex; align-items: center;
-  justify-content: center; gap: 12px;
-  background: linear-gradient(135deg, var(--magenta), #BE185D);
-  color: white; font-size: 18px; font-weight: 700;
-  padding: 18px 48px; border-radius: 16px;
-  border: none; cursor: pointer;
-  text-decoration: none; transition: all 0.3s ease;
-  box-shadow: 0 8px 32px rgba(236,72,153,0.35);
-}
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(236,72,153,0.5);
-  color: white;
-}
-.cta-sub {
-  margin-top: 14px; font-size: 13px;
-  color: var(--text-muted);
-}
+  /* Main */
+  .main-content {
+    position: relative;
+    z-index: 10;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 28px 20px 40px;
+  }
 
-/* Free trial note */
-.trial-note {
-  width: 100%; max-width: 600px;
-  margin-bottom: 36px;
-  background: rgba(16,185,129,0.07);
-  border: 1px solid rgba(16,185,129,0.2);
-  border-radius: 16px; padding: 20px 24px;
-  display: flex; gap: 14px; align-items: flex-start;
-}
-.trial-note-icon { font-size: 26px; flex-shrink: 0; }
-.trial-note-text { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; }
-.trial-note-text strong { color: #10B981; }
+  /* ===== SUCCESS HERO ===== */
+  .success-hero {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease-out;
+  }
 
-@media (max-width: 640px) {
-  .success-title   { font-size: 28px; }
-  .signatures-cloud{ gap: 8px 14px; min-height: 260px; }
-  .signature       { padding: 2px 8px; }
-  .sig-child       { font-size: 16px !important; }
-  .sig-elder       { font-size: 20px !important; }
-  .codes-banner    { padding: 28px 20px; }
-  .delivery-channels { gap: 12px; }
-  .cta-button      { width: 100%; padding: 16px 24px; font-size: 16px; }
-}
+  .success-check {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.35), 0 0 80px rgba(16, 185, 129, 0.15);
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .success-check svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    animation: checkDraw 0.4s ease-out 0.3s both;
+  }
+
+  .success-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .success-subtitle {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+  }
+
+  .success-subtitle strong {
+    color: var(--white);
+  }
+
+  /* ===== COUNTDOWN DELIVERY ===== */
+  .delivery-banner {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.08));
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s ease-out 0.15s both;
+  }
+
+  .delivery-icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .delivery-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delivery-icon.email-icon {
+    background: rgba(6, 182, 212, 0.15);
+  }
+
+  .delivery-icon.whatsapp-icon {
+    background: rgba(37, 211, 102, 0.15);
+  }
+
+  .delivery-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .delivery-plus {
+    font-size: 18px;
+    color: var(--gray-600);
+    font-weight: 300;
+  }
+
+  .delivery-text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .delivery-text strong {
+    color: var(--cyan);
+  }
+
+  .delivery-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .delivery-timer svg {
+    width: 14px;
+    height: 14px;
+    animation: pulse 1.5s infinite;
+  }
+
+  /* ===== DUAL CODE CARDS ===== */
+  .codes-section {
+    margin-bottom: 28px;
+    animation: fadeInUp 0.6s ease-out 0.25s both;
+  }
+
+  .codes-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .code-card {
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .code-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .code-card.migrant {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(6, 182, 212, 0.03));
+    border: 1px solid rgba(6, 182, 212, 0.2);
+  }
+
+  .code-card.migrant::before {
+    background: linear-gradient(90deg, var(--cyan), var(--cyan-dark));
+  }
+
+  .code-card.family {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(236, 72, 153, 0.03));
+    border: 1px solid rgba(236, 72, 153, 0.2);
+  }
+
+  .code-card.family::before {
+    background: linear-gradient(90deg, var(--magenta), var(--magenta-dark));
+  }
+
+  .code-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .code-flag {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .code-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .code-card-desc {
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  .code-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  .code-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .code-card.migrant .code-value { color: var(--cyan); }
+  .code-card.family .code-value { color: var(--magenta); }
+
+  .code-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-400);
+  }
+
+  .code-loading .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gray-600);
+    animation: dotPulse 1.2s infinite;
+  }
+
+  .code-loading .dot:nth-child(2) { animation-delay: 0.2s; }
+  .code-loading .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  .code-sent-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--gray-400);
+  }
+
+  .code-sent-info svg {
+    width: 14px;
+    height: 14px;
+    color: var(--green);
+  }
+
+  /* ===== FOMO BENEFITS ===== */
+  .fomo-section {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(236, 72, 153, 0.06));
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin-bottom: 28px;
+    animation: fadeInUp 0.6s ease-out 0.35s both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fomo-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .fomo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .fomo-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .fomo-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .fomo-title em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .fomo-subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 18px;
+  }
+
+  .fomo-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fomo-benefit {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: transform 0.2s;
+  }
+
+  .fomo-benefit:hover {
+    transform: translateX(4px);
+  }
+
+  .fomo-benefit-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .fomo-benefit-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .fomo-benefit-icon.tele {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--cyan);
+  }
+
+  .fomo-benefit-icon.therapy {
+    background: rgba(236, 72, 153, 0.15);
+    color: var(--magenta);
+  }
+
+  .fomo-benefit-icon.companion {
+    background: rgba(168, 85, 247, 0.15);
+    color: #A855F7;
+  }
+
+  .fomo-benefit-text {
+    flex: 1;
+  }
+
+  .fomo-benefit-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .fomo-benefit-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.3;
+  }
+
+  .fomo-benefit-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .fomo-benefit-tag.unlimited {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--green);
+  }
+
+  .fomo-benefit-tag.weekly {
+    background: rgba(236, 72, 153, 0.15);
+    color: var(--magenta);
+  }
+
+  .fomo-benefit-tag.daily {
+    background: rgba(168, 85, 247, 0.15);
+    color: #A855F7;
+  }
+
+  .fomo-bottom {
+    margin-top: 16px;
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid rgba(245, 158, 11, 0.15);
+  }
+
+  .fomo-comparison {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+  }
+
+  .fomo-comparison strong {
+    color: var(--gold);
+  }
+
+  .fomo-comparison .strike {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  /* ===== NEXT STEPS ===== */
+  .next-steps {
+    margin-bottom: 28px;
+    animation: fadeInUp 0.6s ease-out 0.45s both;
+  }
+
+  .next-steps-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .step-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--gray-900);
+    border: 1px solid var(--gray-700);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .step-number.s1 { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
+  .step-number.s2 { background: linear-gradient(135deg, #A855F7, #7C3AED); }
+  .step-number.s3 { background: linear-gradient(135deg, var(--cyan), var(--cyan-dark)); }
+
+  .step-text h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .step-text p {
+    font-size: 12px;
+    color: var(--gray-400);
+    line-height: 1.4;
+  }
+
+  .step-text p strong {
+    color: var(--white);
+  }
+
+  /* ===== CTA BUTTON ===== */
+  .cta-dashboard {
+    display: block;
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+    border: none;
+    border-radius: 14px;
+    color: var(--white);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.3);
+    margin-bottom: 12px;
+    animation: fadeInUp 0.6s ease-out 0.55s both;
+  }
+
+  .cta-dashboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(6, 182, 212, 0.4);
+  }
+
+  .cta-dashboard svg {
+    display: inline;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  .cta-subtext {
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-bottom: 28px;
+    animation: fadeInUp 0.6s ease-out 0.6s both;
+  }
+
+  .more-loved {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 18px 16px;
+    text-align: center;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s ease-out 0.62s both;
+  }
+
+  .more-loved p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 12px;
+  }
+
+  .more-loved a {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ===== FOOTER ===== */
+  .emotional-footer {
+    text-align: center;
+    padding: 20px 0 0;
+    animation: fadeInUp 0.6s ease-out 0.65s both;
+  }
+
+  .emotional-footer .tagline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--gray-400);
+    font-style: italic;
+  }
+
+  .emotional-footer .tagline span {
+    color: var(--magenta);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes checkDraw {
+    from { opacity: 0; stroke-dashoffset: 30; }
+    to { opacity: 1; stroke-dashoffset: 0; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* Confetti canvas */
+  #confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+  }
 </style>
 
-<!-- Confetti -->
-<div class="confetti-container" id="confetti-container"></div>
+<canvas id="confetti"></canvas>
 
-<!-- Nav -->
-<nav class="nav">
-  <div class="nav-inner">
-    {% if settings.logo %}
-      <img src="{{ settings.logo | img_url: '200x' }}" alt="SaludCompartida" style="height:36px">
-    {% else %}
-      <a href="/" class="nav-brand">Salud<span>Compartida</span></a>
-    {% endif %}
-  </div>
-</nav>
+<div class="page-wrapper">
 
-<div class="success-page">
-
-  <!-- ① Success header -->
-  <div class="success-header">
-    <div class="success-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-        <polyline points="20 6 9 17 4 12"/>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo-container">
+      <svg class="logo-mark" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="url(#logoGrad)"/>
+        <path d="M18 8C14 8 11 11 11 14.5C11 20 18 27 18 27C18 27 25 20 25 14.5C25 11 22 8 18 8Z" fill="white" opacity="0.9"/>
+        <path d="M15 15.5H21M18 12.5V18.5" stroke="url(#logoGrad2)" stroke-width="2" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+            <stop stop-color="#06B6D4"/>
+            <stop offset="1" stop-color="#EC4899"/>
+          </linearGradient>
+          <linearGradient id="logoGrad2" x1="15" y1="12.5" x2="21" y2="18.5">
+            <stop stop-color="#06B6D4"/>
+            <stop offset="1" stop-color="#EC4899"/>
+          </linearGradient>
+        </defs>
       </svg>
+      <div class="logo-text">Salud<span>Compartida</span></div>
     </div>
-    <h1 class="success-title serif">¡Pago exitoso!</h1>
-    <p class="success-subtitle">Tu familia en México ya está protegida</p>
-    <p class="greeting-name" id="greeting-name"></p>
-  </div>
+  </header>
 
-  <!-- ② Gratitude wall — handwritten signatures -->
-  <div class="gratitude-section">
-    <p class="gratitude-intro">Esto es lo que las familias quieren decirte...</p>
-    <div class="signatures-cloud">
-      <span class="signature sig-child sig-1">Gracias papá</span>
-      <span class="signature sig-child sig-2">gracias mami</span>
-      <span class="signature sig-child sig-3">Grasias Papa</span>
-      <span class="signature sig-child sig-4">te quiero mamá</span>
-      <span class="signature sig-child sig-5">GRACIAS TÍO</span>
-      <span class="signature sig-child sig-6">gracias papi</span>
-      <span class="signature sig-child sig-7">Te extraño</span>
-      <span class="signature sig-child sig-8">grasias mama</span>
-      <span class="signature sig-elder sig-9">Gracias, mijo</span>
-      <span class="signature sig-elder sig-10">Bendiciones, mijita</span>
-      <span class="signature sig-elder sig-11">Gracias, mi niño</span>
-      <span class="signature sig-elder sig-12">Dios te bendiga, hija</span>
-      <span class="signature sig-elder sig-13">Mil gracias, mijo</span>
-      <span class="signature sig-elder sig-14">Te quiero mucho, mijita</span>
-      <span class="signature sig-elder sig-15">Gracias por no olvidarnos</span>
-      <span class="signature sig-elder sig-16">Que Dios te lo pague</span>
-      <span class="signature sig-child sig-17">ya no me duele</span>
-      <span class="signature sig-child sig-18">Gracias Papito</span>
-      <span class="signature sig-child sig-21">tenkiu mami</span>
-      <span class="signature sig-child sig-22">gracias por la mesina</span>
-      <span class="signature sig-elder sig-19">Siempre en mi corazón</span>
-      <span class="signature sig-elder sig-20">Gracias por cuidarnos</span>
-      <span class="signature sig-elder sig-23">Te recordamos siempre</span>
-      <span class="signature sig-elder sig-24">Eres nuestra bendición</span>
-    </div>
-  </div>
+  <!-- MAIN -->
+  <main class="main-content">
 
-  <!-- ③ Free trial confirmation -->
-  <div class="trial-note">
-    <div class="trial-note-icon">🎁</div>
-    <div class="trial-note-text">
-      <strong>Primer mes completamente gratis.</strong> No se realizará ningún cargo hoy.
-      A partir del día 31, se cobrarán <strong>$12 USD/mes</strong> automáticamente.
-      Cancela cuando quieras sin penalizaciones.
-    </div>
-  </div>
-
-  <!-- ④ Codes on the way -->
-  <div class="codes-banner">
-    <div class="codes-banner-title">🚀 Tus códigos van en camino</div>
-    <div class="codes-banner-subtitle">
-      En los próximos minutos recibirás todo lo que necesitas
-    </div>
-    <div class="delivery-channels">
-      <div class="channel-card email-card">
-        <div class="channel-icon">📧</div>
-        <div class="channel-label">Tu email</div>
-        <div class="channel-desc">Tu código de acceso + instrucciones para el migrante</div>
+    <!-- SUCCESS HERO -->
+    <div class="success-hero">
+      <div class="success-check">
+        <svg fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
       </div>
-      <div class="channel-card whatsapp-card">
-        <div class="channel-icon">📱</div>
-        <div class="channel-label">WhatsApp México</div>
-        <div class="channel-desc">El código de tu familia directo a su celular</div>
-      </div>
+      <h1 class="success-title">¡Tu suscripción está activa!</h1>
+      <p class="success-subtitle">Hiciste algo increíble hoy: <strong>le diste salud a tu familia</strong>. Gracias a tu cupón, tienen <strong>30 días gratis</strong> para que prueben y vean la diferencia.</p>
     </div>
-  </div>
 
-  <!-- ⑤ Next steps -->
-  <div class="next-steps">
-    <h3 class="next-steps-title">¿Qué sigue?</h3>
-
-    <div class="step-item">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <h4>Revisa tu email y WhatsApp</h4>
-        <p>Te llegará un correo con tu código personal y un WhatsApp llegará a tu familia en México con su código.</p>
+    <!-- DELIVERY BANNER -->
+    <div class="delivery-banner">
+      <div class="delivery-icon-row">
+        <div class="delivery-icon email-icon">
+          <svg fill="none" stroke="#06B6D4" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <span class="delivery-plus">+</span>
+        <div class="delivery-icon whatsapp-icon">
+          <svg viewBox="0 0 24 24" fill="#25D366" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+      </div>
+      <p class="delivery-text">En menos de <strong>2 minutos</strong>, tú y tu familia recibirán sus códigos por <strong>email</strong> y <strong>WhatsApp</strong></p>
+      <div class="delivery-timer">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Enviando códigos...
       </div>
     </div>
 
-    <div class="step-item">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <h4>Entra a SaludCompartida</h4>
-        <p>Ve a <a href="https://saludcompartida.app" target="_blank">saludcompartida.app</a>, ingresa tu código y accede directamente a tu panel.</p>
+    <!-- CODES REMOVED - Supabase needs time to generate -->
+
+    <!-- FOMO BENEFITS -->
+    <div class="fomo-section">
+      <div class="fomo-badge">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        30 días gratis
+      </div>
+      <h2 class="fomo-title">Tu familia tiene <em>30 días gratis</em> para probar todo</h2>
+      <p class="fomo-subtitle">Gracias a tu cupón, tienen acceso completo sin costo para que vean la diferencia</p>
+
+      <div class="fomo-benefits">
+        <div class="fomo-benefit">
+          <div class="fomo-benefit-icon tele">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="fomo-benefit-text">
+            <div class="fomo-benefit-name">Telemedicina 24/7</div>
+            <div class="fomo-benefit-desc">Doctores disponibles a cualquier hora, cualquier día. Sin filas, sin esperas.</div>
+          </div>
+          <span class="fomo-benefit-tag unlimited">Ilimitado</span>
+        </div>
+
+        <div class="fomo-benefit">
+          <div class="fomo-benefit-icon therapy">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <div class="fomo-benefit-text">
+            <div class="fomo-benefit-name">Terapia Psicológica</div>
+            <div class="fomo-benefit-desc">Sesiones profesionales para el bienestar emocional de toda la familia.</div>
+          </div>
+          <span class="fomo-benefit-tag weekly">Semanal</span>
+        </div>
+
+        <div class="fomo-benefit">
+          <div class="fomo-benefit-icon companion">
+            <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div class="fomo-benefit-text">
+            <div class="fomo-benefit-name" id="companionBenefitName">Tu Compañera IA</div>
+            <div class="fomo-benefit-desc">Llama a tu familia, conversa con ellos y los acompaña cuando tú no puedes estar.</div>
+          </div>
+          <span class="fomo-benefit-tag daily">Diario</span>
+        </div>
+      </div>
+
+      <div class="fomo-bottom">
+        <p class="fomo-comparison">Una sola consulta privada cuesta <span class="strike">$800 MXN</span>. Durante los próximos <strong>30 días tu familia puede usar todo esto GRATIS</strong>. Que no se quede sin aprovechar ni un solo día.</p>
       </div>
     </div>
 
-    <div class="step-item">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <h4>Comparte el código con tu familia</h4>
-        <p>Tu familia en México usa su código en la misma app para acceder a telemedicina, farmacia y a su compañía (Lupita o Fernanda).</p>
+    <!-- NEXT STEPS -->
+    <div class="next-steps">
+      <p class="next-steps-title">¿Qué sigue?</p>
+
+      <div class="step-card">
+        <div class="step-number s1">1</div>
+        <div class="step-text">
+          <h4>Códigos enviados por WhatsApp y email</h4>
+          <p>Tú y tu familia recibirán sus códigos individuales en menos de <strong>2 minutos</strong></p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number s2">2</div>
+        <div class="step-text">
+          <h4>Llamada de bienvenida de tu compañera</h4>
+          <p>En las próximas <strong>24 horas</strong>, <strong id="companionName">Lupita o Fernanda</strong> llamará a tu familia para presentarse y guiarlos</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number s3">3</div>
+        <div class="step-text">
+          <h4>Tu familia empieza a usar los beneficios</h4>
+          <p>Con su código ingresan a <strong>saludcompartida.app</strong> y acceden a todo de inmediato</p>
+        </div>
       </div>
     </div>
 
-    <div class="step-item">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <h4>Llamada de bienvenida</h4>
-        <p>En las próximas 24 horas, Lupita o Fernanda llamará a tu familia para presentarse y asegurarse de que todo funcione.</p>
-      </div>
+    <div class="more-loved">
+      <p>¿Tienes otros seres queridos que quieras cuidar?</p>
+      <a href="/pages/registro">Comprar otra suscripcion</a>
     </div>
-  </div>
 
-  <!-- ⑥ CTA → saludcompartida.app -->
-  <div class="cta-block">
-    <a href="https://saludcompartida.app" target="_blank" class="cta-button">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
-      Ir a saludcompartida.app
-    </a>
-    <p class="cta-sub">Tendrás tu código en el email en unos minutos</p>
-  </div>
+    <!-- FOOTER -->
+    <div class="emotional-footer">
+      <p class="tagline">SaludCompartida está donde está tu <span>corazón</span></p>
+    </div>
 
-</div><!-- /.success-page -->
+  </main>
+</div>
 
+<!-- CONFETTI SCRIPT -->
 <script>
-(function() {
-  // Spawn confetti
-  var container = document.getElementById('confetti-container');
-  var colors = ['#06B6D4','#EC4899','#10B981','#F59E0B','#8B5CF6'];
-  for (var i = 0; i < 100; i++) {
-    var el = document.createElement('div');
-    el.className = 'confetti';
-    el.style.left            = (Math.random() * 100) + '%';
-    el.style.animationDelay  = (Math.random() * 3)   + 's';
-    el.style.backgroundColor = colors[Math.floor(Math.random() * 5)];
-    el.style.borderRadius    = Math.random() > 0.5 ? '50%' : '0';
-    container.appendChild(el);
-  }
-  setTimeout(function() { container.style.display = 'none'; }, 6500);
+// ===== COMPANION NAME BASED ON AGE (from Supabase) =====
+// Queries the registration to determine Lupita (55+) or Fernanda (25-54)
+// Requires: supabase-js loaded + registration_id available from URL or session
 
-  // Personalise greeting if first_name is in URL (passed by Shopify Additional Scripts)
-  var params    = new URLSearchParams(window.location.search);
-  var firstName = params.get('nombre') || params.get('first_name');
-  if (firstName) {
-    var el = document.getElementById('greeting-name');
-    el.textContent = '¡Bienvenido, ' + firstName + '!';
-    el.style.display = 'block';
+async function loadCompanionName(supabaseClient, registrationId) {
+  try {
+    const { data, error } = await supabaseClient
+      .from('registrations')
+      .select('fecha_nacimiento_familia, edad_familia')
+      .eq('registration_id', registrationId)
+      .single();
+
+    if (error || !data) {
+      console.warn('Could not fetch age for companion assignment:', error);
+      return;
+    }
+
+    // Calculate age from fecha_nacimiento if edad_familia not stored directly
+    let age = data.edad_familia;
+    if (!age && data.fecha_nacimiento_familia) {
+      const birth = new Date(data.fecha_nacimiento_familia);
+      const today = new Date();
+      age = today.getFullYear() - birth.getFullYear();
+      const m = today.getMonth() - birth.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    }
+
+    if (!age) return;
+
+    // Rule: Lupita = 55+  |  Fernanda = 25-54
+    const companion = age >= 55
+      ? { name: 'Lupita', full: 'Lupita, Compañera IA' }
+      : { name: 'Fernanda', full: 'Fernanda, Compañera IA' };
+
+    const benefitEl = document.getElementById('companionBenefitName');
+    const stepEl = document.getElementById('companionName');
+
+    if (benefitEl) benefitEl.textContent = companion.full;
+    if (stepEl) {
+      stepEl.closest('p').innerHTML =
+        'En las próximas <strong>24 horas</strong>, <strong>' +
+        companion.name +
+        '</strong> llamará a tu familia para presentarse y guiarlos';
+    }
+  } catch (err) {
+    console.error('Companion name load error:', err);
   }
+}
+
+// Usage example (uncomment and adapt when Supabase client is available):
+// import { createClient } from '@supabase/supabase-js'
+// const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+// const registrationId = new URLSearchParams(window.location.search).get('id')
+// if (registrationId) loadCompanionName(supabase, registrationId);
+
+// ===== CONFETTI =====
+(function() {
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#06B6D4', '#EC4899', '#10B981', '#F59E0B', '#A855F7', '#FFFFFF'];
+  const particles = [];
+
+  for (let i = 0; i < 80; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 8 + 4,
+      h: Math.random() * 4 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speed: Math.random() * 3 + 1.5,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.1,
+      opacity: Math.random() * 0.7 + 0.3,
+    });
+  }
+
+  let frame = 0;
+  const maxFrames = 180;
+
+  function animate() {
+    if (frame > maxFrames) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const fade = frame > maxFrames - 40 ? (maxFrames - frame) / 40 : 1;
+
+    particles.forEach(p => {
+      p.y += p.speed;
+      p.x += Math.sin(p.angle) * 0.5;
+      p.angle += p.spin;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.globalAlpha = p.opacity * fade;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+
+    frame++;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
 })();
 </script>

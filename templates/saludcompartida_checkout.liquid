@@ -1,0 +1,474 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+<style>
+	:root {
+		--cyan: #06B6D4;
+		--cyan-dark: #0891B2;
+		--magenta: #EC4899;
+		--magenta-dark: #DB2777;
+		--gray-950: #0F172A;
+		--gray-800: #374151;
+		--gray-700: #4B5563;
+		--gray-600: #6B7280;
+		--gray-400: #9CA3AF;
+		--gray-300: #D1D5DB;
+		--white: #FFFFFF;
+		--gold: #F59E0B;
+		--green: #10B981;
+		--green-dark: #059669;
+	}
+
+	* { margin: 0; padding: 0; box-sizing: border-box; }
+
+	body {
+		font-family: 'Plus Jakarta Sans', sans-serif;
+		color: var(--white);
+		min-height: 100vh;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.page-wrapper { position: relative; min-height: 100vh; }
+
+	/* ===== PHOTO AS HERO — takes ~55% top ===== */
+	.bg-image {
+		position: fixed;
+		top: 0; left: 0;
+		width: 100%; height: 100%;
+		z-index: 0;
+	}
+
+	.bg-image img {
+		width: 100%; height: 100%;
+		object-fit: cover;
+		object-position: top center;
+	}
+
+	/* Gradient: transparent top (photo visible) → dark bottom (content) */
+	.bg-overlay {
+		position: fixed;
+		top: 0; left: 0;
+		width: 100%; height: 100%;
+		z-index: 1;
+		background: linear-gradient(
+			to bottom,
+			rgba(15, 23, 42, 0.10) 0%,
+			rgba(15, 23, 42, 0.25) 30%,
+			rgba(15, 23, 42, 0.80) 55%,
+			rgba(15, 23, 42, 0.96) 70%,
+			rgba(15, 23, 42, 0.98) 100%
+		);
+	}
+
+	.content {
+		position: relative;
+		z-index: 10;
+		width: 100%;
+		max-width: 420px;
+		margin: 0 auto;
+		padding: 16px 18px 28px;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* ===== HEADER ===== */
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
+	}
+
+	.logo-img { height: 36px; width: auto; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4)); }
+
+	.secure-pill {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 9px;
+		font-weight: 700;
+		color: var(--green);
+		background: rgba(16,185,129,0.15);
+		border: 1px solid rgba(16,185,129,0.25);
+		border-radius: 14px;
+		padding: 3px 8px;
+		backdrop-filter: blur(12px);
+	}
+
+	.secure-pill svg { width: 10px; height: 10px; }
+
+	/* ===== SPACER — push content down to let photo breathe ===== */
+	.photo-spacer {
+		flex: 1;
+		min-height: 200px;
+	}
+
+	/* ===== BOTTOM CONTENT ===== */
+	.bottom-content {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.split-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	/* ===== STEPS — compact ===== */
+	.steps {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		font-size: 10px;
+		margin-bottom: 2px;
+	}
+
+	.step { display: flex; align-items: center; gap: 3px; color: var(--gray-600); font-weight: 600; }
+	.step.done { color: var(--green); }
+	.step.active { color: var(--cyan); }
+	.step svg { width: 12px; height: 12px; }
+	.step-line { width: 12px; height: 1px; background: var(--gray-700); }
+	.step-line.done { background: var(--green); }
+
+	/* ===== PLAN CARD ===== */
+	.plan-card {
+		background: rgba(15,23,42,0.6);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border: 1px solid rgba(255,255,255,0.08);
+		border-radius: 14px;
+		padding: 14px;
+	}
+
+	.plan-top {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 10px;
+	}
+
+	.plan-icon {
+		width: 38px; height: 38px;
+		background: linear-gradient(135deg, var(--cyan), var(--magenta));
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		box-shadow: 0 4px 16px rgba(6,182,212,0.2);
+	}
+
+	.plan-icon svg { width: 18px; height: 18px; color: white; }
+
+	.plan-name { font-size: 15px; font-weight: 700; }
+	.plan-sub { font-size: 11px; color: var(--cyan); font-weight: 600; }
+
+	.benefits-row {
+		display: flex;
+		gap: 5px;
+		flex-wrap: wrap;
+	}
+
+	.b-chip {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 10px;
+		font-weight: 600;
+		padding: 4px 8px;
+		border-radius: 6px;
+	}
+
+	.b-chip svg { width: 11px; height: 11px; }
+	.b-chip.tele { background: rgba(6,182,212,0.1); color: var(--cyan); }
+	.b-chip.therapy { background: rgba(236,72,153,0.08); color: var(--magenta); }
+	.b-chip.ai { background: rgba(168,85,247,0.08); color: #A855F7; }
+
+	/* ===== NEXT STEPS ===== */
+	.next-card {
+		background: rgba(15,23,42,0.5);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
+		border: 1px solid rgba(255,255,255,0.06);
+		border-radius: 14px;
+		padding: 14px;
+	}
+
+	.next-label {
+		font-size: 10px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--gray-400);
+		margin-bottom: 10px;
+	}
+
+	.next-steps { display: flex; flex-direction: column; gap: 8px; }
+
+	.ns { display: flex; align-items: center; gap: 8px; }
+
+	.ns-dot {
+		width: 20px; height: 20px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 9px;
+		font-weight: 800;
+		color: white;
+		flex-shrink: 0;
+	}
+
+	.ns-dot.s1 { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
+	.ns-dot.s2 { background: linear-gradient(135deg, var(--cyan), var(--cyan-dark)); }
+	.ns-dot.s3 { background: linear-gradient(135deg, var(--magenta), var(--magenta-dark)); }
+
+	.ns p { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.35; }
+	.ns p strong { color: var(--white); }
+
+	/* ===== GUARANTEE ===== */
+	.guarantee {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		background: rgba(245,158,11,0.06);
+		backdrop-filter: blur(12px);
+		border: 1px solid rgba(245,158,11,0.12);
+		border-radius: 10px;
+		padding: 8px 12px;
+	}
+
+	.guarantee svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+	.guarantee p { font-size: 11px; color: rgba(255,255,255,0.6); }
+	.guarantee p strong { color: var(--gold); }
+
+	.cta-checkout {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 14px 16px;
+		border-radius: 12px;
+		background: linear-gradient(135deg, var(--magenta), var(--magenta-dark));
+		color: var(--white);
+		font-size: 13px;
+		font-weight: 800;
+		text-decoration: none;
+		text-align: center;
+		box-shadow: 0 12px 36px rgba(236,72,153,0.35);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.cta-checkout:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 16px 44px rgba(236,72,153,0.45);
+	}
+
+	.cta-note {
+		font-size: 10px;
+		color: var(--gray-400);
+		text-align: center;
+	}
+
+	/* ===== FOOTER ===== */
+	.footer {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		padding-top: 4px;
+	}
+
+	.sec-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.sec-item {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+		font-size: 9px;
+		color: var(--gray-600);
+	}
+
+	.sec-item svg { width: 10px; height: 10px; color: var(--green); }
+
+	.tagline {
+		font-family: 'DM Serif Display', serif;
+		font-size: 12px;
+		color: rgba(255,255,255,0.3);
+		font-style: italic;
+	}
+
+	.tagline span { color: var(--magenta); }
+
+	.legal {
+		font-size: 9px;
+		color: var(--gray-700);
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	@media (min-width: 768px) {
+		.content { max-width: 640px; }
+		.photo-spacer { min-height: 280px; }
+		.bg-overlay {
+			background: linear-gradient(
+				to bottom,
+				rgba(15,23,42,0.05) 0%,
+				rgba(15,23,42,0.15) 35%,
+				rgba(15,23,42,0.75) 55%,
+				rgba(15,23,42,0.96) 70%,
+				rgba(15,23,42,0.98) 100%
+			);
+		}
+	}
+
+	@media (min-width: 980px) {
+		.content { max-width: 900px; }
+		.split-grid { flex-direction: row; }
+		.split-grid > * { flex: 1; }
+	}
+
+	@media (max-width: 380px) {
+		.photo-spacer { min-height: 160px; }
+		.content { padding: 12px 14px 20px; }
+	}
+</style>
+
+<div class="page-wrapper">
+	<div class="bg-image">
+		<img src="{{ 'registro-photo.jpg' | asset_url }}" alt="">
+	</div>
+	<div class="bg-overlay"></div>
+
+	<div class="content">
+
+		<!-- Header -->
+		<div class="header">
+			<a href="/">
+				<img src="{{ 'saludcompartida-transp dark-bg-no-tagline copy 2.jpg' | asset_url }}" alt="SaludCompartida" class="logo-img">
+			</a>
+			<div class="secure-pill">
+				<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+				Pago seguro
+			</div>
+		</div>
+
+		<!-- Photo breathes here -->
+		<div class="photo-spacer"></div>
+
+		<!-- Bottom content -->
+		<div class="bottom-content">
+
+			<!-- Steps -->
+			<div class="steps">
+				<div class="step done">
+					<svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+					Registro
+				</div>
+				<div class="step-line done"></div>
+				<div class="step done">
+					<svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+					Tu familia
+				</div>
+				<div class="step-line"></div>
+				<div class="step active">
+					<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+					Pago
+				</div>
+				<div class="step-line"></div>
+				<div class="step">
+					<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+					Activacion
+				</div>
+			</div>
+
+			<div class="split-grid">
+				<!-- Plan -->
+				<div class="plan-card">
+					<div class="plan-top">
+						<div class="plan-icon">
+							<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+						</div>
+						<div>
+							<div class="plan-name">SaludCompartida Familiar</div>
+							<div class="plan-sub">Plan Mensual · Hasta 4 usuarios</div>
+						</div>
+					</div>
+					<div class="benefits-row">
+						<div class="b-chip tele">
+							<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+							Telemedicina 24/7
+						</div>
+						<div class="b-chip therapy">
+							<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+							Terapia semanal
+						</div>
+						<div class="b-chip ai">
+							<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+							Lupita / Fernanda IA
+						</div>
+					</div>
+				</div>
+
+				<!-- Next steps -->
+				<div class="next-card">
+					<div class="next-label">Despues del pago</div>
+					<div class="next-steps">
+						<div class="ns">
+							<div class="ns-dot s1">1</div>
+							<p><strong>Codigos por email + WhatsApp</strong> en menos de 2 min</p>
+						</div>
+						<div class="ns">
+							<div class="ns-dot s2">2</div>
+							<p>Ingresan a <strong>saludcompartida.app</strong> con su codigo</p>
+						</div>
+						<div class="ns">
+							<div class="ns-dot s3">3</div>
+							<p>Tu familia usa los beneficios <strong>de inmediato</strong></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Guarantee -->
+			<div class="guarantee">
+				<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+				<p><strong>30 dias gratis.</strong> Cancela cuando quieras.</p>
+			</div>
+
+			<a class="cta-checkout" href="/cart/42695875788877:1?checkout">
+				Continuar al pago seguro
+			</a>
+			<p class="cta-note">1 suscripcion por transaccion.</p>
+
+			<!-- Footer -->
+			<div class="footer">
+				<div class="sec-row">
+					<div class="sec-item">
+						<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+						SSL
+					</div>
+					<div class="sec-item">
+						<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+						PCI
+					</div>
+					<div class="sec-item">
+						<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+						Shopify Payments
+					</div>
+				</div>
+				<p class="tagline">SaludCompartida esta donde esta tu <span>corazon</span></p>
+				<p class="legal">SaludCompartida* proporciona servicios, no cobertura de seguros. *TechService Solution FVR LLC</p>
+			</div>
+
+		</div>
+
+	</div>
+</div>

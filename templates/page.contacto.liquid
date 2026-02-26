@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -123,67 +124,58 @@ a { text-decoration: none; color: inherit; }
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('{{ 'contacto-bg-1.jpg' | asset_url }}');
-  background-size: cover;
-  background-position: center top;
-  opacity: 0.12;
-  filter: blur(2px);
-  z-index: 0;
+  background: linear-gradient(135deg, rgba(13, 19, 32, 0.92) 0%, rgba(13, 19, 32, 0.86) 45%, rgba(13, 19, 32, 0.7) 100%);
+  z-index: 1;
 }
 
 .contact-bg::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, 
-    rgba(13, 19, 32, 0.3) 0%, 
-    rgba(13, 19, 32, 0.85) 40%, 
-    rgba(13, 19, 32, 0.98) 70%,
-    var(--bg-primary) 100%
-  );
-  z-index: 1;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+  z-index: 0;
 }
 
 .contact-content {
   position: relative;
   z-index: 2;
-  max-width: 620px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 60px 24px 80px;
+  padding: 64px 20px 80px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ===== CHAT ICON ===== */
 .chat-icon-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .chat-icon {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #0f2a3a 0%, #132f42 100%);
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.chat-icon svg {
-  width: 40px;
-  height: 40px;
   color: var(--cyan);
 }
 
-/* ===== TITLE ===== */
+.chat-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
 .contact-title {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 5vw, 44px);
   text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 42px);
   margin-bottom: 12px;
 }
 
@@ -208,6 +200,13 @@ a { text-decoration: none; color: inherit; }
   border: 1px solid rgba(6, 182, 212, 0.15);
   border-radius: 12px;
   margin-bottom: 36px;
+}
+
+.email-info-bar.magenta {
+  background: rgba(236, 72, 153, 0.12);
+  border-color: rgba(236, 72, 153, 0.35);
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .email-info-bar svg {
@@ -479,8 +478,6 @@ a { text-decoration: none; color: inherit; }
 }
 </style>
 
-
-<!-- ===== HEADER ===== -->
 <header class="header">
   <div class="header-inner">
     <a href="/" class="header-logo">
@@ -496,15 +493,12 @@ a { text-decoration: none; color: inherit; }
         <span class="salud">Salud </span><span class="compartida">Compartida</span>
       </span>
     </a>
-    <a href="/" class="header-btn header-btn-cyan">← Volver</a>
+    <a href="javascript:history.back()" class="header-btn header-btn-cyan">← Volver</a>
   </div>
 </header>
 
-<!-- ===== MAIN CONTACT SECTION ===== -->
 <section class="contact-bg">
   <div class="contact-content">
-
-    <!-- Chat Icon -->
     <div class="chat-icon-wrapper">
       <div class="chat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -513,39 +507,43 @@ a { text-decoration: none; color: inherit; }
       </div>
     </div>
 
-    <!-- Title -->
     <h1 class="contact-title">¿Necesitas <span class="cyan">Ayuda</span>?</h1>
     <p class="contact-subtitle">Cuéntanos qué necesitas. Te responderemos en<br>menos de 15 minutos.</p>
 
-    <!-- Email info bar -->
-    <div class="email-info-bar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="M22 7l-10 6L2 7"/>
-      </svg>
-      <span>Tu mensaje será enviado a <strong>contact@saludcompartida.com</strong></span>
-    </div>
-
-    <!-- FORM -->
-    <form id="contactForm" novalidate>
-
-      <!-- TUS DATOS -->
+    {% form 'contact', id: 'contactForm', novalidate: 'novalidate', data-submitted: form.posted_successfully? %}
+      <button type="submit" class="email-info-bar magenta">
+        <span>Enviar Mensaje</span>
+      </button>
+      {% if form.posted_successfully? %}
+        <div class="email-info-bar" style="margin-bottom: 28px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 7l-10 6L2 7"/>
+          </svg>
+          <span><strong>Tu mensaje ha sido enviado con exito.</strong> Te responderemos pronto.</span>
+        </div>
+      {% endif %}
+      {% if form.errors %}
+        <div class="email-info-bar" style="margin-bottom: 28px; border-color: rgba(236, 72, 153, 0.4);">
+          <span>Revisa los campos marcados e intenta nuevamente.</span>
+        </div>
+      {% endif %}
       <div class="section-label">TUS DATOS</div>
 
       <div class="field-group">
         <label class="field-label">Nombre <span class="req">*</span></label>
-        <input type="text" class="field-input" id="cNombre" placeholder="Nombre" required>
+        <input type="text" class="field-input" id="cNombre" name="contact[nombre]" placeholder="Nombre" required>
       </div>
 
       <div class="field-group">
         <label class="field-label">Apellido Paterno <span class="req">*</span></label>
-        <input type="text" class="field-input" id="cApellido" placeholder="Apellido Paterno" required>
+        <input type="text" class="field-input" id="cApellido" name="contact[apellido]" placeholder="Apellido Paterno" required>
       </div>
 
       <div class="field-group">
         <div class="wa-label">
           <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
           </svg>
           WhatsApp <span class="req">*</span>
         </div>
@@ -556,9 +554,9 @@ a { text-decoration: none; color: inherit; }
             </svg>
             +52
           </span>
-          <input type="tel" class="field-input" id="cWhatsapp" placeholder="55 1234 5678" maxlength="12">
+          <input type="tel" class="field-input" id="cWhatsapp" name="contact[phone]" placeholder="55 1234 5678" maxlength="12">
         </div>
-        <p class="phone-hint"><span id="digitCount">0</span>/10 dígitos · México</p>
+        <p class="phone-hint"><span id="digitCount">0</span>/10 digitos · Mexico</p>
       </div>
 
       <div class="field-group">
@@ -567,24 +565,23 @@ a { text-decoration: none; color: inherit; }
             <rect x="2" y="4" width="20" height="16" rx="2"/>
             <path d="M22 7l-10 6L2 7"/>
           </svg>
-          Correo electrónico
+          Correo electronico
         </div>
-        <input type="email" class="field-input" id="cEmail" placeholder="email@ejemplo.com">
+        <input type="email" class="field-input" id="cEmail" name="contact[email]" placeholder="email@ejemplo.com" required>
       </div>
 
-      <!-- TU MENSAJE -->
       <div class="section-label" style="margin-top: 32px;">TU MENSAJE</div>
 
       <div class="field-group">
-        <label class="field-label">¿En qué podemos ayudarte? <span class="req">*</span></label>
-        <select class="field-select" id="cCategoria" required>
-          <option value="" disabled selected>Selecciona una categoría</option>
+        <label class="field-label">¿En que podemos ayudarte? <span class="req">*</span></label>
+        <select class="field-select" id="cCategoria" name="contact[categoria]" required>
+          <option value="" disabled selected>Selecciona una categoria</option>
           <option value="telemedicina">Telemedicina</option>
           <option value="farmacia">Farmacia</option>
           <option value="terapia">Terapia</option>
           <option value="mi-cuenta">Mi cuenta</option>
-          <option value="problemas-codigo">Problemas con mi código</option>
-          <option value="pagos">Pagos y membresía</option>
+          <option value="problemas-codigo">Problemas con mi codigo</option>
+          <option value="pagos">Pagos y membresia</option>
           <option value="sugerencia">Sugerencia</option>
           <option value="otro">Otro</option>
         </select>
@@ -592,25 +589,15 @@ a { text-decoration: none; color: inherit; }
 
       <div class="field-group">
         <label class="field-label">Tu mensaje <span class="req">*</span></label>
-        <textarea class="field-textarea" id="cMensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <textarea class="field-textarea" id="cMensaje" name="contact[body]" placeholder="Escribe tu mensaje aqui..." required></textarea>
       </div>
 
-      <!-- Submit -->
-      <button type="submit" class="submit-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-        Enviar Mensaje
-      </button>
+    {% endform %}
 
-    </form>
-
-    <!-- ===== ALTERNATIVE CONTACT ===== -->
     <div class="alt-contact">
-      <p class="alt-contact-title">TAMBIÉN PUEDES CONTACTARNOS POR</p>
+      <p class="alt-contact-title">TAMBIEN PUEDES CONTACTARNOS POR</p>
 
-      <div class="alt-card" onclick="window.open('{{ settings.whatsapp_url | default: "https://wa.me/message" }}', '_blank')">
+      <div class="alt-card" onclick="window.open('https://wa.me/message', '_blank')">
         <div class="alt-card-icon whatsapp">
           <svg viewBox="0 0 24 24" fill="#25D366">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -618,7 +605,7 @@ a { text-decoration: none; color: inherit; }
         </div>
         <div class="alt-card-text wa">
           <h4>WhatsApp</h4>
-          <p>Escríbenos y te respondemos al instante</p>
+          <p>Escribenos y te respondemos al instante</p>
         </div>
       </div>
 
@@ -630,63 +617,44 @@ a { text-decoration: none; color: inherit; }
           </svg>
         </div>
         <div class="alt-card-text em">
-          <h4>Correo electrónico</h4>
+          <h4>Correo electronico</h4>
           <p>contact@saludcompartida.com</p>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
 <script>
-// Phone formatting MX
-document.getElementById('cWhatsapp').addEventListener('input', function() {
-  let v = this.value.replace(/\D/g, '');
-  if (v.length > 10) v = v.slice(0, 10);
-  document.getElementById('digitCount').textContent = v.length;
-  if (v.length >= 6) {
-    v = v.slice(0, 2) + ' ' + v.slice(2, 6) + ' ' + v.slice(6);
-  } else if (v.length >= 2) {
-    v = v.slice(0, 2) + ' ' + v.slice(2);
+const contactForm = document.getElementById('contactForm');
+const whatsappInput = document.getElementById('cWhatsapp');
+const digitCount = document.getElementById('digitCount');
+
+if (whatsappInput && digitCount) {
+  whatsappInput.addEventListener('input', function() {
+    let v = this.value.replace(/\D/g, '');
+    if (v.length > 10) v = v.slice(0, 10);
+    digitCount.textContent = v.length;
+    if (v.length >= 6) {
+      v = v.slice(0, 2) + ' ' + v.slice(2, 6) + ' ' + v.slice(6);
+    } else if (v.length >= 2) {
+      v = v.slice(0, 2) + ' ' + v.slice(2);
+    }
+    this.value = v;
+  });
+}
+
+if (contactForm) {
+  contactForm.addEventListener('submit', function() {
+    sessionStorage.setItem('contactScrollY', String(window.scrollY));
+  });
+
+  if (contactForm.dataset.submitted === 'true') {
+    const savedScroll = sessionStorage.getItem('contactScrollY');
+    if (savedScroll) {
+      window.scrollTo({ top: Number(savedScroll), behavior: 'smooth' });
+      sessionStorage.removeItem('contactScrollY');
+    }
   }
-  this.value = v;
-});
-
-// Form submit — posts to Shopify's native contact endpoint
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  var btn = this.querySelector('.submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-
-  var nombre   = document.getElementById('cNombre').value.trim();
-  var apellido = document.getElementById('cApellido').value.trim();
-  var whatsapp = '+52' + document.getElementById('cWhatsapp').value.replace(/\D/g, '');
-  var email    = document.getElementById('cEmail').value.trim();
-  var categoria= document.getElementById('cCategoria').value;
-  var mensaje  = document.getElementById('cMensaje').value.trim();
-
-  // Build a FormData body compatible with Shopify's contact form endpoint
-  var fd = new FormData();
-  fd.append('form_type', 'contact');
-  fd.append('utf8', '✓');
-  fd.append('contact[name]',    nombre + ' ' + apellido);
-  fd.append('contact[email]',   email);
-  fd.append('contact[phone]',   whatsapp);
-  fd.append('contact[subject]', 'Contacto — ' + categoria);
-  fd.append('contact[body]',    'WhatsApp: ' + whatsapp + '\nCategoría: ' + categoria + '\n\n' + mensaje);
-
-  fetch('/contact#contact_form', { method: 'POST', body: fd })
-    .then(function() {
-      btn.textContent = '¡Mensaje enviado!';
-      btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
-      document.getElementById('contactForm').reset();
-    })
-    .catch(function() {
-      btn.disabled = false;
-      btn.textContent = 'Enviar mensaje';
-      alert('Hubo un problema. Escríbenos directo a contact@saludcompartida.com');
-    });
-});
+}
 </script>
