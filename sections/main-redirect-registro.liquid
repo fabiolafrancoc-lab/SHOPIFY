@@ -470,7 +470,8 @@ function addBeneficiary() {
     </div>
     <div class="sc-field">
       <label class="sc-label">Su numero de WhatsApp en Mexico</label>
-      <input class="sc-input mx-phone" type="tel" name="ben${beneficiaryCount}_telefono" placeholder="5512345678">
+     <input class="sc-input mx-phone" type="tel" name="ben${beneficiaryCount}_telefono" placeholder="5512345678" inputmode="numeric" maxlength="10">
+
     </div>
   `;
   container.appendChild(card);
