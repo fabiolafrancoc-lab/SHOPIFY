@@ -291,10 +291,17 @@
       <form class="sc-form" id="form-registro" onsubmit="handleRegistroSubmit(event)">
         <p class="sc-section-title">Tus datos — Estas en EE.UU.</p>
 
-        <div class="sc-field">
-          <label class="sc-label" for="nombre">Tu nombre completo *</label>
-          <input class="sc-input" type="text" id="nombre" name="nombre" placeholder="Juan Garcia Lopez" required>
+        <div class="sc-field-row" style="display: flex; gap: 1rem;">
+        <div class="sc-field" style="flex: 1;">
+        <label class="sc-label" for="nombre">Nombre *</label>
+        <input class="sc-input" type="text" id="nombre" name="nombre" placeholder="Juan" required>
         </div>
+        <div class="sc-field" style="flex: 1;">
+        <label class="sc-label" for="apellido_paterno">Apellido Paterno *</label>
+        <input class="sc-input" type="text" id="apellido_paterno" name="apellido_paterno" placeholder="García" required>
+        </div>
+      </div>
+
 
         <div class="sc-field">
           <label class="sc-label" for="email">Tu correo electronico *</label>
