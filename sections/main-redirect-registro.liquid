@@ -552,7 +552,7 @@ function handleRegistroSubmit(e) {
     });
   })
   .then(() => {
-    window.location.href = '/checkout';
+    window.location.href = '/pages/checkout';
   })
   .catch(err => {
     console.error('Checkout error:', err);
@@ -568,6 +568,8 @@ function handleRegistroSubmit(e) {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Continuar al pago — Primer mes GRATIS'; }
   });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
   bindMxPhoneInputs(document);
