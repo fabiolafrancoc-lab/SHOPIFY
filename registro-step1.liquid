@@ -15,8 +15,13 @@
   <p class="sc-section-title">Tus datos — Estás en EE.UU.</p>
 
   <div class="sc-field">
-    <label class="sc-label" for="nombre">Tu nombre completo *</label>
-    <input class="sc-input" type="text" id="nombre" name="nombre" placeholder="Juan García López" required>
+    <label class="sc-label" for="nombre">Tu nombre *</label>
+    <input class="sc-input" type="text" id="nombre" name="nombre" placeholder="Juan" required>
+  </div>
+
+  <div class="sc-field">
+    <label class="sc-label" for="apellido">Tu apellido *</label>
+    <input class="sc-input" type="text" id="apellido" name="apellido" placeholder="García" required>
   </div>
 
   <div class="sc-field">
@@ -25,37 +30,16 @@
   </div>
 
   <div class="sc-field">
-    <label class="sc-label" for="telefono">Tu número de WhatsApp (EE.UU.) *</label>
+    <label class="sc-label" for="fecha_nacimiento">Tu fecha de nacimiento *</label>
+    <input class="sc-input" type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+  </div>
+
+  <div class="sc-field">
+    <label class="sc-label" for="telefono">WhatsApp (EE.UU.) *</label>
     <input class="sc-input" type="tel" id="telefono" name="telefono" placeholder="+1 (555) 123-4567" required>
   </div>
 
-  <div class="sc-field">
-    <label class="sc-label" for="estado">¿En qué estado vives?</label>
-    <select class="sc-select" id="estado" name="estado">
-      <option value="">Selecciona tu estado</option>
-      <option value="AZ">Arizona</option>
-      <option value="CA">California</option>
-      <option value="TX">Texas</option>
-      <option value="FL">Florida</option>
-      <option value="IL">Illinois</option>
-      <option value="NY">New York</option>
-      <option value="NV">Nevada</option>
-      <option value="CO">Colorado</option>
-      <option value="WA">Washington</option>
-      <option value="NC">North Carolina</option>
-      <option value="GA">Georgia</option>
-      <option value="NJ">New Jersey</option>
-      <option value="otro">Otro estado</option>
-    </select>
-  </div>
-
-  <div class="sc-field">
-    <label class="sc-label" for="plan">Elige tu plan *</label>
-    <select class="sc-select" id="plan" name="plan" required onchange="updatePlanDisplay()">
-      <option value="basico" selected>Básico — $12/mes · Hasta 4 personas</option>
-      <option value="premium">Premium — $18/mes · Hasta 4 personas + terapia semanal</option>
-    </select>
-  </div>
+  <input type="hidden" id="plan" name="plan" value="basico">
 
   <!-- Plan Summary -->
   <div class="sc-summary">
@@ -65,8 +49,8 @@
       <span class="sc-summary-value free">$0.00 — GRATIS</span>
     </div>
     <div class="sc-summary-row">
-      <span class="sc-summary-label" id="plan-name-label">Plan Básico</span>
-      <span class="sc-summary-value price" id="plan-price-label">$12/mes</span>
+      <span class="sc-summary-label">SaludCompartida Familiar</span>
+      <span class="sc-summary-value price">$12/mes</span>
     </div>
     <div class="sc-summary-row">
       <span class="sc-summary-label">Primer cobro</span>
@@ -93,27 +77,15 @@
 </form>
 
 <script>
-function updatePlanDisplay() {
-  const plan = document.getElementById('plan').value;
-  const nameLabel = document.getElementById('plan-name-label');
-  const priceLabel = document.getElementById('plan-price-label');
-  if (plan === 'premium') {
-    nameLabel.textContent = 'Plan Premium';
-    priceLabel.textContent = '$18/mes';
-  } else {
-    nameLabel.textContent = 'Plan Básico';
-    priceLabel.textContent = '$12/mes';
-  }
-}
-
 function handleStep1(e) {
   e.preventDefault();
   const form = document.getElementById('form-step1');
   const data = {
     nombre: document.getElementById('nombre').value,
+    apellido: document.getElementById('apellido').value,
     email: document.getElementById('email').value,
     telefono: document.getElementById('telefono').value,
-    estado: document.getElementById('estado').value,
+    fecha_nacimiento: document.getElementById('fecha_nacimiento').value,
     plan: document.getElementById('plan').value
   };
   // Save to sessionStorage to pass between pages

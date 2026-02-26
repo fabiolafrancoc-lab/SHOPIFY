@@ -19,8 +19,12 @@
       <span class="beneficiary-num">Persona 1 (obligatoria)</span>
     </div>
     <div class="sc-field">
-      <label class="sc-label">Nombre completo *</label>
-      <input class="sc-input" type="text" name="ben1_nombre" placeholder="María García" required>
+      <label class="sc-label">Nombre *</label>
+      <input class="sc-input" type="text" name="ben1_nombre" placeholder="María" required>
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Apellido *</label>
+      <input class="sc-input" type="text" name="ben1_apellido" placeholder="García" required>
     </div>
     <div class="sc-field">
       <label class="sc-label">Relación contigo</label>
@@ -35,7 +39,7 @@
       </select>
     </div>
     <div class="sc-field">
-      <label class="sc-label">Su número de WhatsApp en México *</label>
+      <label class="sc-label">WhatsApp en México *</label>
       <input class="sc-input" type="tel" name="ben1_telefono" placeholder="+52 555 123 4567" required>
     </div>
   </div>
@@ -81,8 +85,12 @@ function addBeneficiary() {
       <button type="button" class="beneficiary-remove" onclick="removeBeneficiary(${beneficiaryCount})">×</button>
     </div>
     <div class="sc-field">
-      <label class="sc-label">Nombre completo</label>
-      <input class="sc-input" type="text" name="ben${beneficiaryCount}_nombre" placeholder="Nombre apellido">
+      <label class="sc-label">Nombre</label>
+      <input class="sc-input" type="text" name="ben${beneficiaryCount}_nombre" placeholder="Nombre">
+    </div>
+    <div class="sc-field">
+      <label class="sc-label">Apellido</label>
+      <input class="sc-input" type="text" name="ben${beneficiaryCount}_apellido" placeholder="Apellido">
     </div>
     <div class="sc-field">
       <label class="sc-label">Relación contigo</label>
@@ -97,7 +105,7 @@ function addBeneficiary() {
       </select>
     </div>
     <div class="sc-field">
-      <label class="sc-label">Su número de WhatsApp en México</label>
+      <label class="sc-label">WhatsApp en México</label>
       <input class="sc-input" type="tel" name="ben${beneficiaryCount}_telefono" placeholder="+52 555 123 4567">
     </div>
   `;
@@ -126,27 +134,16 @@ function handleStep2(e) {
   sessionStorage.setItem('sc_step2', JSON.stringify(beneficiaries));
   
   // Add cart attributes and redirect to Shopify checkout
-  const plan = step1.plan || 'basico';
+  const plan = 'basico';
   // Numeric variant IDs (Shopify Cart API requires numeric IDs, not GIDs)
-  // Variant GIDs: basico → gid://shopify/ProductVariant/42695875788877
-  //               premium → configure in Shopify Admin → Theme Settings
-  const variantBasico  = {{ settings.shopify_variant_basico | default: 42695875788877 }};
-  const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
-  if (plan === 'premium' && !variantPremium) {
-    alert('El plan Premium no está configurado todavía. Por favor selecciona el Plan Básico o contacta soporte.');
-    return;
-  }
-  const variantId = plan === 'premium' ? variantPremium : variantBasico;
+  // Variant GID: basico → gid://shopify/ProductVariant/42695875788877
+  const variantId = {{ settings.shopify_variant_basico | default: 42695875788877 }};
 
-  // Selling plan numeric IDs (from gid://shopify/SellingPlan/<id>)
-  // basico  → gid://shopify/SellingPlan/7685865549
-  // premium → configure in Shopify Admin → Theme Settings
-  const spBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
-  const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
-  const sellingPlanId = plan === 'premium' ? spPremium : spBasico;
+  // Selling plan numeric ID (from gid://shopify/SellingPlan/<id>)
+  const sellingPlanId = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
 
   // Build cart note with registration data
-  const noteData = `Migrante: ${step1.nombre} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
+  const noteData = `Migrante: ${step1.nombre} ${step1.apellido} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
 
   const submitBtn = document.querySelector('#form-step2 button[type="submit"]');
   if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Procesando…'; }
@@ -163,9 +160,10 @@ function handleStep2(e) {
         selling_plan: sellingPlanId,
         properties: {
           'Nombre migrante': step1.nombre,
+          'Apellido migrante': step1.apellido,
+          'Fecha de nacimiento': step1.fecha_nacimiento,
           'Email': step1.email,
           'WhatsApp EE.UU.': step1.telefono,
-          'Estado': step1.estado,
           'Familia México': JSON.stringify(beneficiaries)
         }
       }]
