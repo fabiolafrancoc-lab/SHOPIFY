@@ -519,7 +519,7 @@ function handleRegistroSubmit(e) {
 
   const shopify_selling_plan_familiar  = {{ settings.shopify_selling_plan_familiar | default: 7685865549 }};
   const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
-  const sellingPlanId = plan === 'premium' ? spPremium : spBasico;
+  const sellingPlanId = plan === 'premium' ? spPremium : shopify_selling_plan_familiar;
 
   const noteData = `Migrante: ${step1.nombre} | Nacimiento: ${step1.fecha_nacimiento} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
 
@@ -577,8 +577,7 @@ document.addEventListener('DOMContentLoaded', function() {
   bindMxPhoneInputs(document);
 });
 
-});  // ← ELIMINA ESTA LÍNEA COMPLETA
-
+</script>  // ← Sin el }); extra
 
 });
 
