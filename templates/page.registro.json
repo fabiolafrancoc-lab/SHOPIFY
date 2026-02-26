@@ -17,9 +17,15 @@
       ],
       "name": "Registro",
       "settings": {}
+    },
+    "main_redirect_registro_9wPb9a": {
+      "type": "main-redirect-registro",
+      "name": "Registro",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "main_redirect_registro_9wPb9a"
   ]
 }
