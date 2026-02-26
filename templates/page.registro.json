@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-redirect-registro",
+      "name": "Registro",
       "settings": {
         "checkout_url": "",
         "supabase_url": "",
