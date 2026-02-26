@@ -494,17 +494,17 @@ function handleRegistroSubmit(e) {
     }
   }
 
-  const plan = step1.plan || 'basico';
+  const plan = step1.plan || 'Familiar';
 
-  const variantBasico  = 42695875788877;
+  const variantFamiliar  = 42695875788877;
   const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
   if (plan === 'premium' && !variantPremium) {
     alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar o contacta soporte.');
     return;
   }
-  const variantId = plan === 'premium' ? variantPremium : variantBasico;
+  const variantId = plan === 'premium' ? variantPremium : variantFamiliar;
 
-  const spBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
+  const shopify_selling_plan_familiar  = {{ settings.shopify_selling_plan_familiar | default: 7685865549 }};
   const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
   const sellingPlanId = plan === 'premium' ? spPremium : spBasico;
 
@@ -519,7 +519,7 @@ function handleRegistroSubmit(e) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       items: [{
-        id: variantId,
+        id: 42695875788877,
         quantity: 1,
         selling_plan: sellingPlanId,
         properties: {
