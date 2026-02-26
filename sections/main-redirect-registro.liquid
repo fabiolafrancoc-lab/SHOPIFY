@@ -420,6 +420,7 @@ function bindMxPhoneInputs(scope) {
     if (input.dataset.mxBound) return;
     input.dataset.mxBound = 'true';
     input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('maxlength', '10');
     input.addEventListener('input', () => formatMxPhoneInput(input));
   });
 }
