@@ -352,10 +352,17 @@
           <div class="beneficiary-header">
             <span class="beneficiary-num">Persona 1 (obligatoria)</span>
           </div>
-          <div class="sc-field">
-            <label class="sc-label">Nombre completo *</label>
-            <input class="sc-input" type="text" name="ben1_nombre" placeholder="Maria Garcia" required>
+          <div class="sc-field-row" style="display: flex; gap: 1rem;">
+          <div class="sc-field" style="flex: 1;">
+          <label class="sc-label">Nombre *</label>
+          <input class="sc-input" type="text" name="ben1_nombre" placeholder="María" required>
           </div>
+          <div class="sc-field" style="flex: 1;">
+          <label class="sc-label">Apellido Paterno *</label>
+          <input class="sc-input" type="text" name="ben1_apellido" placeholder="García" required>
+            </div>
+          </div>
+
           <div class="sc-field">
             <label class="sc-label">Correo electronico en Mexico *</label>
             <input class="sc-input" type="email" name="ben1_email" placeholder="familia@gmail.com" required>
