@@ -11,8 +11,9 @@
   "sections": {
     "main": {
       "type": "main-redirect-registro",
+      "disabled": true,
       "custom_css": [
-        "#btn-add {display: none; }"
+        "#btn-add {display: none;}"
       ],
       "name": "Registro",
       "settings": {}
