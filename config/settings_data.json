@@ -12,5 +12,14 @@
     "supabase_url": "https://api.saludcompartida.app",
     "supabase_anon_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6bWRla2plZ2JkZ2l0cWVramVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNTk0ODcsImV4cCI6MjA3ODkzNTQ4N30.7gS2HOL_KpBaNxZUBZOCLrM1tamungV7-mLXZQGfNks",
     "content_for_index": []
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".gracias-footer-menu {margin-top: 1.5rem; text-align: center; font-size: 0.85rem;}",
+      ".gracias-footer-menu__lista {list-style: none; padding: 0; margin: 0; display: inline-flex; gap: 1.5rem; flex-wrap: wrap;}",
+      ".gracias-footer-menu__item {margin: 0;}",
+      ".gracias-footer-menu__link {color: #6b7280; text-decoration: none;}",
+      ".gracias-footer-menu__link:hover {text-decoration: underline; color: #111827;}"
+    ]
   }
 }
