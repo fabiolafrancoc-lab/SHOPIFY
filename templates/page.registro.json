@@ -11,12 +11,11 @@
   "sections": {
     "main": {
       "type": "main-redirect-registro",
+      "custom_css": [
+        "#btn-add {display: none; }"
+      ],
       "name": "Registro",
-      "settings": {
-        "checkout_url": "",
-        "supabase_url": "",
-        "supabase_anon_key": ""
-      }
+      "settings": {}
     }
   },
   "order": [
