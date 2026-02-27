@@ -49,6 +49,11 @@
         "type": "shopify://apps/adt-facebook-pixels-ads/blocks/facebook-ads-pixels/4ad3004f-fa0b-4587-a4f1-4d8ce89e9fbb",
         "disabled": false,
         "settings": {}
+      },
+      "11667715999621601152": {
+        "type": "shopify://apps/tiktok-ads-tiktok-pixels/blocks/turbo-tiktok/0f61e244-e2c9-43da-9523-9762c9f7e6bf",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
