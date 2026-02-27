@@ -526,7 +526,7 @@ function handleRegistroSubmit(e) {
   const submitBtn = document.querySelector('#form-registro button[type=\"submit\"]');
   if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Procesando...'; }
 
-  fetch('/cart/clear.js', { method: 'POST' })
+fetch('/cart/clear.js', { method: 'POST' })
   .then(() => fetch('/cart/add.js', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -554,7 +554,7 @@ function handleRegistroSubmit(e) {
     });
   })
   .then(() => {
-    window.location.href = '/checkout';
+    window.location.href = '/pages/gracias';  // ← CAMBIO AQUÍ
   })
   .catch(err => {
     console.error('Checkout error:', err);
@@ -570,6 +570,7 @@ function handleRegistroSubmit(e) {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Continuar al pago — Primer mes GRATIS'; }
   });
 }
+
 
 
 
