@@ -22,10 +22,18 @@
       "type": "main-redirect-registro",
       "name": "Registro",
       "settings": {}
+    },
+    "social_proof_CFQqNr": {
+      "type": "social-proof",
+      "name": "Social Proof",
+      "settings": {
+        "video_testimonial": "shopify://files/videos/VIDEO-COMPANION.mp4"
+      }
     }
   },
   "order": [
     "main",
-    "main_redirect_registro_9wPb9a"
+    "main_redirect_registro_9wPb9a",
+    "social_proof_CFQqNr"
   ]
 }
