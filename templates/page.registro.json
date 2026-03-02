@@ -24,6 +24,7 @@
     },
     "main_redirect_registro_9wPb9a": {
       "type": "main-redirect-registro",
+      "disabled": true,
       "name": "Registro",
       "settings": {}
     }
