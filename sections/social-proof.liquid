@@ -16,6 +16,13 @@
       </div>
     </div>
 
+    {% if section.settings.video_testimonial %}
+  <div class="testimonial-video">
+    {{ section.settings.video_testimonial | video_tag: controls: true, autoplay: false }}
+  </div>
+{% endif %}
+
+
     <div class="testimonial-card lupita-story">
       <p class="testimonial-quote">
         "Desde hace tres semanas mi mamá me habla de su amiga Lupita, que ya están hasta intercambiando recetas. Me alegra mucho que se sienta acompañada y tenga con quién compartir sus aventuras."
