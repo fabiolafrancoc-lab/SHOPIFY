@@ -20,10 +20,11 @@
     },
     "main_redirect_registro_9wPb9a": {
       "type": "main-redirect-registro",
+      "disabled": true,
       "name": "Registro",
       "settings": {}
     },
-    "social_proof_CFQqNr": {
+    "social_proof_fBJkRP": {
       "type": "social-proof",
       "name": "Social Proof",
       "settings": {
@@ -34,6 +35,6 @@
   "order": [
     "main",
     "main_redirect_registro_9wPb9a",
-    "social_proof_CFQqNr"
+    "social_proof_fBJkRP"
   ]
 }
