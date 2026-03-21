@@ -192,48 +192,59 @@ nav{
    (menos espacio arriba — sec anterior 
    ya tiene padding, aquí pt reducido)
 ══════════════════════════════════ */
-.companions{padding:40px 24px 80px;}
-.comp-in{max-width:1000px;margin:0 auto;text-align:center;}
-.comp-badge{
-  display:inline-block;
-  background:linear-gradient(135deg,var(--magenta),var(--cyan));
-  color:#fff;font-size:15px;font-weight:700;
-  padding:10px 28px;border-radius:30px;margin-bottom:24px;
-}
-.comp-title{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(38px,5vw,64px);margin-bottom:12px;
-}
-.comp-title .lupita  {color:var(--magenta);}
-.comp-title .fernanda{color:var(--cyan);}
-.comp-sub{color:var(--muted);font-size:18px;margin-bottom:44px;}
-.comp-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:24px;
-  margin-bottom:28px;text-align:left;
-}
-@media(max-width:640px){.comp-grid{grid-template-columns:1fr;}}
-.c-card{
-  background:var(--bg3);border-radius:24px;padding:32px;
-  border-top:3px solid transparent;transition:transform .2s;
-}
-.c-card:hover{transform:translateY(-4px);}
-.c-card.lup{border-top-color:var(--magenta);}
-.c-card.fer{border-top-color:var(--cyan);}
-.c-badge-sm{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
-.c-card.lup .c-badge-sm{color:var(--magenta);}
-.c-card.fer .c-badge-sm{color:var(--cyan);}
-.c-name{font-family:'DM Serif Display',serif;font-size:30px;margin-bottom:6px;}
-.c-for {font-size:14px;color:var(--muted);margin-bottom:14px;}
-.c-desc{font-size:15px;line-height:1.7;color:rgba(255,255,255,.8);margin-bottom:18px;}
-.c-tags{display:flex;flex-wrap:wrap;gap:8px;}
-.c-tag {background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 14px;font-size:13px;}
-.comp-callout{
-  background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(14,165,233,.08));
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:24px 32px;
-}
-.comp-callout strong{font-size:17px;}
-.comp-callout small{display:block;margin-top:6px;color:var(--muted);font-size:14px;}
+<div class="companions" id="companeras">
+  <div class="comp-in">
+    <span class="comp-badge">✨ Esto no es salud. Es conexión.</span>
+    <h2 class="comp-title serif">
+      <span class="lupita">Lupita</span> y <span class="fernanda">Fernanda</span>
+    </h2>
+    <p class="comp-sub">Son amigas que llaman a tu familia para alegrar el día.</p>
+    <div class="comp-grid">
+      <div class="c-card lup">
+        <p class="c-badge-sm">Para adultos 55+</p>
+        <h3 class="c-name serif">Lupita</h3>
+        <p class="c-for">Para tus papás y abuelos</p>
+        <p class="c-desc">
+          Una voz cálida que llama para saber cómo están.
+          Para intercambiar recetas, recordar el cumpleaños de la comadre,
+          contar historias, o simplemente platicar de la vida.
+        </p>
+        <div class="c-tags">
+          <span class="c-tag">Llamadas de compañía</span>
+          <span class="c-tag">Intercambio de recetas</span>
+          <span class="c-tag">Siempre con tiempo</span>
+        </div>
+      </div>
+      <div class="c-card fer">
+        <p class="c-badge-sm">Para mamás 25–50</p>
+        <h3 class="c-name serif">Fernanda</h3>
+        <p class="c-for">Para tu esposa, hermana, prima</p>
+        <p class="c-desc">
+          Como una amiga que entiende lo que es manejar horarios de
+          niños, lidiar con hijos adolescentes, o simplemente necesitar
+          desahogarse con alguien que escucha.
+        </p>
+        <div class="c-tags">
+          <span class="c-tag">Alguien que escucha</span>
+          <span class="c-tag">Consejos de amiga</span>
+          <span class="c-tag">Sin juicios</span>
+        </div>
+      </div>
+    </div>
+    <div class="comp-callout">
+      <strong>Ellas llaman a tu familia.</strong>
+      <small>Tu familia no tiene que hacer nada. Solo contestar y platicar con una amiga.</small>
+    </div>
+    <div class="video-wrap" style="margin-top:32px;">
+      <iframe
+        src="https://www.youtube.com/embed/iW_G5HvXhb4?rel=0&modestbranding=1&playsinline=1"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</div>
 
 /* ══════════════════════════════════
    5. LOS CUATRO PILARES
