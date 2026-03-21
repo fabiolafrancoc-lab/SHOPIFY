@@ -14,13 +14,6 @@
       "name": "Social Proof",
       "settings": {}
     },
-    "social_proof_fBJkRP": {
-      "type": "social-proof",
-      "name": "Social Proof",
-      "settings": {
-        "video_testimonial": "shopify://files/videos/VIDEO-COMPANION.mp4"
-      }
-    },
     "main": {
       "type": "main-redirect-registro",
       "custom_css": [],
@@ -36,7 +29,6 @@
   },
   "order": [
     "social_proof_AknUXz",
-    "social_proof_fBJkRP",
     "main",
     "main_redirect_registro_9wPb9a"
   ]
