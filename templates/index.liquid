@@ -45,6 +45,8 @@ nav{
 .nav-links a:hover{color:var(--w);}
 .nav-cta{display:flex;gap:10px;}
 .btn-np{padding:10px 20px;background:linear-gradient(135deg,var(--magenta),var(--mag2));color:#fff;text-decoration:none;border-radius:10px;font-size:13px;font-weight:700;transition:opacity .2s;}
+.btn-login{padding:10px 20px;background:var(--cyan);color:#000;text-decoration:none;border-radius:10px;font-size:13px;font-weight:700;transition:opacity .2s;white-space:nowrap;}
+.btn-login:hover{opacity:.85;}
 .btn-ns{padding:10px 20px;border:1.5px solid var(--cyan);color:var(--cyan);text-decoration:none;border-radius:10px;font-size:13px;font-weight:700;transition:background .2s,color .2s;}
 .btn-ns:hover{background:var(--cyan);color:#000;}
 @media(max-width:768px){.nav-links{display:none;}}
@@ -426,7 +428,10 @@ footer{
 <nav>
   <div class="nav-in">
     <div class="nav-brand">Salud<span>Compartida</span></div>
-    <a href="/pages/registro" class="btn-np">Quiero Contratar Ahora</a>
+    <div class="nav-cta">
+      <a href="/pages/registro" class="btn-np">Quiero Contratar Ahora</a>
+      <a href="https://www.saludcompartida.app" class="btn-login" target="_blank" rel="noopener noreferrer">Ya Tengo Mi Codigo/Login</a>
+    </div>
   </div>
 </nav>
 
