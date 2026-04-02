@@ -524,7 +524,7 @@ function handleRegistroSubmit(e) {
   }
   const variantId = plan === 'premium' ? variantPremium : variantBasico;
 
-  const sellingPlanBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
+  const sellingPlanBasico  = {{ settings.shopify_selling_plan_basico | default: 10173775949 }};
   const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
   const sellingPlanId = plan === 'premium' ? spPremium : sellingPlanBasico;
 
