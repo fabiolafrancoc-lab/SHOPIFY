@@ -14,7 +14,7 @@
         "type": "text",
         "id": "shopify_variant_basico",
         "label": "ID variante — Plan Familiar I ($14.99/mes)",
-        "default": "42695875788877",
+        "default": "42835468845133",
         "info": "Numeric variant ID of your $14.99/mes subscription product. Shopify Admin → Products → variant URL last segment."
       },
       {

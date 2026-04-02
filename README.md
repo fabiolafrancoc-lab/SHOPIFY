@@ -74,7 +74,8 @@ assets/
 
 | Recurso | GID | Numeric ID |
 |---|---|---|
-| ProductVariant (Plan Básico) | `gid://shopify/ProductVariant/42695875788877` | `42695875788877` |
+| Product (Plan Familiar I) | `gid://shopify/Product/7759345188941` | `7759345188941` |
+| ProductVariant (Plan Básico) | `gid://shopify/ProductVariant/42835468845133` | `42835468845133` |
 | SellingPlan (Plan Básico) | `gid://shopify/SellingPlan/7685865549` | `7685865549` |
 | SellingPlanGroup | `gid://shopify/SellingPlanGroup/5804097613` | `5804097613` |
 
@@ -85,7 +86,7 @@ El botón "Continuar al pago" en `/pages/familia` llama al **Shopify Cart API** 
 ```js
 {
   items: [{
-    id: 42695875788877,        // numeric variant ID
+    id: 42835468845133,        // numeric variant ID
     quantity: 1,
     selling_plan: 7685865549,  // numeric selling plan ID ← suscripción
     properties: { /* datos del migrante + familia */ }
@@ -101,7 +102,7 @@ Ve a **Tienda en línea → Temas → Personalizar → Suscripción — Pago**:
 
 | Campo | Valor |
 |---|---|
-| ID variante — Plan Básico | `42695875788877` |
+| ID variante — Plan Básico | `42835468845133` |
 | ID variante — Plan Premium | *(ID del variant premium cuando esté disponible)* |
 | Selling Plan ID — Plan Básico | `7685865549` |
 | Selling Plan ID — Plan Premium | *(ID del selling plan premium cuando esté disponible)* |
@@ -151,7 +152,7 @@ Con overrides opcionales:
 
 ```liquid
 {% render 'sc-checkout-subscription',
-   variant_id: 42695875788877,
+   variant_id: 42835468845133,
    selling_plan_id: 7685865549,
    btn_label: 'Continuar con el Pago'
 %}

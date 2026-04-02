@@ -516,7 +516,7 @@ function handleRegistroSubmit(e) {
 
   const plan = step1.plan || 'Familiar';
 
-  const variantBasico  = {{ settings.shopify_variant_basico | default: 42695875788877 }};
+  const variantBasico  = {{ settings.shopify_variant_basico | default: 42835468845133 }};
   const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
   if (plan === 'premium' && !variantPremium) {
     alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar I o contacta soporte.');
