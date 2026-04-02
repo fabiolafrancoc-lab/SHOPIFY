@@ -330,8 +330,8 @@
         <div class="sc-field">
           <label class="sc-label" for="plan">Elige tu plan *</label>
           <select class="sc-select" id="plan" name="plan" required onchange="updatePlanDisplay()">
-            <option value="basico" selected>Basico — $12/mes · Hasta 4 personas</option>
-            <option value="premium">Premium — $18/mes · Hasta 4 personas + terapia semanal</option>
+            <option value="Familiar I" selected>Familiar I — $14.99/mes · Hasta 4 personas</option>
+            <option value="premium">Premium — $22/mes · Hasta 4 personas + terapia semanal</option>
           </select>
         </div>
 
@@ -342,8 +342,8 @@
             <span class="sc-summary-value free">$0.00 — GRATIS</span>
           </div>
           <div class="sc-summary-row">
-            <span class="sc-summary-label" id="plan-name-label">Plan Basico</span>
-            <span class="sc-summary-value price" id="plan-price-label">$12/mes</span>
+            <span class="sc-summary-label" id="plan-name-label">Plan Familiar I</span>
+            <span class="sc-summary-value price" id="plan-price-label">$14.99/mes</span>
           </div>
           <div class="sc-summary-row">
             <span class="sc-summary-label">Primer cobro</span>
@@ -423,10 +423,10 @@ function updatePlanDisplay() {
   const priceLabel = document.getElementById('plan-price-label');
   if (plan === 'premium') {
     nameLabel.textContent = 'Plan Premium';
-    priceLabel.textContent = '$18/mes';
+    priceLabel.textContent = '$22/mes';
   } else {
-    nameLabel.textContent = 'Plan Basico';
-    priceLabel.textContent = '$12/mes';
+    nameLabel.textContent = 'Plan Familiar I';
+    priceLabel.textContent = '$14.99/mes';
   }
 }
 
@@ -498,19 +498,19 @@ function handleRegistroSubmit(e) {
     }
   }
 
-  const plan = step1.plan || 'basico';
+  const plan = step1.plan || 'Familiar I';
 
-  const variantBasico  = 42695875788877;
+  const variantFamiliarI  = 42695875788877;
   const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
   if (plan === 'premium' && !variantPremium) {
-    alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Basico o contacta soporte.');
+    alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar I o contacta soporte.');
     return;
   }
-  const variantId = plan === 'premium' ? variantPremium : variantBasico;
+  const variantId = plan === 'premium' ? variantPremium : variantFamiliar I;
 
-  const spBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
+  const spFamiliar I  = {{ settings.shopify_selling_plan_Familiar I | default: 7685865549 }};
   const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
-  const sellingPlanId = plan === 'premium' ? spPremium : spBasico;
+  const sellingPlanId = plan === 'premium' ? spPremium : spFamiliar I;
 
   const noteData = `Migrante: ${step1.nombre} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
 
