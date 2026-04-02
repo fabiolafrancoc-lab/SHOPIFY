@@ -75,8 +75,8 @@ assets/
 | Recurso | GID | Numeric ID |
 |---|---|---|
 | Product (Plan Familiar I) | `gid://shopify/Product/7759345188941` | `7759345188941` |
-| ProductVariant (Plan Básico) | `gid://shopify/ProductVariant/42835468845133` | `42835468845133` |
-| SellingPlan (Plan Básico) | `gid://shopify/SellingPlan/7685865549` | `7685865549` |
+| ProductVariant (Plan Familiar I) | `gid://shopify/ProductVariant/42835468845133` | `42835468845133` |
+| SellingPlan (Plan Familiar I) | `gid://shopify/SellingPlan/7685865549` | `7685865549` |
 | SellingPlanGroup | `gid://shopify/SellingPlanGroup/5804097613` | `5804097613` |
 
 ### Cómo funciona el flujo técnico
@@ -102,9 +102,9 @@ Ve a **Tienda en línea → Temas → Personalizar → Suscripción — Pago**:
 
 | Campo | Valor |
 |---|---|
-| ID variante — Plan Básico | `42835468845133` |
+| ID variante — Plan Familiar I | `42835468845133` |
 | ID variante — Plan Premium | *(ID del variant premium cuando esté disponible)* |
-| Selling Plan ID — Plan Básico | `7685865549` |
+| Selling Plan ID — Plan Familiar I | `7685865549` |
 | Selling Plan ID — Plan Premium | *(ID del selling plan premium cuando esté disponible)* |
 
 ---
@@ -113,7 +113,7 @@ Ve a **Tienda en línea → Temas → Personalizar → Suscripción — Pago**:
 
 Para que Shopify **no pida dirección de envío** en el checkout:
 
-1. **Shopify Admin → Catálogo → Productos → [Plan Básico]**
+1. **Shopify Admin → Catálogo → Productos → [Plan Familiar I]**
 2. Desplázate a la sección **Envío**
 3. **Desactiva** la casilla **"Este es un producto físico"**
 4. Guarda los cambios
