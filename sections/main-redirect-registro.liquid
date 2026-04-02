@@ -336,7 +336,7 @@ footer border {
         <div class="sc-field">
           <label class="sc-label" for="plan">Elige tu plan *</label>
           <select class="sc-select" id="plan" name="plan" required onchange="updatePlanDisplay()">
-            <option value="basico" selected>Familiar — $14.99/mes · Hasta 4 personas</option>
+            <option value="basico" selected>Plan Familiar I — $14.99/mes · Hasta 4 personas</option>
             <option value="premium">Premium — $18/mes · Hasta 4 personas + terapia semanal</option>
           </select>
         </div>
@@ -348,7 +348,7 @@ footer border {
             <span class="sc-summary-value free">$0.00 — GRATIS</span>
           </div>
           <div class="sc-summary-row">
-            <span class="sc-summary-label" id="plan-name-label">Plan Familiar</span>
+            <span class="sc-summary-label" id="plan-name-label">Plan Familiar I</span>
             <span class="sc-summary-value price" id="plan-price-label">$14.99/mes</span>
           </div>
           <div class="sc-summary-row">
@@ -427,7 +427,7 @@ function updatePlanDisplay() {
     nameLabel.textContent = 'Plan Premium';
     priceLabel.textContent = '$18/mes';
   } else {
-    nameLabel.textContent = 'Plan Familiar';
+    nameLabel.textContent = 'Plan Familiar I';
     priceLabel.textContent = '$14.99/mes';
   }
 }
@@ -519,7 +519,7 @@ function handleRegistroSubmit(e) {
   const variantBasico  = {{ settings.shopify_variant_basico | default: 42695875788877 }};
   const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
   if (plan === 'premium' && !variantPremium) {
-    alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar o contacta soporte.');
+    alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar I o contacta soporte.');
     return;
   }
   const variantId = plan === 'premium' ? variantPremium : variantBasico;

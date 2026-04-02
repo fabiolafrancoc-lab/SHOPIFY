@@ -13,7 +13,7 @@
       {
         "type": "text",
         "id": "shopify_variant_basico",
-        "label": "ID variante — Plan Familiar ($14.99/mes)",
+        "label": "ID variante — Plan Familiar I ($14.99/mes)",
         "default": "42695875788877",
         "info": "Numeric variant ID of your $14.99/mes subscription product. Shopify Admin → Products → variant URL last segment."
       },
@@ -26,7 +26,7 @@
       {
         "type": "text",
         "id": "shopify_selling_plan_basico",
-        "label": "Selling Plan ID — Plan Familiar ($14.99/mes)",
+        "label": "Selling Plan ID — Plan Familiar I ($14.99/mes)",
         "default": "7685865549",
         "info": "Numeric selling plan ID of your $14.99/mes subscription. Shopify Admin → Products → Subscriptions tab → selling plan URL last segment."
       },
