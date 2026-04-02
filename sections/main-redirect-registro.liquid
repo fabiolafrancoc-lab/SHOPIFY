@@ -336,7 +336,7 @@ footer border {
         <div class="sc-field">
           <label class="sc-label" for="plan">Elige tu plan *</label>
           <select class="sc-select" id="plan" name="plan" required onchange="updatePlanDisplay()">
-            <option value="basico" selected>Familiar — $12/mes · Hasta 4 personas</option>
+            <option value="basico" selected>Familiar — $14.99/mes · Hasta 4 personas</option>
             <option value="premium">Premium — $18/mes · Hasta 4 personas + terapia semanal</option>
           </select>
         </div>
@@ -349,7 +349,7 @@ footer border {
           </div>
           <div class="sc-summary-row">
             <span class="sc-summary-label" id="plan-name-label">Plan Familiar</span>
-            <span class="sc-summary-value price" id="plan-price-label">$12/mes</span>
+            <span class="sc-summary-value price" id="plan-price-label">$14.99/mes</span>
           </div>
           <div class="sc-summary-row">
             <span class="sc-summary-label">Primer cobro</span>
@@ -428,7 +428,7 @@ function updatePlanDisplay() {
     priceLabel.textContent = '$18/mes';
   } else {
     nameLabel.textContent = 'Plan Familiar';
-    priceLabel.textContent = '$12/mes';
+    priceLabel.textContent = '$14.99/mes';
   }
 }
 
@@ -516,17 +516,17 @@ function handleRegistroSubmit(e) {
 
   const plan = step1.plan || 'Familiar';
 
-  const variantFamiliar  = 42695875788877;
+  const variantBasico  = {{ settings.shopify_variant_basico | default: 42695875788877 }};
   const variantPremium = {{ settings.shopify_variant_premium | default: 0 }};
   if (plan === 'premium' && !variantPremium) {
     alert('El plan Premium no esta configurado todavia. Por favor selecciona el Plan Familiar o contacta soporte.');
     return;
   }
-  const variantId = plan === 'premium' ? variantPremium : variantFamiliar;
+  const variantId = plan === 'premium' ? variantPremium : variantBasico;
 
-  const shopify_selling_plan_familiar  = {{ settings.shopify_selling_plan_familiar | default: 7685865549 }};
+  const sellingPlanBasico  = {{ settings.shopify_selling_plan_basico | default: 7685865549 }};
   const spPremium = {{ settings.shopify_selling_plan_premium | default: 0 }};
-  const sellingPlanId = plan === 'premium' ? spPremium : shopify_selling_plan_familiar;
+  const sellingPlanId = plan === 'premium' ? spPremium : sellingPlanBasico;
 
   const noteData = `Migrante: ${step1.nombre} | Nacimiento: ${step1.fecha_nacimiento} | Tel: ${step1.telefono} | Plan: ${plan} | Familia: ${JSON.stringify(beneficiaries)}`;
 
@@ -539,7 +539,7 @@ fetch('/cart/clear.js', { method: 'POST' })
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       items: [{
-        id: 42695875788877,
+        id: variantId,
         quantity: 1,
         selling_plan: sellingPlanId,
         properties: {
